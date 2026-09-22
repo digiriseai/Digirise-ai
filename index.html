@@ -2,203 +2,79 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>DigiRise AI Video Generator</title>
-<script src="https://js.puter.com/v2/"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="DigiRise — Learn digital skills, build practical skills and grow.">
+<title>DigiRise | Learn • Build • Grow</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}
-header{background:#101828;color:#fff;padding:18px;text-align:center}
-.logo{font-size:28px;font-weight:800}
-.wrap{max-width:760px;margin:auto;padding:16px}
-.card{background:#fff;border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:0 3px 15px rgba(0,0,0,.08)}
-label{display:block;font-weight:700;margin:12px 0 6px}
-textarea,select{width:100%;padding:13px;border:1px solid #ccd3df;border-radius:10px;font-size:16px}
-textarea{min-height:150px}
-button{width:100%;border:0;border-radius:11px;padding:14px;margin-top:12px;font-size:16px;font-weight:800;cursor:pointer}
-.primary{background:#111827;color:white}
-.secondary{background:#e8eef7;color:#172033}
-button:disabled{opacity:.55}
-.status{margin-top:14px;padding:12px;border-radius:10px;background:#eef4ff;line-height:1.6}
-.progress{height:10px;background:#e5e7eb;border-radius:10px;overflow:hidden;margin-top:8px}
-.bar{height:100%;width:0;background:#2563eb;transition:width .3s}
-.videoBox{margin-top:12px}
-video{width:100%;border-radius:12px;background:#000}
-.small{font-size:13px;color:#667085;line-height:1.6}
-.clip{border:1px solid #e4e7ec;border-radius:12px;padding:10px;margin-top:12px}
-a.download{display:block;text-align:center;margin-top:8px;padding:10px;background:#eef2ff;border-radius:9px;text-decoration:none}
-.notice{background:#fff8e6;padding:12px;border-radius:10px;font-size:13px;line-height:1.6}
+:root{--navy:#101a33;--blue:#2563eb;--sky:#eff6ff;--text:#172033;--muted:#5f6b7a;--card:#fff;--line:#e6eaf0}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--text);background:#f7f9fc;line-height:1.6}
+nav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.navin{max-width:1100px;margin:auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:25px;font-weight:800;color:var(--navy);text-decoration:none}.logo span{color:var(--blue)}
+.links{display:flex;gap:22px}.links a{color:var(--text);text-decoration:none;font-weight:600}
+.btn{display:inline-block;background:var(--blue);color:#fff!important;padding:12px 20px;border-radius:12px;text-decoration:none;font-weight:700;box-shadow:0 8px 22px rgba(37,99,235,.2)}
+.hero{background:linear-gradient(135deg,#eef5ff 0%,#fff 55%,#edf2ff 100%);padding:85px 22px 75px}
+.wrap{max-width:1100px;margin:auto}.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:45px;align-items:center}
+.badge{display:inline-block;background:#dbeafe;color:#1d4ed8;padding:7px 13px;border-radius:999px;font-weight:700;font-size:14px}
+h1{font-size:clamp(42px,7vw,72px);line-height:1.02;margin:18px 0}.hero p{font-size:20px;color:var(--muted);max-width:650px}
+.hero-card{background:var(--navy);color:#fff;padding:34px;border-radius:26px;box-shadow:0 25px 60px rgba(16,26,51,.18)}
+.hero-card h2{font-size:30px;margin-top:0}.hero-card p{color:#d8deeb;font-size:16px}
+section{padding:78px 22px}.section-head{text-align:center;max-width:720px;margin:0 auto 42px}.section-head h2{font-size:42px;margin:0 0 10px}.section-head p{color:var(--muted);font-size:18px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:28px;box-shadow:0 10px 30px rgba(16,26,51,.05);transition:.2s}.card:hover{transform:translateY(-4px);box-shadow:0 16px 35px rgba(16,26,51,.09)}.icon{font-size:34px}.card h3{font-size:23px;margin:12px 0 8px}.card p{color:var(--muted);margin:0}
+.focus{background:#fff}.share{background:#f1f5fb}.cta{background:var(--navy);color:#fff;text-align:center}.cta p{color:#c8d0df;max-width:650px;margin:10px auto 28px;font-size:18px}
+footer{background:#fff;text-align:center;padding:25px 22px;color:#687386;border-top:1px solid var(--line)}
+@media(max-width:800px){.links{display:none}.hero{padding-top:55px}.hero-grid{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.section-head h2{font-size:34px}.hero-card{padding:25px}}
 </style>
 </head>
 <body>
+<nav><div class="navin">
+<a class="logo" href="#home">Digi<span>Rise</span></a>
+<div class="links"><a href="#learn">Learn</a><a href="#skills">Skills</a><a href="#share">Resources</a><a href="#contact">Contact</a></div>
+<a class="btn" href="#contact">Start Learning</a>
+</div></nav>
 
-<header>
-  <div class="logo">DigiRise</div>
-  <div>AI Video Generator</div>
-</header>
-
-<div class="wrap">
-
-<div class="card">
-  <h2>60-Second Video</h2>
-  <p class="small">
-    This version creates four short AI clips and places them in sequence.
-    No API key is written into this HTML.
-  </p>
-
-  <label for="prompt">Video Prompt</label>
-  <textarea id="prompt" placeholder="Write your video prompt here..."></textarea>
-
-  <label for="model">AI Model</label>
-  <select id="model">
-    <option value="vidu/vidu-q3-turbo">Vidu Q3 Turbo — fast</option>
-    <option value="vidu/vidu-q3">Vidu Q3 — quality</option>
-    <option value="wan/wan2.7">Wan 2.7</option>
-    <option value="bytedance/seedance-2.0">Seedance 2.0</option>
-  </select>
-
-  <label for="ratio">Format</label>
-  <select id="ratio">
-    <option value="9:16">9:16 — Reels / Shorts</option>
-    <option value="16:9">16:9 — YouTube</option>
-    <option value="1:1">1:1 — Square</option>
-  </select>
-
-  <button class="secondary" id="testBtn">Test Connection</button>
-  <button class="primary" id="generateBtn">Generate 60-Second Video</button>
-
-  <div class="status" id="status">Ready.</div>
-  <div class="progress"><div class="bar" id="bar"></div></div>
+<header class="hero" id="home"><div class="wrap hero-grid">
+<div>
+<span class="badge">Learn • Build • Grow</span>
+<h1>Build your digital future with DigiRise.</h1>
+<p>Practical knowledge, useful digital skills and clear guidance to help you learn, create opportunities and grow online.</p>
+<a class="btn" href="#learn">Explore DigiRise</a>
 </div>
-
-<div class="card">
-  <h3>Generated Clips</h3>
-  <div id="clips"></div>
+<div class="hero-card">
+<h2>Knowledge → Skills → Opportunities</h2>
+<p>Learn a concept. Practice it with a real example. Turn your skill into useful work and keep growing.</p>
 </div>
+</div></header>
 
-<div class="card">
-  <h3>Important</h3>
-  <div class="notice">
-    Puter's current browser video API supports several models, including Vidu Q3/Q3 Turbo.
-    Actual AI generation is subject to the user's Puter account/usage availability.
-    The HTML itself does not contain a secret API key.
-  </div>
-</div>
+<section id="learn"><div class="wrap">
+<div class="section-head"><h2>What You Can Learn</h2><p>Simple, practical topics designed for today's digital world.</p></div>
+<div class="grid">
+<div class="card"><div class="icon">✍️</div><h3>Content Writing</h3><p>Create useful content that builds knowledge, awareness and trust.</p></div>
+<div class="card"><div class="icon">🎯</div><h3>Copywriting</h3><p>Understand needs, benefits, persuasion and clear action.</p></div>
+<div class="card"><div class="icon">💻</div><h3>Digital Skills</h3><p>Discover practical online tools and skills for modern work.</p></div>
+</div></div></section>
 
-</div>
+<section class="focus" id="skills"><div class="wrap">
+<div class="section-head"><h2>Our Focus</h2><p>Learn clearly, practice consistently and connect skills with real opportunities.</p></div>
+<div class="grid">
+<div class="card"><div class="icon">📘</div><h3>Learn</h3><p>Understand the concept clearly and build a strong foundation.</p></div>
+<div class="card"><div class="icon">🛠️</div><h3>Practice</h3><p>Turn knowledge into a practical skill through examples and projects.</p></div>
+<div class="card"><div class="icon">📈</div><h3>Grow</h3><p>Use guidance, ideas and resources to build a stronger digital future.</p></div>
+</div></div></section>
 
-<script>
-const $ = id => document.getElementById(id);
-const status = $("status"), bar = $("bar"), clips = $("clips");
-const generateBtn = $("generateBtn"), testBtn = $("testBtn");
+<section class="share" id="share"><div class="wrap">
+<div class="section-head"><h2>What We Share</h2><p>This section can grow over time with courses, articles, videos and useful resources.</p></div>
+<div class="grid">
+<div class="card"><h3>Content Writing</h3><p>Lessons, examples and practical exercises for better content.</p></div>
+<div class="card"><h3>Copywriting</h3><p>Simple frameworks and examples for persuasive communication.</p></div>
+<div class="card"><h3>Digital Opportunities</h3><p>Useful tools, workflows and ideas for learning and online work.</p></div>
+</div></div></section>
 
-function setStatus(t,p=0){
-  status.textContent=t;
-  bar.style.width=Math.max(0,Math.min(100,p))+"%";
-}
+<section class="cta" id="contact"><div class="wrap">
+<h2>Stay Connected with DigiRise</h2><p>More lessons, resources and projects can be added as DigiRise grows.</p>
+<a class="btn" href="mailto:zsedu814@gmail.com?subject=DigiRise%20Contact">Contact DigiRise</a>
+</div></section>
 
-function getPrompt(){
-  return $("prompt").value.trim();
-}
-
-async function makeClip(prompt, model, index){
-  const clipPrompt =
-    prompt +
-    "\nCreate clip " + index + " of a continuous 60-second video. " +
-    "Keep the same visual identity, subject, style and branding as the other clips. " +
-    "No human characters unless explicitly requested. " +
-    "DigiRise branding should remain at the top-right.";
-
-  return await puter.ai.txt2vid(clipPrompt,{model:model});
-}
-
-testBtn.addEventListener("click",async()=>{
-  testBtn.disabled=true;
-  setStatus("Testing AI connection...",10);
-  try{
-    const testVideo=await puter.ai.txt2vid(
-      "A clean animated business graphic showing the word DigiRise, no people, short test clip.",
-      {model:"vidu/vidu-q3-turbo",test:true}
-    );
-    clips.innerHTML="";
-    const box=document.createElement("div");
-    box.className="clip";
-    box.innerHTML="<b>Connection test result</b>";
-    box.appendChild(testVideo);
-    clips.appendChild(box);
-    setStatus("Connection test completed.",100);
-  }catch(e){
-    console.error(e);
-    setStatus("Test failed: "+(e?.message||e),0);
-  }finally{
-    testBtn.disabled=false;
-  }
-});
-
-generateBtn.addEventListener("click",async()=>{
-  const prompt=getPrompt();
-  if(!prompt){
-    alert("Please enter your video prompt.");
-    return;
-  }
-
-  generateBtn.disabled=true;
-  testBtn.disabled=true;
-  clips.innerHTML="";
-
-  const model=$("model").value;
-  const ratio=$("ratio").value;
-
-  try{
-    for(let i=1;i<=4;i++){
-      setStatus("Generating clip "+i+" of 4...",(i-1)*25+5);
-
-      const v=await makeClip(
-        prompt+"\nFinal format: "+ratio,
-        model,
-        i
-      );
-
-      v.controls=true;
-      v.playsInline=true;
-
-      const box=document.createElement("div");
-      box.className="clip";
-      const title=document.createElement("b");
-      title.textContent="Clip "+i;
-      box.appendChild(title);
-      box.appendChild(v);
-
-      clips.appendChild(box);
-
-      if(v.src){
-        const a=document.createElement("a");
-        a.className="download";
-        a.href=v.src;
-        a.download="DigiRise_clip_"+i+".mp4";
-        a.textContent="Download Clip "+i;
-        box.appendChild(a);
-      }
-    }
-
-    setStatus(
-      "Four clips generated. Together they form the 60-second sequence. " +
-      "If your browser does not allow automatic merging, download the four clips and join them in any video editor.",
-      100
-    );
-  }catch(e){
-    console.error(e);
-    setStatus(
-      "Video generation stopped: "+(e?.message||e)+
-      " — If this is a balance/usage error, try another model or check your Puter account.",
-      0
-    );
-  }finally{
-    generateBtn.disabled=false;
-    testBtn.disabled=false;
-  }
-});
-</script>
-
+<footer>© 2026 DigiRise · Learn • Build • Grow</footer>
 </body>
 </html>
