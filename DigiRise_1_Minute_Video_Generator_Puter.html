@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DigiRise — AI Video Generator</title>
+<script src="https://js.puter.com/v2/"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}header{background:#101828;color:#fff;padding:18px;text-align:center}.logo{font-size:30px;font-weight:800;color:#5eead4}.sub{font-size:14px;color:#d0d5dd;margin-top:4px}.container{max-width:850px;margin:22px auto;padding:0 14px}.card{background:#fff;border-radius:18px;padding:20px;margin-bottom:16px;box-shadow:0 4px 18px #00000010}h1{font-size:25px;margin:0 0 8px}h2{font-size:19px;margin-top:0}label{display:block;font-weight:700;margin:13px 0 7px}textarea,select{width:100%;padding:13px;border:1px solid #d0d5dd;border-radius:11px;font-size:15px;background:#fff}textarea{min-height:115px;resize:vertical}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}button{border:0;border-radius:12px;padding:14px 18px;font-size:16px;font-weight:800;cursor:pointer}.generate{width:100%;background:#12b886;color:#fff;margin-top:18px}.generate:disabled{opacity:.55;cursor:not-allowed}.fallback{width:100%;background:#344054;color:#fff;margin-top:10px}.status{display:none;margin-top:16px;padding:14px;border-radius:12px;background:#eef6ff}.progress{height:10px;background:#e4e7ec;border-radius:10px;overflow:hidden;margin-top:10px}.bar{height:100%;width:0;background:#12b886;transition:width .3s}.scenes{display:grid;grid-template-columns:1fr 1fr;gap:10px}.scene{border:1px solid #e4e7ec;border-radius:12px;padding:12px;background:#fafafa}.scene b{display:block;margin-bottom:7px}.scene video{width:100%;border-radius:10px;background:#111}.notice{font-size:13px;line-height:1.7;color:#475467}.small{font-size:12px;color:#667085}.quota-box{background:#f8fafc;border:1px solid #e4e7ec;border-radius:14px;padding:15px}.download{display:inline-block;margin-top:8px;text-decoration:none;background:#101828;color:#fff;padding:8px 12px;border-radius:8px;font-size:13px}@media(max-width:600px){.row,.scenes{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="logo">DigiRise</div><div class="sub">Skills • Education • Business</div></header>
+<main class="container">
+<section class="card" style="background:#101828;color:#fff"><h2 style="color:#fff">DigiRise AI Video Studio</h2><div style="line-height:1.8;color:#d0d5dd">اب اصل AI video generation کے لیے Puter.js + Vidu استعمال کیا گیا ہے۔ API key یا ہماری طرف سے الگ balance کی ضرورت نہیں؛ generation صارف کے Puter account/allowance کے ذریعے چلتی ہے۔</div></section>
+<section class="card">
+<h1>1-Minute AI Video Generator</h1>
+<div class="notice">موضوع لکھیں۔ نظام 6 scenes بنائے گا اور ہر scene تقریباً 10 seconds کی AI video clip بنائے گا۔ clips نیچے ایک ایک کرکے نظر آئیں گی۔</div>
+<label for="topic">ویڈیو کا موضوع</label><textarea id="topic" placeholder="مثلاً: Copywriting customer کی ضرورت کو کیسے سمجھتی ہے؟"></textarea>
+<div class="row"><div><label for="ratio">Video Format</label><select id="ratio"><option value="9:16">9:16 — Reels / Shorts</option><option value="16:9">16:9 — YouTube</option><option value="1:1">1:1 — Facebook / Instagram</option></select></div><div><label for="model">AI Video Model</label><select id="model"><option value="vidu/vidu-q3-turbo">Vidu Q3 Turbo — Fast</option><option value="vidu/vidu-q3">Vidu Q3 — Quality</option></select></div></div>
+<button class="generate" id="generate">🎬 Generate 1-Minute AI Video</button>
+<button class="fallback" id="fallback">🌐 Open Free Browser Fallback</button>
+<div class="status" id="status"><b id="statusText">Preparing...</b><div class="progress"><div class="bar" id="bar"></div></div></div>
+</section>
+<section class="card" id="sceneCard" style="display:none"><h2>AI Video Scenes</h2><div class="scenes" id="scenes"></div></section>
+<section class="card"><h2>Free Usage</h2><div class="quota-box"><div><b>App limit:</b> 60 seconds/day</div><div id="quotaText">Today: 0 / 60 seconds used</div><div class="progress"><div class="bar" id="quotaBar"></div></div><p class="small">یہ صرف DigiRise کا local counter ہے۔ Puter اپنی الگ free allowance/rate limits بھی نافذ کرتا ہے۔ اگر Puter allowance ختم ہو تو دوسرے fallback tool سے clip بنانے کی کوشش کی جا سکتی ہے۔</p></div></section>
+<section class="card"><h2>اہم بات</h2><div class="notice">یہ version پہلے والے fake “reserved generation” کے بجائے حقیقی AI generation call کرتا ہے۔ 60 seconds ایک ہی request میں نہیں بلکہ 6 × 10-second clips کی صورت میں بنتے ہیں۔</div></section>
+</main>
+<script>
+const FREE_SECONDS=60, KEY='digirise_puter_usage_'+new Date().toISOString().slice(0,10);
+const $=id=>document.getElementById(id);
+let used=Number(localStorage.getItem(KEY)||0);
+function renderQuota(){$('quotaText').textContent=`Today: ${used} / ${FREE_SECONDS} seconds used`;$('quotaBar').style.width=Math.min(100,used/FREE_SECONDS*100)+'%';}
+renderQuota();
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+function scenePrompt(topic,i,ratio){const names=['HOOK','PROBLEM','INSIGHT','SOLUTION','EXAMPLE','ACTION'];return `DigiRise educational business video, scene ${i+1} of 6 (${names[i]}). Topic: ${topic}. Create a polished cinematic educational visual with motion graphics, practical business/copywriting concepts, no human character, no talking head, clean modern design, strong visual storytelling, smooth camera movement, ${ratio} aspect ratio. This is one connected part of a 60-second sequence. Keep visual style consistent across scenes. Add natural audio suitable for an educational social media video. Do not put Urdu text on screen.`;}
+async function generate(){const topic=$('topic').value.trim();const model=$('model').value;const ratio=$('ratio').value;if(!topic){alert('براہِ کرم ویڈیو کا موضوع لکھیں۔');return}if(used>=FREE_SECONDS){alert('DigiRise کی آج کی 60-second app limit مکمل ہو چکی ہے۔');return}
+$('generate').disabled=true;$('fallback').disabled=true;$('status').style.display='block';$('sceneCard').style.display='block';$('scenes').innerHTML='';$('bar').style.width='0%';
+for(let i=0;i<6;i++){try{$('statusText').textContent=`Scene ${i+1}/6 AI video بن رہی ہے...`;const video=await puter.ai.txt2vid(scenePrompt(topic,i,ratio),{model,seconds:10,aspect_ratio:ratio});
+const box=document.createElement('div');box.className='scene';const title=document.createElement('b');title.textContent=`Scene ${i+1} — 10 sec`;box.appendChild(title);video.controls=true;video.playsInline=true;video.style.width='100%';box.appendChild(video);if(video.src){const a=document.createElement('a');a.className='download';a.href=video.src;a.download=`DigiRise_scene_${i+1}.mp4`;a.textContent='Download clip';box.appendChild(a)}$('scenes').appendChild(box);used=Math.min(FREE_SECONDS,used+10);localStorage.setItem(KEY,used);renderQuota();$('bar').style.width=((i+1)/6*100)+'%';}catch(err){console.error(err);$('statusText').textContent=`Scene ${i+1} پر AI provider نے error دیا۔ باقی scenes روک دیے گئے۔`;const msg=document.createElement('div');msg.className='notice';msg.textContent='Error: '+(err?.message||String(err));$('scenes').appendChild(msg);break}}
+$('generate').disabled=false;$('fallback').disabled=false;if(used>=FREE_SECONDS)$('statusText').textContent='60 seconds کی app quota مکمل ہوگئی۔';else if($('bar').style.width==='100%')$('statusText').textContent='مکمل 6 scenes تیار ہیں۔';}
+$('generate').addEventListener('click',generate);
+$('fallback').addEventListener('click',()=>{window.open('https://freecreate.app/ai-video-generator-free','_blank','noopener');});
+</script>
+</body>
+</html>
