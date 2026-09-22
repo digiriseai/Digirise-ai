@@ -529,5 +529,246 @@ body.theme-creative .card{border-color:#ddd6fe}
   });
 })();
 </script>
+
+<!-- DigiRise Free + Paid AI Video System -->
+<style>
+  .quota-panel{max-width:850px;margin:18px auto 0;background:#101a33;color:#fff;border-radius:20px;padding:22px}
+  .quota-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center}
+  .quota-meter{height:12px;background:#34415f;border-radius:99px;overflow:hidden;margin:14px 0}
+  .quota-fill{height:100%;width:0;background:linear-gradient(90deg,#22c55e,#06b6d4);transition:width .25s}
+  .quota-small{font-size:13px;color:#cbd5e1}
+  .video-system{display:grid;gap:14px}
+  .video-system .ai-options{margin-top:4px}
+  .video-system .ai-btn{width:max-content}
+  .paid-box{display:none;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;padding:14px;border-radius:14px}
+  .paid-box.show{display:block}
+  @media(max-width:600px){.quota-panel{padding:18px}}
+</style>
+
+<section class="tool-suite" id="digirise-video-system">
+  <div class="section-head">
+    <span class="badge">DigiRise AI Studio</span>
+    <h2>AI Video Generator</h2>
+    <p>Create short videos using your daily free allowance or continue with paid generation.</p>
+  </div>
+
+  <div class="tool-card video-system">
+    <div class="ai-options">
+      <div>
+        <label for="drVideoMode">Generation Mode</label>
+        <select id="drVideoMode" class="ai-select">
+          <option value="text">Text → Video</option>
+          <option value="image">Image → Video</option>
+        </select>
+      </div>
+      <div>
+        <label for="drVideoFormat">Video Format</label>
+        <select id="drVideoFormat" class="ai-select">
+          <option value="9:16">9:16 — TikTok / Reels / Shorts</option>
+          <option value="16:9">16:9 — YouTube</option>
+          <option value="1:1">1:1 — Facebook / Instagram</option>
+        </select>
+      </div>
+      <div>
+        <label for="drVideoSeconds">Scene Length</label>
+        <select id="drVideoSeconds" class="ai-select">
+          <option value="5">5 seconds</option>
+          <option value="10">10 seconds</option>
+          <option value="15">15 seconds</option>
+          <option value="20">20 seconds</option>
+          <option value="30">30 seconds</option>
+          <option value="60">60 seconds</option>
+        </select>
+      </div>
+      <div>
+        <label for="drVideoProvider">Provider</label>
+        <select id="drVideoProvider" class="ai-select">
+          <option value="auto">Auto Rotate Providers</option>
+          <option value="freeai">Free.ai</option>
+          <option value="magichour">Magic Hour</option>
+          <option value="other">Other Configured Provider</option>
+        </select>
+      </div>
+    </div>
+
+    <label for="drVideoPrompt">Video Prompt</label>
+    <textarea id="drVideoPrompt" class="tool-input" placeholder="Describe your video in English or Urdu..."></textarea>
+
+    <label class="upload-label" for="drVideoImage">
+      Upload Image (optional)
+      <input id="drVideoImage" type="file" accept="image/*">
+    </label>
+
+    <div class="quota-panel">
+      <div class="quota-top">
+        <strong>Daily Free Allowance</strong>
+        <strong id="drQuotaText">3:00 remaining</strong>
+      </div>
+      <div class="quota-meter" aria-label="Daily free video quota">
+        <div class="quota-fill" id="drQuotaFill"></div>
+      </div>
+      <div class="quota-small">Free quota resets automatically each day on this device. Secure server-side tracking is required for production.</div>
+    </div>
+
+    <div id="drPaidMessage" class="paid-box">
+      Today's free 3 minutes are used. Continue with Paid AI Video.
+    </div>
+
+    <div class="ai-actions">
+      <button class="btn ai-btn" id="drGenerateVideo">Generate Video</button>
+      <button class="btn ai-btn ai-clear" id="drPaidVideo" type="button">Continue with Paid AI Video</button>
+    </div>
+
+    <div class="tool-status" id="drVideoStatus" role="status" aria-live="polite"></div>
+    <div class="media-result" id="drVideoResult"></div>
+  </div>
+</section>
+
+<script>
+(function(){
+  'use strict';
+
+  const FREE_SECONDS_PER_DAY = 180;
+  const STORAGE_KEY = 'digirise_free_video_usage_v1';
+  const PROVIDERS = ['freeai','magichour','other'];
+
+  const $ = id => document.getElementById(id);
+  const dateKey = () => new Date().toISOString().slice(0,10);
+
+  function readUsage(){
+    try{
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      return saved.date === dateKey() ? Math.max(0, Number(saved.seconds) || 0) : 0;
+    }catch(e){ return 0; }
+  }
+
+  function writeUsage(seconds){
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({date:dateKey(),seconds:seconds}));
+    }catch(e){}
+  }
+
+  function remaining(){
+    return Math.max(0, FREE_SECONDS_PER_DAY - readUsage());
+  }
+
+  function clock(seconds){
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return m + ':' + String(s).padStart(2,'0');
+  }
+
+  function updateQuota(){
+    const left = remaining();
+    $('drQuotaText').textContent = clock(left) + ' remaining';
+    $('drQuotaFill').style.width = ((FREE_SECONDS_PER_DAY-left)/FREE_SECONDS_PER_DAY*100) + '%';
+    $('drPaidMessage').classList.toggle('show', left === 0);
+  }
+
+  function selectedProvider(){
+    const selected = $('drVideoProvider').value;
+    if(selected !== 'auto') return selected;
+    return PROVIDERS[readUsage() % PROVIDERS.length];
+  }
+
+  async function imageAsDataUrl(file){
+    if(!file) return null;
+    return await new Promise((resolve,reject)=>{
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function setStatus(message){ $('drVideoStatus').textContent = message; }
+
+  async function generateVideo(paid){
+    const prompt = $('drVideoPrompt').value.trim();
+    const seconds = Number($('drVideoSeconds').value);
+    const mode = $('drVideoMode').value;
+    const format = $('drVideoFormat').value;
+    const file = $('drVideoImage').files[0];
+
+    if(!prompt){
+      setStatus('Please enter a video prompt.');
+      return;
+    }
+    if(mode === 'image' && !file){
+      setStatus('Please upload an image for Image → Video.');
+      return;
+    }
+    if(!paid && remaining() < seconds){
+      updateQuota();
+      setStatus('Your free allowance is not enough for this scene. Please use Paid AI Video.');
+      return;
+    }
+
+    const button = $('drGenerateVideo');
+    button.disabled = true;
+    setStatus('Preparing video request...');
+    $('drVideoResult').innerHTML = '';
+
+    try{
+      const image = await imageAsDataUrl(file);
+      const provider = selectedProvider();
+
+      /*
+       * Production integration point:
+       * Send this request to your secure backend.
+       * Do not place provider API keys in this HTML file.
+       */
+      const payload = {
+        prompt,
+        mode,
+        format,
+        seconds,
+        provider,
+        paid,
+        image
+      };
+
+      if(typeof window.digiriseGenerateVideo !== 'function'){
+        setStatus('Backend is not connected yet. Configure /api/video/generate to enable real video generation.');
+        console.log('DigiRise video payload:', payload);
+        return;
+      }
+
+      const result = await window.digiriseGenerateVideo(payload);
+      if(!result || !result.videoUrl) throw new Error('No video URL returned by backend.');
+
+      const video = document.createElement('video');
+      video.controls = true;
+      video.playsInline = true;
+      video.src = result.videoUrl;
+      $('drVideoResult').appendChild(video);
+
+      const link = document.createElement('a');
+      link.className = 'btn';
+      link.href = result.videoUrl;
+      link.target = '_blank';
+      link.rel = 'noopener';
+      link.textContent = 'Open / Save Video';
+      $('drVideoResult').appendChild(link);
+
+      if(!paid){
+        writeUsage(readUsage() + seconds);
+        updateQuota();
+      }
+      setStatus('Video created successfully.');
+    }catch(error){
+      console.error(error);
+      setStatus('Video generation failed: ' + (error.message || 'Please try again.'));
+    }finally{
+      button.disabled = false;
+    }
+  }
+
+  $('drGenerateVideo').addEventListener('click',()=>generateVideo(false));
+  $('drPaidVideo').addEventListener('click',()=>generateVideo(true));
+  updateQuota();
+})();
+</script>
+
 </body>
 </html>
