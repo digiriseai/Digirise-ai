@@ -73,30 +73,76 @@ footer{background:#fff;text-align:center;padding:25px 22px;color:#687386;border-
 .ai-btn:disabled{opacity:.65;cursor:wait}
 @media(max-width:600px){.ai-options{grid-template-columns:1fr}}
 @media(max-width:600px){.ai-box{padding:20px}.ai-actions .btn{width:100%;text-align:center}}
+
+
+.media-result{margin-top:10px;display:grid;gap:12px;justify-items:center}
+.media-result video,.media-result img{width:100%;max-width:800px;border-radius:18px;box-shadow:0 12px 30px rgba(16,26,51,.14)}
+.media-result audio{width:100%;max-width:700px}
+.file-input{padding:12px;border:1px solid #d9e0ea;border-radius:12px;background:#fff}
+.mini-note{font-size:13px;color:var(--muted)}
+/* DigiRise creative feature interface */
+.navin{position:relative;min-height:62px;justify-content:center}
+.feature-menu{position:absolute;left:0;margin:0}
+.nav-spacer{position:absolute;right:0;width:110px}
+.logo{display:flex;align-items:center;gap:7px;font-size:29px;background:linear-gradient(90deg,#7c3aed,#2563eb,#06b6d4,#f59e0b);-webkit-background-clip:text;background-clip:text;color:transparent!important}
+.logo span:not(.logo-mark){color:transparent}
+.logo-mark{font-size:20px;color:#7c3aed!important;filter:drop-shadow(0 3px 8px rgba(124,58,237,.25))}
+.feature-menu summary{background:linear-gradient(135deg,#eef2ff,#ecfeff);color:#4338ca;border-color:#c7d2fe}
+.feature-list a{transition:.18s}
+.feature-list a:hover{transform:translateX(3px)}
+.tool-suite{padding:70px 22px;background:#f7f9fc}
+.tool-suite.alt{background:#fff}
+.tool-card{max-width:850px;margin:auto;background:#fff;border:1px solid var(--line);border-radius:24px;padding:25px;box-shadow:0 12px 35px rgba(16,26,51,.07);display:grid;gap:14px}
+.tool-suite.alt .tool-card{background:#f8fafc}
+.tool-input{width:100%;min-height:120px;resize:vertical;border:1px solid #d9e0ea;border-radius:16px;padding:15px;font:inherit}
+.tool-input:focus{outline:none;border-color:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,.1)}
+.tool-btn{border:0;cursor:pointer;width:max-content}
+.tool-status{min-height:24px;color:var(--muted)}
+.upload-card{justify-items:start}
+.upload-label{display:inline-block;padding:13px 16px;border:1px dashed #aebbd0;border-radius:14px;background:#f8fafc;font-weight:700;cursor:pointer}
+.upload-label input{display:none}
+.voice-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.voice-row .ai-select{max-width:220px}
+.theme-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:850px;margin:auto}
+.theme-card{border:1px solid var(--line);background:#fff;border-radius:18px;padding:24px 14px;font:inherit;font-weight:800;cursor:pointer;box-shadow:0 8px 22px rgba(16,26,51,.05);transition:.2s}
+.theme-card:hover{transform:translateY(-3px);border-color:#8b5cf6}
+body.theme-dark{background:#111827;color:#f9fafb}
+body.theme-dark nav,body.theme-dark .focus,body.theme-dark .share,body.theme-dark .tool-suite.alt,body.theme-dark footer{background:#111827}
+body.theme-dark .card,body.theme-dark .ai-box,body.theme-dark .tool-card,body.theme-dark .theme-card{background:#1f2937;border-color:#374151;color:#f9fafb}
+body.theme-dark .card p,body.theme-dark .section-head p,body.theme-dark .tool-status{color:#cbd5e1}
+body.theme-dark .links a,body.theme-dark .feature-list a{color:#f9fafb}
+body.theme-dark .feature-list{background:#1f2937;border-color:#374151}
+body.theme-dark .tool-input,body.theme-dark .ai-select{background:#111827;color:#f9fafb;border-color:#4b5563}
+body.theme-clean{background:#fff}
+body.theme-creative .hero{background:linear-gradient(135deg,#fdf2f8,#eef2ff,#ecfeff)}
+body.theme-creative .card{border-color:#ddd6fe}
+@media(max-width:700px){.logo{font-size:23px}.nav-spacer{display:none}.theme-grid{grid-template-columns:1fr 1fr}.feature-list{left:0;right:auto}.voice-row .ai-select{max-width:none;width:100%}}
 </style>
 </head>
 <body>
 <nav><div class="navin">
-<a class="logo" href="#home">Digi<span>Rise</span></a>
-
 <div class="feature-menu">
-  <details>
-    <summary>Features ☰</summary>
+  <details id="featureDetails">
+    <summary>☰ Features</summary>
     <div class="feature-list">
+      <a href="#image-generator">🖼️ Image Generator</a>
+      <a href="#video-generator">🎬 Video Generator</a>
+      <a href="#animation-generator">✨ Animation</a>
+      <a href="#background-remover">🪄 Background Remover</a>
+      <a href="#voice-over">🎙️ Voice Over</a>
+      <a href="#design-theme">🎨 Design & Theme</a>
       <a href="#learn">✍️ Content Writing</a>
       <a href="#learn">🎯 Copywriting</a>
-      <a href="#learn">💻 Digital Skills</a>
       <a href="#skills">📘 Learn</a>
       <a href="#skills">🛠️ Practice</a>
       <a href="#skills">📈 Grow</a>
       <a href="#share">📚 Resources</a>
-      <a href="#image-generator">✨ AI Image Generator</a>
       <a href="#contact">✉️ Contact</a>
     </div>
   </details>
 </div>
-
-<a class="btn ai-top-btn" href="#image-generator">✨ AI Image Generator</a>
+<a class="logo" href="#home" aria-label="DigiRise home"><span class="logo-mark">◆</span> Digi<span>Rise</span></a>
+<div class="nav-spacer"></div>
 </div></nav>
 
 <header class="hero" id="home"><div class="wrap hero-grid">
@@ -152,6 +198,21 @@ footer{background:#fff;text-align:center;padding:25px 22px;color:#687386;border-
 
         <div class="ai-options">
           <div>
+            <label for="aiPlatform">Platform / Ratio</label>
+            <select id="aiPlatform" class="ai-select">
+              <option value="facebook-square">Facebook Post — 1:1</option>
+              <option value="facebook-landscape">Facebook Link/Post — 1.91:1</option>
+              <option value="facebook-story">Facebook Story — 9:16</option>
+              <option value="tiktok">TikTok — 9:16</option>
+              <option value="youtube">YouTube Thumbnail — 16:9</option>
+              <option value="youtube-shorts">YouTube Shorts — 9:16</option>
+              <option value="instagram-square">Instagram Post — 1:1</option>
+              <option value="custom-square">Square — 1:1</option>
+              <option value="custom-landscape">Landscape — 16:9</option>
+              <option value="custom-portrait">Portrait — 9:16</option>
+            </select>
+          </div>
+          <div>
             <label for="aiStyle">Style</label>
             <select id="aiStyle" class="ai-select">
               <option value="">Default</option>
@@ -163,15 +224,8 @@ footer{background:#fff;text-align:center;padding:25px 22px;color:#687386;border-
               <option value="3D render">3D Render</option>
             </select>
           </div>
-          <div>
-            <label for="aiRatio">Format</label>
-            <select id="aiRatio" class="ai-select">
-              <option value="square">Square</option>
-              <option value="landscape">Landscape</option>
-              <option value="portrait">Portrait</option>
-            </select>
-          </div>
         </div>
+        <div id="ratioPreview" class="ai-note" style="margin-top:8px;">Selected ratio: 1:1</div>
 
         <div class="ai-actions">
           <button id="generateBtn" class="btn ai-btn" type="button">Generate Image</button>
@@ -193,6 +247,63 @@ footer{background:#fff;text-align:center;padding:25px 22px;color:#687386;border-
   </div>
 </section>
 
+
+<section class="tool-suite" id="video-generator"><div class="wrap">
+  <div class="section-head"><h2>🎬 Video Generator</h2><p>Generate a short AI video from a text prompt.</p></div>
+  <div class="tool-card">
+    <textarea id="videoPrompt" class="tool-input" placeholder="Example: A cinematic drone shot flying over green mountains at sunrise..."></textarea>
+    <div class="voice-row"><select id="videoModel" class="ai-select"><option value="veo-3.1-lite">Veo 3.1 Lite</option><option value="veo-3.1-fast">Veo 3.1 Fast</option></select><button id="videoGenerateBtn" class="btn tool-btn" type="button">Generate Video</button></div>
+    <div id="videoStatus" class="tool-status"></div>
+    <div id="videoResult" class="media-result"></div>
+  </div>
+</div></section>
+
+<section class="tool-suite alt" id="animation-generator"><div class="wrap">
+  <div class="section-head"><h2>✨ Animation</h2><p>Animate a picture or create motion from a text idea.</p></div>
+  <div class="tool-card">
+    <input id="animationImage" class="file-input" type="file" accept="image/*">
+    <textarea id="animationPrompt" class="tool-input" placeholder="Optional: describe the motion, camera movement or animation..."></textarea>
+    <button id="animationBtn" class="btn tool-btn" type="button">Animate</button>
+    <div id="animationStatus" class="tool-status"></div>
+    <div id="animationResult" class="media-result"></div>
+  </div>
+</div></section>
+
+<section class="tool-suite" id="background-remover"><div class="wrap">
+  <div class="section-head"><h2>🪄 Background Remover</h2><p>Picture background removal works in-browser for simple backgrounds. Video removal needs a dedicated AI segmentation service.</p></div>
+  <div class="tool-card upload-card">
+    <label class="upload-label"><input id="bgImage" type="file" accept="image/*">Choose Picture</label>
+    <button id="removeBgBtn" class="btn tool-btn" type="button">Remove Picture Background</button>
+    <div id="bgStatus" class="tool-status"></div>
+    <div id="bgResult" class="media-result"></div>
+    <div class="mini-note">For complex photos, hair, shadows or video, a specialist background-removal API is required.</div>
+  </div>
+</div></section>
+
+<section class="tool-suite alt" id="voice-over"><div class="wrap">
+  <div class="section-head"><h2>🎙️ Voice Over</h2><p>Turn your script into speech and use the audio with a picture or video.</p></div>
+  <div class="tool-card">
+    <textarea id="voiceText" class="tool-input" placeholder="Write your voice-over script (up to 3000 characters)..."></textarea>
+    <div class="voice-row">
+      <select id="voiceLanguage" class="ai-select"><option value="en-US">English</option><option value="ur-PK">Urdu</option></select>
+      <button id="voiceBtn" class="btn tool-btn" type="button">Create Voice Over</button>
+    </div>
+    <div id="voiceStatus" class="tool-status"></div>
+    <div id="voiceResult" class="media-result"></div>
+    <div class="mini-note">The generated audio can be downloaded. Combining a new voice track directly into an existing video requires a video-processing step.</div>
+  </div>
+</div></section>
+
+<section class="tool-suite" id="design-theme"><div class="wrap">
+  <div class="section-head"><h2>🎨 Design & Theme</h2><p>Choose a visual direction for DigiRise tools and future projects.</p></div>
+  <div class="theme-grid">
+    <button class="theme-card" data-theme="colourful">🌈 Colourful</button>
+    <button class="theme-card" data-theme="dark">🌙 Dark</button>
+    <button class="theme-card" data-theme="clean">🤍 Clean</button>
+    <button class="theme-card" data-theme="creative">🎨 Creative</button>
+  </div>
+</div></section>
+
 <section class="cta" id="contact"><div class="wrap">
 <h2>Stay Connected with DigiRise</h2><p>More lessons, resources and projects can be added as DigiRise grows.</p>
 <a class="btn" href="mailto:zsedu814@gmail.com?subject=DigiRise%20Contact">Contact DigiRise</a>
@@ -205,7 +316,8 @@ footer{background:#fff;text-align:center;padding:25px 22px;color:#687386;border-
 (function () {
   const promptEl = document.getElementById('aiPrompt');
   const styleEl = document.getElementById('aiStyle');
-  const ratioEl = document.getElementById('aiRatio');
+  const platformEl = document.getElementById('aiPlatform');
+  const ratioPreview = document.getElementById('ratioPreview');
   const generateBtn = document.getElementById('generateBtn');
   const clearBtn = document.getElementById('clearBtn');
   const newImageBtn = document.getElementById('newImageBtn');
@@ -214,15 +326,31 @@ footer{background:#fff;text-align:center;padding:25px 22px;color:#687386;border-
   const imageEl = document.getElementById('generatedImage');
   const downloadEl = document.getElementById('downloadImage');
 
+  const platformRatios = {
+    "facebook-square": ["Facebook Post", "1:1", "square composition"],
+    "facebook-landscape": ["Facebook Link/Post", "1.91:1", "wide 1.91:1 landscape composition"],
+    "facebook-story": ["Facebook Story", "9:16", "vertical 9:16 composition"],
+    "tiktok": ["TikTok", "9:16", "vertical 9:16 composition"],
+    "youtube": ["YouTube Thumbnail", "16:9", "wide 16:9 landscape composition"],
+    "youtube-shorts": ["YouTube Shorts", "9:16", "vertical 9:16 composition"],
+    "instagram-square": ["Instagram Post", "1:1", "square composition"],
+    "custom-square": ["Square", "1:1", "square composition"],
+    "custom-landscape": ["Landscape", "16:9", "wide 16:9 landscape composition"],
+    "custom-portrait": ["Portrait", "9:16", "vertical 9:16 composition"]
+  };
+
+  function updateRatioPreview() {
+    const data = platformRatios[platformEl.value] || ["Custom", "1:1", "square composition"];
+    ratioPreview.textContent = "Selected: " + data[0] + " • Ratio: " + data[1];
+  }
+
   function buildPrompt() {
     let prompt = promptEl.value.trim();
     const style = styleEl.value;
-    const ratio = ratioEl.value;
+    const data = platformRatios[platformEl.value] || ["Custom", "1:1", "square composition"];
 
     if (style) prompt += ", " + style + " style";
-    if (ratio === "landscape") prompt += ", wide landscape composition";
-    if (ratio === "portrait") prompt += ", vertical portrait composition";
-    if (ratio === "square") prompt += ", square composition";
+    prompt += ", " + data[2] + ", aspect ratio " + data[1] + ", designed for " + data[0];
 
     return prompt;
   }
@@ -262,13 +390,17 @@ footer{background:#fff;text-align:center;padding:25px 22px;color:#687386;border-
   function clearGenerator() {
     promptEl.value = '';
     styleEl.value = '';
-    ratioEl.value = 'square';
+    platformEl.value = 'facebook-square';
+    updateRatioPreview();
     statusEl.textContent = '';
     resultEl.style.display = 'none';
     imageEl.removeAttribute('src');
     downloadEl.removeAttribute('href');
     promptEl.focus();
   }
+
+  platformEl.addEventListener('change', updateRatioPreview);
+  updateRatioPreview();
 
   generateBtn.addEventListener('click', generateImage);
   clearBtn.addEventListener('click', clearGenerator);
@@ -279,60 +411,102 @@ footer{background:#fff;text-align:center;padding:25px 22px;color:#687386;border-
   });
 })();
 </script>
+
+
+
 <script>
-(function () {
-  const promptEl = document.getElementById('aiPrompt');
-  const generateBtn = document.getElementById('generateBtn');
-  const clearBtn = document.getElementById('clearBtn');
-  const statusEl = document.getElementById('aiStatus');
-  const resultEl = document.getElementById('aiResult');
-  const imageEl = document.getElementById('generatedImage');
-  const downloadEl = document.getElementById('downloadImage');
+(function(){
+  const details = document.getElementById('featureDetails');
+  if(details){
+    details.querySelectorAll('.feature-list a').forEach(link=>{
+      link.addEventListener('click',()=>{ setTimeout(()=>{details.removeAttribute('open')},80); });
+    });
+  }
 
-  generateBtn.addEventListener('click', async function () {
-    const prompt = promptEl.value.trim();
+  async function makeVideo(prompt, model, status, result){
+    if(!prompt.trim()){ status.textContent='Please enter a video description.'; return; }
+    status.textContent='Generating video... This can take a while.';
+    result.innerHTML='';
+    try{
+      const video=await puter.ai.txt2vid(prompt.trim(), {model:model, seconds:5});
+      result.appendChild(video);
+      const a=document.createElement('a'); a.className='btn'; a.textContent='Open / Save Video'; a.href=video.src; a.target='_blank'; a.download='digirise-video.mp4';
+      result.appendChild(a);
+      status.textContent='Video generated successfully.';
+    }catch(e){ console.error(e); status.textContent='Video generation failed: '+(e.message||'Please try again.'); }
+  }
 
-    if (!prompt) {
-      statusEl.textContent = 'Please enter an image description first.';
-      promptEl.focus();
-      return;
-    }
-
-    generateBtn.disabled = true;
-    generateBtn.textContent = 'Generating...';
-    statusEl.textContent = 'Creating your image. Please wait...';
-    resultEl.style.display = 'none';
-
-    try {
-      const image = await puter.ai.txt2img(prompt, {
-        model: 'gpt-image-1-mini',
-        quality: 'low'
-      });
-
-      imageEl.src = image.src;
-      downloadEl.href = image.src;
-      resultEl.style.display = 'block';
-      statusEl.textContent = 'Image generated successfully.';
-      resultEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    } catch (error) {
-      console.error(error);
-      statusEl.textContent = 'Generation failed. Please try again in a moment.';
-    } finally {
-      generateBtn.disabled = false;
-      generateBtn.textContent = 'Generate Image';
-    }
+  const videoBtn=document.getElementById('videoGenerateBtn');
+  if(videoBtn) videoBtn.addEventListener('click',()=>{
+    makeVideo(document.getElementById('videoPrompt').value, document.getElementById('videoModel').value,
+      document.getElementById('videoStatus'), document.getElementById('videoResult'));
   });
 
-  clearBtn.addEventListener('click', function () {
-    promptEl.value = '';
-    statusEl.textContent = '';
-    resultEl.style.display = 'none';
-    imageEl.removeAttribute('src');
-    downloadEl.removeAttribute('href');
-    promptEl.focus();
+  const animationBtn=document.getElementById('animationBtn');
+  if(animationBtn) animationBtn.addEventListener('click', async ()=>{
+    const file=document.getElementById('animationImage').files[0];
+    const prompt=document.getElementById('animationPrompt').value.trim() || 'Animate this image with natural movement and a gentle cinematic camera motion.';
+    const status=document.getElementById('animationStatus'), result=document.getElementById('animationResult');
+    status.textContent='Creating animation...'; result.innerHTML='';
+    try{
+      let options={model:'veo-3.1-lite',seconds:5};
+      if(file){
+        options.input_image=await new Promise((resolve,reject)=>{
+          const r=new FileReader(); r.onload=()=>resolve(r.result); r.onerror=reject; r.readAsDataURL(file);
+        });
+      }
+      const video=await puter.ai.txt2vid(prompt, options);
+      result.appendChild(video);
+      const a=document.createElement('a'); a.className='btn'; a.textContent='Open / Save Animation'; a.href=video.src; a.target='_blank'; a.download='digirise-animation.mp4';
+      result.appendChild(a); status.textContent='Animation created.';
+    }catch(e){ console.error(e); status.textContent='Animation failed: '+(e.message||'Please try again.'); }
+  });
+
+  const voiceBtn=document.getElementById('voiceBtn');
+  if(voiceBtn) voiceBtn.addEventListener('click', async ()=>{
+    const text=document.getElementById('voiceText').value.trim(), lang=document.getElementById('voiceLanguage').value;
+    const status=document.getElementById('voiceStatus'), result=document.getElementById('voiceResult');
+    if(!text){status.textContent='Please enter a voice-over script.';return;}
+    status.textContent='Creating voice-over...'; result.innerHTML='';
+    try{
+      const audio=await puter.ai.txt2speech(text,{language:lang});
+      result.appendChild(audio);
+      if(audio.src){
+        const a=document.createElement('a'); a.className='btn'; a.textContent='Download Voice Over'; a.href=audio.src; a.target='_blank'; a.download='digirise-voiceover.mp3'; result.appendChild(a);
+      }
+      status.textContent='Voice-over created.';
+    }catch(e){ console.error(e); status.textContent='Voice-over failed: '+(e.message||'Please try again.'); }
+  });
+
+  const bgBtn=document.getElementById('removeBgBtn');
+  if(bgBtn) bgBtn.addEventListener('click',()=>{
+    const file=document.getElementById('bgImage').files[0], status=document.getElementById('bgStatus'), result=document.getElementById('bgResult');
+    if(!file){status.textContent='Please choose a picture first.';return;}
+    status.textContent='Removing simple background locally...'; result.innerHTML='';
+    const img=new Image(), reader=new FileReader();
+    reader.onload=()=>{img.onload=()=>{
+      const c=document.createElement('canvas'),ctx=c.getContext('2d'); c.width=img.naturalWidth;c.height=img.naturalHeight;ctx.drawImage(img,0,0);
+      const d=ctx.getImageData(0,0,c.width,c.height), px=d.data;
+      // Remove pixels close to the top-left corner colour (useful for plain studio backgrounds).
+      const r0=px[0],g0=px[1],b0=px[2], tolerance=48;
+      for(let i=0;i<px.length;i+=4){
+        const dist=Math.sqrt((px[i]-r0)**2+(px[i+1]-g0)**2+(px[i+2]-b0)**2);
+        if(dist<tolerance) px[i+3]=0;
+      }
+      ctx.putImageData(d,0,0);
+      const url=c.toDataURL('image/png'), out=new Image(); out.src=url; result.appendChild(out);
+      const a=document.createElement('a'); a.className='btn';a.textContent='Download PNG';a.href=url;a.download='digirise-background-removed.png';result.appendChild(a);
+      status.textContent='Done. This local method works best with a plain, evenly coloured background.';
+    };img.src=reader.result;}; reader.readAsDataURL(file);
+  });
+
+  document.querySelectorAll('.theme-card').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.body.classList.remove('theme-dark','theme-clean','theme-creative');
+      if(btn.dataset.theme!=='colourful') document.body.classList.add('theme-'+btn.dataset.theme);
+    });
   });
 })();
 </script>
-
 </body>
 </html>
