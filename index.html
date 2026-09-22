@@ -23,7 +23,24 @@ section{padding:78px 22px}.section-head{text-align:center;max-width:720px;margin
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:28px;box-shadow:0 10px 30px rgba(16,26,51,.05);transition:.2s}.card:hover{transform:translateY(-4px);box-shadow:0 16px 35px rgba(16,26,51,.09)}.icon{font-size:34px}.card h3{font-size:23px;margin:12px 0 8px}.card p{color:var(--muted);margin:0}
 .focus{background:#fff}.share{background:#f1f5fb}.cta{background:var(--navy);color:#fff;text-align:center}.cta p{color:#c8d0df;max-width:650px;margin:10px auto 28px;font-size:18px}
 footer{background:#fff;text-align:center;padding:25px 22px;color:#687386;border-top:1px solid var(--line)}
-@media(max-width:800px){.links{display:none}.hero{padding-top:55px}.hero-grid{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.section-head h2{font-size:34px}.hero-card{padding:25px}}
+@media(max-width:800px){
+  .hero{padding-top:55px}
+  .hero-grid{grid-template-columns:1fr}
+  .grid{grid-template-columns:1fr}
+  .section-head h2{font-size:34px}
+  .hero-card{padding:25px}
+  .navin{padding:10px 12px;gap:6px}
+  .logo{font-size:21px}
+  .feature-menu{margin-left:auto;margin-right:0}
+  .feature-menu summary{padding:8px 9px;font-size:13px}
+  .ai-top-btn{padding:9px 10px;font-size:12px;border-radius:10px}
+  .feature-list{right:-55px;width:235px}
+}
+@media(max-width:430px){
+  .logo{font-size:19px}
+  .feature-menu summary{font-size:12px;padding:8px}
+  .ai-top-btn{font-size:11px;padding:8px}
+}
 
 .ai-generator{background:#f7f9fc}
 .ai-box{max-width:850px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:26px;padding:28px;box-shadow:0 12px 35px rgba(16,26,51,.07)}
@@ -39,6 +56,14 @@ footer{background:#fff;text-align:center;padding:25px 22px;color:#687386;border-
 .ai-download{display:inline-block}
 .ai-note{font-size:14px;color:var(--muted);margin:12px 0 0}
 
+.feature-menu{margin-left:auto;margin-right:10px;position:relative}
+.feature-menu details{position:relative}
+.feature-menu summary{list-style:none;cursor:pointer;background:#f1f5fb;border:1px solid #dce4ef;border-radius:12px;padding:9px 13px;font-weight:700;color:var(--text)}
+.feature-menu summary::-webkit-details-marker{display:none}
+.feature-list{position:absolute;right:0;top:48px;width:245px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px;box-shadow:0 15px 35px rgba(16,26,51,.14);z-index:30}
+.feature-list a{display:block;padding:10px 12px;border-radius:10px;color:var(--text);text-decoration:none;font-weight:600}
+.feature-list a:hover{background:#eff6ff;color:#1d4ed8}
+.ai-top-btn{white-space:nowrap}
 .ai-options{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .ai-options>div{display:grid;gap:7px}
 .ai-select{width:100%;border:1px solid #d9e0ea;border-radius:14px;padding:13px 14px;background:#fff;font:inherit;color:var(--text);outline:none}
@@ -53,8 +78,25 @@ footer{background:#fff;text-align:center;padding:25px 22px;color:#687386;border-
 <body>
 <nav><div class="navin">
 <a class="logo" href="#home">Digi<span>Rise</span></a>
-<div class="links"><a href="#learn">Learn</a><a href="#skills">Skills</a><a href="#share">Resources</a><a href="#image-generator">AI Images</a><a href="#contact">Contact</a></div>
-<a class="btn" href="#contact">Start Learning</a>
+
+<div class="feature-menu">
+  <details>
+    <summary>Features ☰</summary>
+    <div class="feature-list">
+      <a href="#learn">✍️ Content Writing</a>
+      <a href="#learn">🎯 Copywriting</a>
+      <a href="#learn">💻 Digital Skills</a>
+      <a href="#skills">📘 Learn</a>
+      <a href="#skills">🛠️ Practice</a>
+      <a href="#skills">📈 Grow</a>
+      <a href="#share">📚 Resources</a>
+      <a href="#image-generator">✨ AI Image Generator</a>
+      <a href="#contact">✉️ Contact</a>
+    </div>
+  </details>
+</div>
+
+<a class="btn ai-top-btn" href="#image-generator">✨ AI Image Generator</a>
 </div></nav>
 
 <header class="hero" id="home"><div class="wrap hero-grid">
