@@ -1,0 +1,158 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Image Generator — DigiRise</title><link rel="stylesheet" href="styles.css">
+<style>.box{max-width:820px;margin:auto;padding:20px;border-radius:16px;background:rgba(255,255,255,.05)}textarea,select{width:100%;padding:12px;margin:7px 0 14px;border-radius:10px;border:1px solid #777;background:#111;color:#fff}#result img{max-width:100%;border-radius:14px;margin-top:18px}.status{margin-top:12px}.download{display:inline-block;margin-top:12px}.small{font-size:13px;opacity:.8;line-height:1.5}</style>
+</head><body><header><nav class="wrap"><a class="logo" href="index.html"><span class="mark">D</span>Digi<b>Rise</b></a><a class="btn" href="index.html">← Home</a></nav></header>
+<main class="section"><div class="wrap"><div class="head"><h2>🖼️ AI Image Generator</h2><p>Free community-powered generation.</p></div><div class="box">
+<label>Prompt</label><textarea id="prompt" rows="6" placeholder="Describe the image you want..."></textarea>
+<label>Aspect Ratio</label><select id="ratio"><option value="1024x1024">1:1 — Square</option><option value="1024x576">16:9 — YouTube</option><option value="576x1024">9:16 — Shorts/Reels/TikTok</option></select>
+<label>Model</label>
+<select id="model">
+  <option value="">Loading available models...</option>
+</select>
+<button id="go" class="btn primary" onclick="generate()">✨ Generate Image</button>
+<div id="status" class="status"></div><div id="result"></div>
+<p class="small">AI Horde uses volunteer GPU workers. Anonymous requests are free but may wait longer.</p>
+</div></div></main>
+<script>
+const HORDE = "https://aihorde.net/api/v2";
+const API_KEY = "0000000000";
+const CLIENT = "DigiRise:1.1";
+
+async function loadModels(){
+  const select = document.getElementById("model");
+  try{
+    const r = await fetch(HORDE + "/status/models", {
+      headers: {"apikey": API_KEY, "Client-Agent": CLIENT}
+    });
+    if(!r.ok) throw new Error("Could not load models.");
+    const models = await r.json();
+
+    const usable = models
+      .filter(m => m && m.name)
+      .filter(m => m.type === undefined || m.type === "image")
+      .sort((a,b) => (b.performance || 0) - (a.performance || 0));
+
+    select.innerHTML = "";
+    usable.slice(0, 30).forEach(m => {
+      const o = document.createElement("option");
+      o.value = m.name;
+      o.textContent = m.name;
+      select.appendChild(o);
+    });
+
+    if(!select.options.length){
+      select.innerHTML = '<option value="AlbedoBase XL">AlbedoBase XL</option>';
+    }
+  }catch(e){
+    select.innerHTML = `
+      <option value="AlbedoBase XL">AlbedoBase XL</option>
+      <option value="Juggernaut XL">Juggernaut XL</option>
+      <option value="DreamShaper XL">DreamShaper XL</option>`;
+  }
+}
+
+async function generate(){
+  const prompt = document.getElementById("prompt").value.trim();
+  const parts = document.getElementById("ratio").value.split("x");
+  const w = +parts[0], h = +parts[1];
+  const model = document.getElementById("model").value;
+  const status = document.getElementById("status");
+  const result = document.getElementById("result");
+  const btn = document.getElementById("go");
+
+  if(!prompt){
+    status.textContent = "Please enter a prompt.";
+    return;
+  }
+
+  btn.disabled = true;
+  status.textContent = "⏳ Sending your prompt to the free AI queue...";
+  result.innerHTML = "";
+
+  try{
+    const body = {
+      prompt: prompt,
+      params: {
+        width: w,
+        height: h,
+        steps: 25,
+        n: 1,
+        sampler_name: "k_euler_a"
+      }
+    };
+
+    if(model) body.models = [model];
+
+    const r = await fetch(HORDE + "/generate/async", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": API_KEY,
+        "Client-Agent": CLIENT
+      },
+      body: JSON.stringify(body)
+    });
+
+    if(!r.ok){
+      const text = await r.text();
+      throw new Error("Queue request failed (" + r.status + "). " + text);
+    }
+
+    const job = await r.json();
+    if(!job.id) throw new Error("No generation job ID returned.");
+
+    for(;;){
+      await new Promise(resolve => setTimeout(resolve, 4000));
+
+      const s = await fetch(
+        HORDE + "/generate/status/" + encodeURIComponent(job.id),
+        {headers: {"apikey": API_KEY, "Client-Agent": CLIENT}}
+      );
+
+      if(!s.ok) throw new Error("Status request failed (" + s.status + ").");
+
+      const d = await s.json();
+
+      if(d.faulted) throw new Error(d.message || "The AI job failed.");
+      if(d.is_possible === false) throw new Error("No compatible free worker is currently available.");
+
+      status.textContent =
+        "⏳ AI is creating your image... " +
+        (d.queue_position != null ? "Queue: " + d.queue_position : "");
+
+      if(d.done){
+        if(!d.generations || !d.generations.length || !d.generations[0].img){
+          throw new Error("The AI finished but returned no image.");
+        }
+
+        const u = d.generations[0].img;
+
+        result.innerHTML = `
+          <img src="${u}" alt="AI generated image">
+          <br>
+          <a class="btn download" href="${u}" target="_blank" rel="noopener">
+            ⬇️ Open / Download
+          </a>`;
+
+        status.textContent = "✅ Real AI image created.";
+        break;
+      }
+    }
+  }catch(e){
+    status.textContent = "❌ " + e.message;
+    result.innerHTML = `
+      <p class="small">
+        The free community queue may be busy. Please try again after a short wait.
+      </p>
+      <a class="btn" target="_blank" rel="noopener"
+         href="https://aihorde.net/generate/image/">
+         Open AI Horde Generator
+      </a>`;
+  }finally{
+    btn.disabled = false;
+  }
+}
+
+loadModels();
+</script></body></html>
