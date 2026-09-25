@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DigiRise AI Image Generator</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#07111f;color:white}
+header{padding:20px;background:#0d1b2e;text-align:center}
+h1{margin:0;color:#9b82ff}
+main{max-width:700px;margin:auto;padding:18px}
+.card{background:#0d1b2e;border:1px solid #29405c;border-radius:18px;padding:18px}
+label{display:block;margin:12px 0 7px;font-weight:bold}
+textarea,select{width:100%;padding:13px;border-radius:10px;border:1px solid #29405c;background:#071526;color:white;font-size:16px}
+textarea{height:140px}
+button{width:100%;padding:14px;margin-top:15px;border:0;border-radius:10px;background:#7c5cff;color:white;font-size:17px;font-weight:bold}
+#status{margin:15px 0;color:#aebed0}
+#result{text-align:center;margin-top:15px}
+#result img{max-width:100%;border-radius:12px}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>DigiRise AI</h1>
+<p>AI Image Generator</p>
+</header>
+
+<main>
+<div class="card">
+
+<label>Describe Your Image</label>
+
+<textarea id="prompt"
+placeholder="Example: A beautiful sunset over mountains, cinematic, highly detailed"></textarea>
+
+<label>Image Size</label>
+
+<select id="size">
+<option value="1024x768">Landscape</option>
+<option value="768x1024">Portrait</option>
+<option value="1024x1024">Square</option>
+</select>
+
+<button onclick="generateImage()">✨ Generate Image</button>
+
+<div id="status"></div>
+
+<div id="result"></div>
+
+</div>
+</main>
+
+<script>
+async function generateImage(){
+
+const prompt=document.getElementById("prompt").value.trim();
+const size=document.getElementById("size").value;
+const status=document.getElementById("status");
+const result=document.getElementById("result");
+
+if(!prompt){
+status.innerText="Please enter an image description.";
+return;
+}
+
+const [width,height]=size.split("x");
+
+status.innerText="Creating your image... Please wait.";
+result.innerHTML="";
+
+try{
+
+const response=await fetch("/api/generate-image",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+prompt:prompt,
+width:Number(width),
+height:Number(height)
+})
+});
+
+const data=await response.json();
+
+if(!response.ok){
+throw new Error(data.error || "Generation failed");
+}
+
+const image="data:image/png;base64,"+data.image;
+
+result.innerHTML=
+'<img src="'+image+'" alt="Generated Image">'+
+'<br><button onclick="downloadImage(\''+image+'\')">⬇ Download Image</button>';
+
+status.innerText="Image generated successfully.";
+
+}catch(error){
+
+status.innerText="Error: "+error.message;
+
+}
+
+}
+
+function downloadImage(data){
+
+const a=document.createElement("a");
+a.href=data;
+a.download="digirise-image.png";
+a.click();
+
+}
+</script>
+
+</body>
+  </html>
