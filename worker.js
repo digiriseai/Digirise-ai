@@ -46,32 +46,34 @@ export default {
       const result = await env.AI.run(
         "@cf/black-forest-labs/flux-1-schnell",
         {
-          prompt: prompt.trim(),
-          steps: 4
+          prompt: prompt.trim()
         }
       );
 
-      return Response.json(
-        {
+      return new Response(
+        JSON.stringify({
           success: true,
           image: "data:image/jpeg;base64," + result.image
-        },
+        }),
         {
+          status: 200,
           headers: {
+            "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*"
           }
         }
       );
 
     } catch (error) {
-      return Response.json(
-        {
+      return new Response(
+        JSON.stringify({
           success: false,
-          error: error.message || "Image generation failed"
-        },
+          error: error.message || "Image generation failed."
+        }),
         {
           status: 500,
           headers: {
+            "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*"
           }
         }
