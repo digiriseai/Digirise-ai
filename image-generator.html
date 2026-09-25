@@ -15,7 +15,7 @@
 <p class="small">AI Horde uses volunteer GPU workers. Anonymous requests are free but may wait longer.</p>
 </div></div></main>
 <script>
-const HORDE = "https://aihorde.net/api/v2";
+const HORDE = "/api/generate-image";
 const API_KEY = "0000000000";
 const CLIENT = "DigiRise:1.1";
 
@@ -84,7 +84,7 @@ async function generate(){
 
     if(model) body.models = [model];
 
-    const r = await fetch(HORDE + "/generate/async", {
+    const r = await fetch(HORDE, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
