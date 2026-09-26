@@ -1,0 +1,68 @@
+const MODEL = "@cf/black-forest-labs/flux-1-schnell";
+
+function corsHeaders(origin = "*") {
+  return {
+    "Access-Control-Allow-Origin": origin,
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+  };
+}
+
+function json(data, status = 200, origin = "*") {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      ...corsHeaders(origin),
+    },
+  });
+}
+
+export default {
+  async fetch(request, env) {
+    const origin = request.headers.get("Origin") || "*";
+
+    if (request.method === "OPTIONS") {
+      return new Response(null, { status: 204, headers: corsHeaders(origin) });
+    }
+
+    const url = new URL(request.url);
+
+    if (request.method === "GET" && url.pathname === "/") {
+      return json({ ok: true, service: "DigiRise AI Image Generator", model: MODEL }, 200, origin);
+    }
+
+    if (request.method !== "POST" || url.pathname !== "/generate") {
+      return json({ ok: false, error: "Not found" }, 404, origin);
+    }
+
+    try {
+      const body = await request.json();
+      const prompt = typeof body.prompt === "string" ? body.prompt.trim() : "";
+
+      if (!prompt) return json({ ok: false, error: "Prompt is required." }, 400, origin);
+      if (prompt.length > 2048) return json({ ok: false, error: "Prompt is too long." }, 400, origin);
+
+      const result = await env.AI.run(MODEL, {
+        prompt: prompt + ". High quality, detailed, clean composition, professional AI artwork.",
+        steps: 4,
+        seed: Math.floor(Math.random() * 2147483647)
+      });
+
+      if (!result || !result.image) {
+        return json({ ok: false, error: "Cloudflare AI did not return an image." }, 502, origin);
+      }
+
+      return json({
+        ok: true,
+        image: "data:image/jpeg;base64," + result.image
+      }, 200, origin);
+
+    } catch (error) {
+      return json({
+        ok: false,
+        error: error && error.message ? error.message : "Image generation failed."
+      }, 500, origin);
+    }
+  }
+};
