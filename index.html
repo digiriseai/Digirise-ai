@@ -151,7 +151,6 @@ document.getElementById("year").textContent=new Date().getFullYear();
 
 async function generateImage(){
   const prompt=document.getElementById("prompt").value.trim();
-  const ratio=document.getElementById("ratio").value;
   const out=document.getElementById("imageOutput");
   const notice=document.getElementById("imageNotice");
   if(!prompt){out.textContent="Please enter an image prompt first.";return;}
@@ -163,34 +162,36 @@ async function generateImage(){
     return;
   }
 
-  let width=1024, height=1024;
-  if(ratio.includes("TikTok")){width=768;height=1365;}
-  else if(ratio.includes("YouTube")){width=1280;height=720;}
-  else if(ratio.includes("Facebook")){width=1200;height=628;}
-
   out.innerHTML="<div>Generating AI image...<br>Please wait.</div>";
-  notice.textContent="Connecting to the free image service...";
-  const encoded=encodeURIComponent(prompt);
-  const seed=Date.now();
-  const url="https://image.pollinations.ai/prompt/"+encoded+"?width="+width+"&height="+height+"&nologo=true&seed="+seed;
+  notice.textContent="Connecting to DigiRise Cloudflare AI...";
 
-  const img=new Image();
-  img.alt="DigiRise AI generated image";
-  img.style.maxWidth="100%";
-  img.style.maxHeight="500px";
-  img.style.borderRadius="12px";
-  img.style.display="block";
-  img.onload=function(){
+  try{
+    const response=await fetch("/generate",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({prompt:prompt})
+    });
+    if(!response.ok){
+      let detail="";
+      try{detail=await response.text();}catch(e){}
+      throw new Error(detail||("HTTP "+response.status));
+    }
+    const blob=await response.blob();
+    const img=document.createElement("img");
+    img.src=URL.createObjectURL(blob);
+    img.alt="DigiRise AI generated image";
+    img.style.maxWidth="100%";
+    img.style.maxHeight="500px";
+    img.style.borderRadius="12px";
+    img.style.display="block";
     out.innerHTML="";
     out.appendChild(img);
     localStorage.setItem(key,String(count+1));
     notice.textContent="Image generated. Free attempts used: "+(count+1)+"/10.";
-  };
-  img.onerror=function(){
-    out.innerHTML="<div><strong>AI service is currently unavailable or rate-limited.</strong><br>No fake image was shown. Please try again later.</div>";
-    notice.textContent="The anonymous image endpoint may require authentication or may be busy.";
-  };
-  img.src=url;
+  }catch(error){
+    out.innerHTML="<div><strong>AI generation is not connected yet.</strong><br>Cloudflare Worker / Workers AI needs to be enabled first.<br><small>"+escapeHtml(String(error))+"</small></div>";
+    notice.textContent="Cloudflare AI connection required.";
+  }
 }
 function chatDemo(){
   const v=document.getElementById("chatInput").value.trim();
