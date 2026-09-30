@@ -422,24 +422,14 @@ const HTML = `<!DOCTYPE html>
   function saveUsage(u){
     try{ localStorage.setItem('digirise_usage', JSON.stringify(u)); }catch(e){}
   }
-  function paintMeter(left){
-    left = Math.max(0, Math.min(FREE_LIMIT, Number(left)));
-    meterFill.style.width = ((FREE_LIMIT-left) / FREE_LIMIT * 100) + '%';
+  function updateMeter(){
+    const u = getUsage();
+    const left = Math.max(0, FREE_LIMIT - u.count);
+    meterFill.style.width = (Math.min(u.count, FREE_LIMIT) / FREE_LIMIT * 100) + '%';
     meterLabel.textContent = left > 0
       ? \`\${left} of \${FREE_LIMIT} free generations left today\`
       : \`Daily limit reached — resets tomorrow\`;
-    if(!cooling) generateBtn.disabled = left <= 0;
-  }
-  function updateMeter(){
-    const u = getUsage();
-    paintMeter(FREE_LIMIT - u.count);
-    fetch('/quota', {cache:'no-store'}).then(r=>r.json()).then(q=>{
-      if(q && q.success){
-        const count = FREE_LIMIT - Number(q.remaining);
-        saveUsage({date:todayKey(), count:Math.max(0, Math.min(FREE_LIMIT, count))});
-        paintMeter(q.remaining);
-      }
-    }).catch(()=>{});
+    generateBtn.disabled = left <= 0;
   }
   updateMeter();
 
@@ -497,12 +487,6 @@ const HTML = `<!DOCTYPE html>
       });
       clearTimeout(timeout);
       const data = await res.json();
-      if(res.status === 429){
-        saveUsage({date:todayKey(), count:FREE_LIMIT});
-        paintMeter(0);
-        openModal();
-        throw new Error(data.error || 'Daily limit reached.');
-      }
       if(!res.ok || !data.success){
         throw new Error(data.error || 'Generation failed.');
       }
@@ -518,12 +502,10 @@ const HTML = `<!DOCTYPE html>
       dl.className = 'btn btn-primary';
       dl.textContent = 'Download image';
       resultTools.appendChild(dl);
-      if(typeof data.remaining === 'number'){
-        saveUsage({date:todayKey(), count:FREE_LIMIT - data.remaining});
-        paintMeter(data.remaining);
-      } else {
-        updateMeter();
-      }
+      const nu = getUsage();
+      nu.count += 1;
+      saveUsage(nu);
+      updateMeter();
       startCooldown();
     }catch(err){
       const msg = err.name === 'AbortError' ? 'Generation timed out. Please try again.' : (err.message || 'please try again.');
@@ -579,46 +561,6 @@ const CORS = {
   "Access-Control-Allow-Headers": "Content-Type",
 };
 
-const FREE_LIMIT_SERVER = 10;
-
-function quotaKey(request){
-  return request.headers.get("CF-Connecting-IP") || "anonymous";
-}
-
-async function quotaRequest(env, request, action){
-  const ip = quotaKey(request);
-  const id = env.QUOTA.idFromName(ip);
-  const stub = env.QUOTA.get(id);
-  const res = await stub.fetch("https://quota/" + action, {method:"POST"});
-  return res.json();
-}
-
-export class DigiRiseQuota {
-  constructor(ctx, env){ this.ctx = ctx; this.env = env; }
-  day(){ return new Date().toISOString().slice(0,10); }
-  async fetch(request){
-    const path = new URL(request.url).pathname;
-    const today = this.day();
-    let state = await this.ctx.storage.get("quota");
-    if(!state || state.date !== today) state = {date:today, count:0};
-    if(path === "/get"){
-      return Response.json({success:true, remaining:Math.max(0, FREE_LIMIT_SERVER-state.count)});
-    }
-    if(path === "/reserve"){
-      if(state.count >= FREE_LIMIT_SERVER) return Response.json({success:false, remaining:0, error:"Daily limit reached. Try again tomorrow."}, {status:429});
-      state.count += 1;
-      await this.ctx.storage.put("quota", state);
-      return Response.json({success:true, remaining:FREE_LIMIT_SERVER-state.count});
-    }
-    if(path === "/release"){
-      state.count = Math.max(0, state.count - 1);
-      await this.ctx.storage.put("quota", state);
-      return Response.json({success:true, remaining:FREE_LIMIT_SERVER-state.count});
-    }
-    return new Response("Not found", {status:404});
-  }
-}
-
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -629,17 +571,7 @@ export default {
       return Response.json({ok:true, service:"DigiRise"}, {headers:{...CORS,"Cache-Control":"no-store"}});
     }
 
-    if (url.pathname === "/quota" && request.method === "GET") {
-      try {
-        const q = await quotaRequest(env, request, "get");
-        return Response.json(q, {headers:{...CORS,"Cache-Control":"no-store"}});
-      } catch (e) {
-        return Response.json({success:true, remaining:FREE_LIMIT_SERVER}, {headers:{...CORS,"Cache-Control":"no-store"}});
-      }
-    }
-
     if (url.pathname === "/generate" && request.method === "POST") {
-      let reserved = false;
       try {
         if (!env.AI) throw new Error("Workers AI binding 'AI' is missing.");
         const {prompt} = await request.json();
@@ -647,19 +579,15 @@ export default {
           return Response.json({success:false,error:"Please enter a prompt."},
             {status:400,headers:CORS});
         }
-        const reservation = await quotaRequest(env, request, "reserve");
-        if(!reservation.success) return Response.json(reservation, {status:429, headers:{...CORS,"Cache-Control":"no-store"}});
-        reserved = true;
         const result = await env.AI.run(
           "@cf/black-forest-labs/flux-1-schnell",
           {prompt:String(prompt).trim()}
         );
         return Response.json(
-          {success:true,image:"data:image/jpeg;base64," + result.image, remaining: reservation.remaining},
+          {success:true,image:"data:image/jpeg;base64," + result.image},
           {headers:{...CORS,"Cache-Control":"no-store"}}
         );
       } catch (e) {
-        if(reserved){ try { await quotaRequest(env, request, "release"); } catch (_) {} }
         return Response.json(
           {success:false,error:e?.message || "Image generation failed."},
           {status:500,headers:CORS}
