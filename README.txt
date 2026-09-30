@@ -17,4 +17,3 @@ After deployment, test:
 /health
 /
 /admin
-DigiRise 
