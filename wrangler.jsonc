@@ -1,8 +1,10 @@
 {
-  "name": "digirise",
+  "name": "digirise-ai",
   "main": "worker.js",
   "compatibility_date": "2026-09-29",
-  "ai": {
-    "binding": "AI"
-  }
+  "ai": { "binding": "AI" },
+  "durable_objects": {
+    "bindings": [{ "name": "QUOTA", "class_name": "DigiRiseQuota" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["DigiRiseQuota"] }]
 }
