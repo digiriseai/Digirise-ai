@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101827">
+<meta name="description" content="DigiRise - AI tools and digital productivity platform">
+<title>DigiRise</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;background:#f5f7fb;color:#172033;line-height:1.5}
+a{text-decoration:none;color:inherit}
+.header{background:#101827;color:#fff;position:sticky;top:0;z-index:1000;box-shadow:0 3px 15px #0002}
+.nav{max-width:1150px;margin:auto;min-height:68px;padding:10px 18px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.logo{font-size:25px;font-weight:800;background:linear-gradient(90deg,#55d6ff,#9b6cff,#ff5ebc);-webkit-background-clip:text;color:transparent}
+.menu{display:flex;gap:8px;flex-wrap:wrap}
+.menu a{padding:9px 12px;border-radius:9px;font-size:14px;color:#dbe4f5}
+.menu a:hover,.menu a.active{background:#26334a;color:#fff}
+.admin{background:#7c4dff!important;color:white!important}
+.hero{max-width:1150px;margin:auto;padding:58px 18px 35px;text-align:center}
+.hero h1{font-size:clamp(34px,7vw,62px);margin-bottom:12px}
+.gradient{background:linear-gradient(90deg,#1b9cff,#7b55ff,#ed3fa9);-webkit-background-clip:text;color:transparent}
+.hero p{max-width:700px;margin:0 auto 25px;color:#667085;font-size:17px}
+.btn{display:inline-block;border:0;border-radius:12px;padding:12px 20px;font-weight:700;cursor:pointer;background:#6757e8;color:white}
+.btn.secondary{background:#e9ecf5;color:#27324a;margin-left:8px}
+.container{max-width:1150px;margin:auto;padding:15px 18px 55px}
+.section{padding:28px 0;scroll-margin-top:85px}
+.section-title{text-align:center;font-size:30px;margin-bottom:9px}
+.section-sub{text-align:center;color:#718096;margin-bottom:25px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:white;border:1px solid #e7eaf1;border-radius:17px;padding:22px;box-shadow:0 7px 25px #1822300b}
+.icon{font-size:30px;margin-bottom:12px}
+.card h3{margin-bottom:7px}
+.card p{color:#6b7280;font-size:14px}
+.tool{background:#101827;color:white;border-radius:20px;padding:25px;margin-top:18px}
+.tool-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:20px}
+textarea,input,select{width:100%;border:1px solid #d8deea;border-radius:11px;padding:13px;font:inherit;background:#fff}
+textarea{min-height:150px;resize:vertical}
+label{display:block;margin:12px 0 6px;font-size:14px;font-weight:700}
+.output{min-height:210px;border:1px dashed #65728a;border-radius:15px;padding:20px;display:flex;align-items:center;justify-content:center;text-align:center;color:#aeb8ca}
+.notice{margin-top:14px;background:#182238;border-radius:10px;padding:11px;color:#bfc9da;font-size:13px}
+.admin-box{background:#fff;border:1px solid #e7eaf1;border-radius:17px;padding:24px}
+.badge{display:inline-block;background:#ece9ff;color:#5943cc;padding:5px 9px;border-radius:20px;font-size:12px;font-weight:700;margin-bottom:10px}
+.footer{background:#101827;color:#aeb8ca;text-align:center;padding:28px 18px}
+@media(max-width:850px){.cards{grid-template-columns:repeat(2,1fr)}.tool-grid{grid-template-columns:1fr}.menu a{font-size:12px;padding:7px 8px}}
+@media(max-width:560px){.nav{align-items:flex-start;flex-direction:column}.menu{width:100%;overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px}.menu a{white-space:nowrap}.hero{padding-top:38px}.cards{grid-template-columns:1fr}.btn{display:block;width:100%;margin:8px 0!important}.section-title{font-size:26px}}
+</style>
+</head>
+<body>
+
+<header class="header">
+<nav class="nav">
+<a class="logo" href="#home">DigiRise</a>
+<div class="menu">
+<a class="active" href="#home">Home</a>
+<a href="#image">AI Image</a>
+<a href="#chat">AI Chat</a>
+<a href="#tools">Tools</a>
+<a class="admin" href="#admin">Admin</a>
+</div>
+</nav>
+</header>
+
+<main id="home">
+<section class="hero">
+<h1>Welcome to <span class="gradient">DigiRise</span></h1>
+<p>A modern digital platform designed to bring AI tools, creativity and productivity together in one simple place.</p>
+<a class="btn" href="#image">Start AI Image</a>
+<a class="btn secondary" href="#tools">Explore Tools</a>
+</section>
+
+<div class="container">
+<section class="section" id="features">
+<h2 class="section-title">DigiRise Features</h2>
+<p class="section-sub">The foundation is ready for future AI integrations.</p>
+<div class="cards">
+<div class="card"><div class="icon">🎨</div><h3>AI Image</h3><p>Create images from text prompts. The real AI generation connection will be added here.</p></div>
+<div class="card"><div class="icon">💬</div><h3>AI Chat</h3><p>A dedicated place for an intelligent assistant and future chat tools.</p></div>
+<div class="card"><div class="icon">🛠️</div><h3>Digital Tools</h3><p>Room for background removal, enhancement, voice and other useful tools.</p></div>
+<div class="card"><div class="icon">💰</div><h3>Earn</h3><p>A future-ready area for monetization, products and premium features.</p></div>
+</div>
+</section>
+
+<section class="section" id="image">
+<h2 class="section-title">AI Image Generator</h2>
+<p class="section-sub">Enter a prompt below. This foundation is ready for the AI generation engine.</p>
+<div class="tool">
+<div class="tool-grid">
+<div>
+<label for="prompt">Image Prompt</label>
+<textarea id="prompt" placeholder="Example: A modern futuristic digital city, cinematic lighting, high detail..."></textarea>
+<label for="ratio">Image Ratio</label>
+<select id="ratio">
+<option>Square — 1:1</option>
+<option>Facebook — 1.91:1</option>
+<option>TikTok — 9:16</option>
+<option>YouTube — 16:9</option>
+</select>
+<br><br>
+<button class="btn" onclick="prepareImage()">Generate AI Image</button>
+<div class="notice">AI engine status: foundation ready. No fake/broken image is displayed.</div>
+</div>
+<div class="output" id="imageOutput">Your generated image will appear here.</div>
+</div>
+</div>
+</section>
+
+<section class="section" id="chat">
+<h2 class="section-title">AI Chat</h2>
+<p class="section-sub">A separate space for the DigiRise AI assistant.</p>
+<div class="tool">
+<label for="chatInput">Ask DigiRise</label>
+<textarea id="chatInput" placeholder="Type your question..."></textarea>
+<br><br>
+<button class="btn" onclick="chatDemo()">Send</button>
+<div class="notice" id="chatOutput">AI chat engine will be connected here.</div>
+</div>
+</section>
+
+<section class="section" id="tools">
+<h2 class="section-title">Digital Tools</h2>
+<p class="section-sub">More tools can be added one by one without rebuilding the whole site.</p>
+<div class="cards">
+<div class="card"><div class="icon">✨</div><h3>AI Enhance</h3><p>Image enhancement module.</p></div>
+<div class="card"><div class="icon">🖼️</div><h3>Background Remove</h3><p>Background removal module.</p></div>
+<div class="card"><div class="icon">🎙️</div><h3>Voice Over</h3><p>Voice and audio module.</p></div>
+<div class="card"><div class="icon">🎬</div><h3>AI Video</h3><p>Video generation module.</p></div>
+</div>
+</section>
+
+<section class="section" id="admin">
+<h2 class="section-title">Admin</h2>
+<p class="section-sub">Separate administration area for future site management.</p>
+<div class="admin-box">
+<span class="badge">ADMIN AREA</span>
+<h2>DigiRise Control Center</h2>
+<p style="color:#6b7280;margin-top:8px">This is the secure-looking interface foundation only. Authentication and real admin controls should be connected before using it for sensitive data.</p>
+<br>
+<button class="btn" onclick="alert('Admin controls will be connected in the next development step.')">Open Controls</button>
+</div>
+</section>
+</div>
+</main>
+
+<footer class="footer">
+<p>© <span id="year"></span> DigiRise — Digital tools for everyone.</p>
+</footer>
+
+<script>
+document.getElementById("year").textContent=new Date().getFullYear();
+
+function prepareImage(){
+  const p=document.getElementById("prompt").value.trim();
+  const out=document.getElementById("imageOutput");
+  if(!p){out.textContent="Please enter an image prompt first.";return;}
+  out.innerHTML="<div><strong>Prompt saved.</strong><br><br>AI image engine connection will be added here next.<br><small>"+escapeHtml(p)+"</small></div>";
+}
+function chatDemo(){
+  const v=document.getElementById("chatInput").value.trim();
+  document.getElementById("chatOutput").textContent=v?
+    "Your message is ready for the DigiRise AI chat engine: "+v:
+    "Please type a message first.";
+}
+function escapeHtml(s){
+  return s.replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c];});
+}
+</script>
+</body>
+</html>
