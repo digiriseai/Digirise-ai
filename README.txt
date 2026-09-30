@@ -1,4 +1,19 @@
-DigiRise multi-page starter
-Open index.html first.
-Pages: AI Image, AI Video, AI Chat, Design, Courses, Quran, Teachers, Students, Products, Seller, Login, Dashboard.
-IMPORTANT: This package is a front-end starter. Real AI generation, payments, accounts, quotas and admin security require a backend. Never expose private API keys in HTML/JS.
+DigiRise deployment package
+
+Files:
+- worker.js       Main Cloudflare Worker
+- wrangler.jsonc  Worker configuration with Workers AI binding named AI
+
+Important:
+- Do NOT use Custom Domains or Routes for this deployment.
+- The Worker code expects the Workers AI binding variable to be exactly: AI
+- The worker endpoint includes /health and /generate.
+- The site includes /admin.
+
+Deployment command if using Wrangler:
+npx wrangler deploy
+
+After deployment, test:
+/health
+/
+/admin
