@@ -117,6 +117,8 @@ const HTML = `<!DOCTYPE html>
   }
   .result-frame img{width:100%; height:100%; object-fit:cover;}
   .result-empty{color:var(--text-mute); font-size:13.5px; text-align:center; padding:20px;}
+  .result-tools{display:flex; gap:10px; margin-top:12px;}
+  .result-tools .btn{width:100%;}
   .spinner{width:26px; height:26px; border-radius:50%; border:3px solid var(--border); border-top-color:var(--gold); animation:spin .8s linear infinite;}
   @keyframes spin{to{transform:rotate(360deg);}}
 
@@ -253,6 +255,8 @@ const HTML = `<!DOCTYPE html>
       <div class="result-frame" id="resultFrame">
         <div class="result-empty">Your image will appear here</div>
       </div>
+
+      <div class="result-tools" id="resultTools"></div>
 
       <div class="meter">
         <div class="meter-track"><div class="meter-fill" id="meterFill"></div></div>
@@ -473,11 +477,15 @@ const HTML = `<!DOCTYPE html>
     const fullPrompt = promptText + (activeStyle ? ', ' + activeStyle : '');
 
     try{
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 90000);
       const res = await fetch('/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: fullPrompt })
+        body: JSON.stringify({ prompt: fullPrompt }),
+        signal: controller.signal
       });
+      clearTimeout(timeout);
       const data = await res.json();
       if(!res.ok || !data.success){
         throw new Error(data.error || 'Generation failed.');
@@ -500,7 +508,8 @@ const HTML = `<!DOCTYPE html>
       updateMeter();
       startCooldown();
     }catch(err){
-      resultFrame.innerHTML = \`<div class="result-empty">Generation failed — \${err.message || 'please try again.'}</div>\`;
+      const msg = err.name === 'AbortError' ? 'Generation timed out. Please try again.' : (err.message || 'please try again.');
+      resultFrame.innerHTML = \`<div class="result-empty">Generation failed — \${msg}</div>\`;
       generateBtn.textContent = 'Generate image';
       generateBtn.disabled = false;
     }
@@ -576,7 +585,7 @@ export default {
         );
         return Response.json(
           {success:true,image:"data:image/jpeg;base64," + result.image},
-          {headers:CORS}
+          {headers:{...CORS,"Cache-Control":"no-store"}}
         );
       } catch (e) {
         return Response.json(
