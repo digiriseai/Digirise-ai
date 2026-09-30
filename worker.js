@@ -387,6 +387,7 @@ const HTML = `<!DOCTYPE html>
   const promptEl = document.getElementById('prompt');
   const generateBtn = document.getElementById('generateBtn');
   const resultFrame = document.getElementById('resultFrame');
+  const resultTools = document.getElementById('resultTools');
   const meterFill = document.getElementById('meterFill');
   const meterLabel = document.getElementById('meterLabel');
   const styleRow = document.getElementById('styleRow');
@@ -467,6 +468,7 @@ const HTML = `<!DOCTYPE html>
     generateBtn.disabled = true;
     generateBtn.textContent = 'Generating…';
     resultFrame.innerHTML = '<div class="spinner"></div>';
+    resultTools.innerHTML = '';
 
     const fullPrompt = promptText + (activeStyle ? ', ' + activeStyle : '');
 
@@ -485,15 +487,13 @@ const HTML = `<!DOCTYPE html>
       img.alt = 'DigiRise AI generated image';
       resultFrame.innerHTML = '';
       resultFrame.appendChild(img);
-      const tools = document.createElement('div');
-      tools.style.cssText = 'display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px;';
+      resultTools.innerHTML = '';
       const dl = document.createElement('a');
       dl.href = data.image;
       dl.download = 'DigiRise-AI-image.jpg';
       dl.className = 'btn btn-primary';
       dl.textContent = 'Download image';
-      tools.appendChild(dl);
-      resultFrame.appendChild(tools);
+      resultTools.appendChild(dl);
       const nu = getUsage();
       nu.count += 1;
       saveUsage(nu);
@@ -559,7 +559,7 @@ export default {
     if (request.method === "OPTIONS") return new Response(null, {headers:CORS});
 
     if (url.pathname === "/health") {
-      return Response.json({ok:true, service:"DigiRise"}, {headers:CORS});
+      return Response.json({ok:true, service:"DigiRise"}, {headers:{...CORS,"Cache-Control":"no-store"}});
     }
 
     if (url.pathname === "/generate" && request.method === "POST") {
@@ -589,7 +589,7 @@ export default {
     if (url.pathname === "/admin") {
       return new Response(
         "<!doctype html><meta name='viewport' content='width=device-width,initial-scale=1'><body style='font-family:Arial;padding:25px'><h1>🌈 DigiRise Admin</h1><p>Worker is online.</p><p><a href='/health'>Check Worker Health</a></p><p><a href='/'>Open DigiRise</a></p></body>",
-        {headers:{"Content-Type":"text/html;charset=UTF-8",...CORS}}
+        {headers:{"Content-Type":"text/html;charset=UTF-8",...CORS,"Cache-Control":"no-store"}}
       );
     }
 
