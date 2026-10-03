@@ -95,27 +95,11 @@ label{display:block;margin:11px 0 5px;font-size:13px;font-weight:700}.output{min
 <button class="btn save" onclick="saveMemo()">SAVE MEMO</button>
 </div>
 
-<div class="kcard" style="margin-top:15px"><h3>Other Money / Expenses</h3>
-<p class="muted" style="margin:5px 0 10px">Business Memo سے الگ گھر کے خرچ اور دوسری آمدنی یہاں درج کریں۔</p>
-<div class="row">
-<div class="full"><label>Type</label><select id="cashType">
-<option>HOME EXPENSE</option>
-<option>BUSINESS EXPENSE</option>
-<option>SALARY</option>
-<option>GUEST MONEY</option>
-<option>OTHER INCOME</option>
-<option>CASH IN</option>
-<option>CASH OUT</option>
-<option>EXPENSE</option>
-</select></div>
-<div><label>Amount (Rs)</label><input id="cashAmount" type="number" step="0.01"></div>
-<div class="full"><label>Note / Detail</label><input id="cashNote" placeholder="Electricity, food, salary, guest money, etc."></div>
-</div>
-<button class="btn save" onclick="saveCashEntry()">SAVE ENTRY</button></div>
+<div class="kcard" style="margin-top:15px"><h3>Cash / Expenses</h3><div class="row"><div><label>Type</label><select id="cashType"><option>EXPENSE</option><option>CASH IN</option><option>CASH OUT</option></select></div><div><label>Amount (Rs)</label><input id="cashAmount" type="number" step="0.01"></div><div class="full"><label>Note</label><input id="cashNote" placeholder="Electricity, transport, other cash movement"></div></div><button class="btn save" onclick="saveCashEntry()">SAVE CASH ENTRY</button></div>
 
 <div class="kcard" style="margin-top:15px"><h3>Today's Report</h3><div class="stats">
-<div class="stat">Sales<b>Rs <span id="rs">0</span></b></div><div class="stat">Purchases<b>Rs <span id="rp">0</span></b></div><div class="stat">Other Income<b>Rs <span id="rotherIncome">0</span></b></div><div class="stat">Cash In<b>Rs <span id="ri">0</span></b></div><div class="stat">Cash Out<b>Rs <span id="ro">0</span></b></div>
-<div class="stat">Customer Credit<b>Rs <span id="rc">0</span></b></div><div class="stat">Supplier Credit<b>Rs <span id="rv">0</span></b></div><div class="stat">Profit<b>Rs <span id="rpr">0</span></b></div><div class="stat">Stock Items<b><span id="rstock">0</span></b></div><div class="stat">Expenses<b>Rs <span id="rexp">0</span></b></div><div class="stat">Home Expenses<b>Rs <span id="rhomeExp">0</span></b></div><div class="stat">Net Cash<b>Rs <span id="rnet">0</span></b></div>
+<div class="stat">Sales<b>Rs <span id="rs">0</span></b></div><div class="stat">Purchases<b>Rs <span id="rp">0</span></b></div><div class="stat">Cash In<b>Rs <span id="ri">0</span></b></div><div class="stat">Cash Out<b>Rs <span id="ro">0</span></b></div>
+<div class="stat">Customer Credit<b>Rs <span id="rc">0</span></b></div><div class="stat">Supplier Credit<b>Rs <span id="rv">0</span></b></div><div class="stat">Profit<b>Rs <span id="rpr">0</span></b></div><div class="stat">Stock Items<b><span id="rstock">0</span></b></div><div class="stat">Expenses<b>Rs <span id="rexp">0</span></b></div><div class="stat">Net Cash<b>Rs <span id="rnet">0</span></b></div>
 </div></div>
 
 <div class="kgrid" style="margin-top:15px"><div class="kcard"><h3>Recent Sales</h3><div class="list" id="salesList"></div></div><div class="kcard"><h3>Recent Purchases</h3><div class="list" id="purchaseList"></div></div></div>
@@ -156,20 +140,11 @@ function render(){
  $("salesList").innerHTML=data.sales.slice().reverse().slice(0,40).map(x=>`<div class="item"><div class="actions"><button onclick="window.delS('${x.id}')">DEL</button></div><b>${esc(x.item)}</b><div class="mini">${x.qty} ${x.unit} • ${x.type} • Rs ${money(x.total)} • Discount Rs ${money(x.discount||0)} • Expense Rs ${money(x.expense||0)} • Profit Rs ${money(x.profit||0)}</div></div>`).join("")||'<div class="muted">No sales yet.</div>';
  $("purchaseList").innerHTML=data.purchases.slice().reverse().slice(0,40).map(x=>`<div class="item"><div class="actions"><button onclick="window.delP('${x.id}')">DEL</button></div><b>${esc(x.item)}</b><div class="mini">${x.qty} ${x.unit} • ${x.type} • Purchase Rs ${money(x.total)} • Discount Rs ${money(x.discount||0)} • Expense Rs ${money(x.expense||0)} • Actual/unit Rs ${money(x.actualUnitCost ?? ((Number(x.total||0)+Number(x.expense||0))/(Number(x.qty)||1)))}</div></div>`).join("")||'<div class="muted">No purchases yet.</div>';
  const d=day(),ss=data.sales.filter(x=>x.date===d),pp=data.purchases.filter(x=>x.date===d),cc=data.cash.filter(x=>x.date===d);
- const sales=ss.reduce((a,x)=>a+x.total,0), purchases=pp.reduce((a,x)=>a+x.total,0);
- const incomeTypes=["SALARY","GUEST MONEY","OTHER INCOME","CASH IN"];
- const expenseTypes=["HOME EXPENSE","BUSINESS EXPENSE","EXPENSE","CASH OUT"];
- const otherIncome=cc.filter(x=>incomeTypes.includes(x.type)).reduce((a,x)=>a+Number(x.amount||0),0);
- const otherExpenses=cc.filter(x=>expenseTypes.includes(x.type)).reduce((a,x)=>a+Number(x.amount||0),0);
- const cashIn=ss.filter(x=>x.type==="CASH").reduce((a,x)=>a+x.total,0)+otherIncome;
- const cashOut=pp.filter(x=>x.type==="CASH").reduce((a,x)=>a+x.total,0)+otherExpenses;
+ const sales=ss.reduce((a,x)=>a+x.total,0), purchases=pp.reduce((a,x)=>a+x.total,0), cashIn=ss.filter(x=>x.type==="CASH").reduce((a,x)=>a+x.total,0)+cc.filter(x=>x.type==="CASH IN").reduce((a,x)=>a+x.amount,0), cashOut=purchases*0+pp.filter(x=>x.type==="CASH").reduce((a,x)=>a+x.total,0)+cc.filter(x=>x.type==="CASH OUT"||x.type==="EXPENSE").reduce((a,x)=>a+x.amount,0);
  $("rs").textContent=money(sales);$("rp").textContent=money(purchases);
- $("rotherIncome").textContent=money(otherIncome);$("ri").textContent=money(cashIn);$("ro").textContent=money(cashOut);
+ $("ri").textContent=money(cashIn);$("ro").textContent=money(cashOut);
  $("rc").textContent=money(ss.filter(x=>x.type==="CREDIT").reduce((a,x)=>a+x.total,0));$("rv").textContent=money(pp.filter(x=>x.type==="CREDIT").reduce((a,x)=>a+x.total,0));
- $("rpr").textContent=money(ss.reduce((a,x)=>a+x.profit,0));
- $("rexp").textContent=money(otherExpenses);
- $("rhomeExp").textContent=money(cc.filter(x=>x.type==="HOME EXPENSE").reduce((a,x)=>a+Number(x.amount||0),0));
- $("rnet").textContent=money(cashIn-cashOut);
+ $("rpr").textContent=money(ss.reduce((a,x)=>a+x.profit,0));$("rexp").textContent=money(cc.filter(x=>x.type==="EXPENSE").reduce((a,x)=>a+x.amount,0));$("rnet").textContent=money(cashIn-cashOut);
  const stock={};data.purchases.forEach(x=>stock[x.item+"|"+x.unit]=(stock[x.item+"|"+x.unit]||0)+x.qty);data.sales.forEach(x=>stock[x.item+"|"+x.unit]=(stock[x.item+"|"+x.unit]||0)-x.qty);
  const e=Object.entries(stock).filter(([,v])=>Math.abs(v)>0.0001);$("rstock").textContent=e.length;
  $("stockList").innerHTML=e.map(([k,v])=>{let [i,u]=k.split("|");return `<div class="item"><b>${esc(i)}</b><div class="mini">${money(v)} ${u}</div></div>`}).join("")||'<div class="muted">No stock yet.</div>';
@@ -199,34 +174,30 @@ window.saleCalc=saleCalc;window.purchaseCalc=purchaseCalc;
 window.memoType=t=>{mtype=t;$("memoSale").classList.toggle("on",t==="SALE");$("memoPurchase").classList.toggle("on",t==="PURCHASE");memoCalc()};
 window.memoCalc=memoCalc;window.saleCalc=memoCalc;window.purchaseCalc=memoCalc;
 window.saveMemo=async()=>{
- let i=$("mi").value.trim(),q=+$("mq").value||0,total=+$("mTotal").value||0,disc=+$("mDiscount").value||0,ex=+$("mExpense").value||0,unit=$("mu").value,pay=$("mPay").value,paid=$("mExpensePaid").value==="YES";
- if(!i||q<=0||total<=0)return alert("Enter item, quantity and total price.");
+ let i=$("mi").value.trim(),q=Number($("mq").value)||0,total=Number($("mTotal").value)||0,disc=Number($("mDiscount").value)||0,ex=Number($("mExpense").value)||0,unit=$("mu").value,pay=$("mPay").value,paid=$("mExpensePaid").value==="YES";
+ if(!i)return alert("Item likhein.");
+ if(q<=0)return alert("Quantity likhein.");
+ if(total<=0)return alert("Total Price likhein.");
  let net=Math.max(0,total-disc);
  if(mtype==="PURCHASE"){
    let actual=(net+ex)/q;
-   data.purchases.push({id:crypto.randomUUID(),date:day(),item:i,supplier:$("mperson").value.trim(),qty:q,unit,price:net/q,total:net,originalTotal:total,discount:disc,expense:ex,expensePaid:paid,expenseUnit:ex/q,costTotal:net+ex,actualUnitCost:actual,type:pay});
+   data.purchases.push({id:crypto.randomUUID(),date:day(),item:i,supplier:$("mperson").value.trim(),qty:q,unit:unit,price:net/q,total:net,originalTotal:total,discount:disc,expense:ex,expensePaid:paid,expenseUnit:ex/q,costTotal:net+ex,actualUnitCost:actual,type:pay});
  }else{
    let costUnit=getStockUnitCost(i,unit);
-   if(costUnit<=0)return alert("No purchase cost found for this item. Record a purchase first.");
+   if(costUnit<=0)return alert("Is item ki purchase pehle save karein.");
    let costTotal=q*costUnit,profit=net-costTotal-ex;
-   data.sales.push({id:crypto.randomUUID(),date:day(),item:i,customer:$("mperson").value.trim(),qty:q,unit,price:net/q,total:net,originalTotal:total,discount:disc,expense:ex,expensePaid:paid,cost:costUnit,costTotal,profit,type:pay});
+   data.sales.push({id:crypto.randomUUID(),date:day(),item:i,customer:$("mperson").value.trim(),qty:q,unit:unit,price:net/q,total:net,originalTotal:total,discount:disc,expense:ex,expensePaid:paid,cost:costUnit,costTotal:costTotal,profit:profit,type:pay});
  }
  ["mi","mperson","mq","mTotal","mDiscount","mExpense"].forEach(x=>$(x).value="");
  $("mDiscount").value="0";$("mExpense").value="0";$("mExpensePaid").value="YES";
- memoCalc();render();await cloudSave();
+ memoType("SALE"); render(); await cloudSave();
 };
 window.delS=async id=>{data.sales=data.sales.filter(x=>x.id!==id);render();await cloudSave()};window.delP=async id=>{data.purchases=data.purchases.filter(x=>x.id!==id);render();await cloudSave()};
 
 async function cloudSave(){if(!user||!db)return;try{await setDoc(doc(db,"karyanaUsers",user.uid),{sales:data.sales,purchases:data.purchases,cash:data.cash,updatedAt:serverTimestamp()});$("authUser").textContent="✓ Cloud saved • "+(user.email||"Google account");$("syncStatus").textContent="Cloud sync successful. A local backup is also kept on this device."}catch(e){$("authUser").textContent="Cloud save error; local data is safe.";$("syncStatus").textContent="Cloud save failed. Your local data is still safe — download a backup before continuing.")}}
 async function cloudLoad(){if(!user||!db)return;const s=await getDoc(doc(db,"karyanaUsers",user.uid));if(s.exists()){let x=s.data();if(Array.isArray(x.sales)&&Array.isArray(x.purchases)){data={sales:x.sales,purchases:x.purchases,cash:Array.isArray(x.cash)?x.cash:[]};render()}}}
 
-window.saveCashEntry=async()=>{
- let t=$("cashType").value,a=+$("cashAmount").value||0,n=$("cashNote").value.trim();
- if(a<=0)return alert("Enter amount.");
- data.cash.push({id:crypto.randomUUID(),date:day(),type:t,amount:a,note:n});
- $("cashAmount").value="";$("cashNote").value="";
- render();await cloudSave();
-};
+window.saveCashEntry=async()=>{let t=$("cashType").value,a=+$("cashAmount").value||0,n=$("cashNote").value.trim();if(a<=0)return alert("Enter amount.");data.cash.push({id:crypto.randomUUID(),date:day(),type:t,amount:a,note:n});$("cashAmount").value="";$("cashNote").value="";render();await cloudSave()};
 window.exportData=()=>{const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="DigiRise_Karyana_Backup_"+day()+".json";a.click();URL.revokeObjectURL(a.href)};
 window.importData=async e=>{const f=e.target.files[0];if(!f)return;try{const x=JSON.parse(await f.text());if(!Array.isArray(x.sales)||!Array.isArray(x.purchases))throw new Error("Invalid backup");data={sales:x.sales,purchases:x.purchases,cash:Array.isArray(x.cash)?x.cash:[]};render();await cloudSave();alert("Backup restored successfully.")}catch(err){alert("Backup could not be restored.")}e.target.value=""};
 if(configured){
