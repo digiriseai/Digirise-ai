@@ -166,7 +166,7 @@ async function generateImage(){
   notice.textContent="Connecting to DigiRise Cloudflare AI...";
 
   try{
-    const response=await fetch("/generate",{
+    const response=await fetch("https://digirise-ai.zsedu814.workers.dev/generate",{
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({prompt:prompt})
@@ -176,9 +176,12 @@ async function generateImage(){
       try{detail=await response.text();}catch(e){}
       throw new Error(detail||("HTTP "+response.status));
     }
-    const blob=await response.blob();
+    const data=await response.json();
+    if(!data.success || !data.image){
+      throw new Error(data.error || "Image generation failed.");
+    }
     const img=document.createElement("img");
-    img.src=URL.createObjectURL(blob);
+    img.src=data.image;
     img.alt="DigiRise AI generated image";
     img.style.maxWidth="100%";
     img.style.maxHeight="500px";
