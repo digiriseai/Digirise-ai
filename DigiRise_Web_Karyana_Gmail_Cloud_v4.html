@@ -162,22 +162,33 @@ window.saveSale=async()=>{
  let i=$("si").value.trim(),q=+$("sq").value||0,st=+$("spTotal").value||0,ct=+$("skTotal").value||0;
  if(!i||q<=0||st<=0)return alert("Enter item, quantity and sale total.");
  let p=st/q,c=ct/q;
- data.sales.push({id:crypto.randomUUID(),date:day(),item:i,customer:$("scust").value.trim(),qty:q,unit:$("su").value,price:p,cost:c,total:st,profit:st-ct,costTotal:ct,type:stype});
+ data.sales.push({id:crypto.randomUUID(),date:day(),time:new Date().toLocaleTimeString(),item:i,customer:$("scust").value.trim(),qty:q,unit:$("su").value,price:p,cost:c,total:st,profit:st-ct,costTotal:ct,type:stype});
  ["si","scust","sq","spTotal","skTotal"].forEach(x=>$(x).value="");saleCalc();render();await cloudSave()
 };
 window.savePurchase=async()=>{
  let i=$("pi").value.trim(),q=+$("pq").value||0,pt=+$("ppTotal").value||0;
  if(!i||q<=0||pt<=0)return alert("Enter item, quantity and purchase total.");
  let p=pt/q;
- data.purchases.push({id:crypto.randomUUID(),date:day(),item:i,supplier:$("psupp").value.trim(),qty:q,unit:$("pu").value,price:p,total:pt,type:ptype});
+ data.purchases.push({id:crypto.randomUUID(),date:day(),time:new Date().toLocaleTimeString(),item:i,supplier:$("psupp").value.trim(),qty:q,unit:$("pu").value,price:p,total:pt,type:ptype});
  ["pi","psupp","pq","ppTotal"].forEach(x=>$(x).value="");purchaseCalc();render();await cloudSave()
 };
 window.delS=async id=>{data.sales=data.sales.filter(x=>x.id!==id);render();await cloudSave()};window.delP=async id=>{data.purchases=data.purchases.filter(x=>x.id!==id);render();await cloudSave()};
 
 async function cloudSave(){if(!user||!db)return;try{await setDoc(doc(db,"karyanaUsers",user.uid),{sales:data.sales,purchases:data.purchases,cash:data.cash,updatedAt:serverTimestamp()});$("authUser").textContent="✓ Cloud saved • "+(user.email||"Google account");$("syncStatus").textContent="Cloud sync successful. A local backup is also kept on this device."}catch(e){$("authUser").textContent="Cloud save error; local data is safe.";$("syncStatus").textContent="Cloud save failed. Your local data is still safe — download a backup before continuing.")}}
-async function cloudLoad(){if(!user||!db)return;const s=await getDoc(doc(db,"karyanaUsers",user.uid));if(s.exists()){let x=s.data();if(Array.isArray(x.sales)&&Array.isArray(x.purchases)){data={sales:x.sales,purchases:x.purchases,cash:Array.isArray(x.cash)?x.cash:[]};render()}}}
+async function cloudLoad(){
+ if(!user||!db)return;
+ try{
+  const snap=await getDoc(doc(db,"karyanaUsers",user.uid));
+  if(!snap.exists()){ await cloudSave(); return; }
+  const x=snap.data()||{};
+  const merge=(a,b)=>{const m=new Map();[...(Array.isArray(a)?a:[]),...(Array.isArray(b)?b:[])].forEach(v=>{if(v&&v.id)m.set(v.id,v)});return [...m.values()]};
+  data={sales:merge(data.sales,x.sales),purchases:merge(data.purchases,x.purchases),cash:merge(data.cash,x.cash)};
+  render();
+  await cloudSave();
+ }catch(e){$("syncStatus").textContent="Cloud load failed; local data remains available. Download a backup.";}
+}
 
-window.saveCashEntry=async()=>{let t=$("cashType").value,a=+$("cashAmount").value||0,n=$("cashNote").value.trim();if(a<=0)return alert("Enter amount.");data.cash.push({id:crypto.randomUUID(),date:day(),type:t,amount:a,note:n});$("cashAmount").value="";$("cashNote").value="";render();await cloudSave()};
+window.saveCashEntry=async()=>{let t=$("cashType").value,a=+$("cashAmount").value||0,n=$("cashNote").value.trim();if(a<=0)return alert("Enter amount.");data.cash.push({id:crypto.randomUUID(),date:day(),time:new Date().toLocaleTimeString(),type:t,amount:a,note:n});$("cashAmount").value="";$("cashNote").value="";render();await cloudSave()};
 window.exportData=()=>{const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="DigiRise_Karyana_Backup_"+day()+".json";a.click();URL.revokeObjectURL(a.href)};
 window.importData=async e=>{const f=e.target.files[0];if(!f)return;try{const x=JSON.parse(await f.text());if(!Array.isArray(x.sales)||!Array.isArray(x.purchases))throw new Error("Invalid backup");data={sales:x.sales,purchases:x.purchases,cash:Array.isArray(x.cash)?x.cash:[]};render();await cloudSave();alert("Backup restored successfully.")}catch(err){alert("Backup could not be restored.")}e.target.value=""};
 if(configured){
@@ -189,10 +200,22 @@ if(configured){
 render();saleCalc();purchaseCalc();
 
 window.generateImage=async()=>{
- const p=$("prompt").value.trim(),out=$("imageOutput"),notice=$("imageNotice");if(!p){out.textContent="Please enter an image prompt first.";return}
- const key="digirise_image_count",count=Number(localStorage.getItem(key)||"0");if(count>=10){out.innerHTML="<b>Free limit reached: 10 attempts.</b>";return}
+ const p=$("prompt").value.trim(),out=$("imageOutput"),notice=$("imageNotice");
+ if(!p){out.textContent="Please enter an image prompt first.";return}
+ const key="digirise_image_count",count=Number(localStorage.getItem(key)||"0");
+ if(count>=10){out.innerHTML="<b>Free limit reached: 10 attempts.</b>";return}
  out.innerHTML="Generating AI image...";notice.textContent="Connecting to DigiRise Cloudflare AI...";
- try{const r=await fetch("/generate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({prompt:p})});if(!r.ok)throw new Error("HTTP "+r.status);const b=await r.blob(),img=document.createElement("img");img.src=URL.createObjectURL(b);img.style.maxWidth="100%";img.style.maxHeight="500px";img.style.borderRadius="12px";out.innerHTML="";out.appendChild(img);localStorage.setItem(key,String(count+1));notice.textContent="Generated • "+(count+1)+"/10 attempts used."}catch(e){out.innerHTML="<b>AI connection is not working yet.</b><br>"+esc(String(e));notice.textContent="Cloudflare AI connection required."}
+ try{
+  const ratio=$("ratio").value;
+  const r=await fetch("/generate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({prompt:p,ratio})});
+  const data=await r.json();
+  if(!r.ok||!data.success||!data.image)throw new Error(data.error||("HTTP "+r.status));
+  const wrap=document.createElement("div");wrap.style.width="100%";
+  const img=document.createElement("img");img.src=data.image;img.alt="DigiRise AI generated image";img.style.maxWidth="100%";img.style.maxHeight="520px";img.style.borderRadius="12px";img.style.display="block";img.style.margin="0 auto";
+  const dl=document.createElement("a");dl.href=data.image;dl.download="DigiRise_AI_Image.jpg";dl.className="btn";dl.style.marginTop="10px";dl.style.display="inline-block";dl.textContent="Download Image";
+  wrap.appendChild(img);wrap.appendChild(dl);out.innerHTML="";out.appendChild(wrap);
+  localStorage.setItem(key,String(count+1));notice.textContent="Generated • "+(count+1)+"/10 attempts used.";
+ }catch(e){out.innerHTML="<b>AI generation failed.</b><br>"+esc(String(e));notice.textContent="Check the Cloudflare AI Worker connection."}
 };
 window.chatDemo=()=>{let v=$("chatInput").value.trim();$("chatOutput").textContent=v?"Message ready for DigiRise AI: "+v:"Please type a message first."};
 </script>

@@ -1,0 +1,11 @@
+DigiRise FINAL production package
+
+Files:
+- worker.js — production Cloudflare Worker with embedded website + /generate + /health
+- wrangler.jsonc — Workers AI binding
+- firestore.rules — per-Gmail user data protection
+- DigiRise_Web_Karyana_Gmail_Cloud_v4.html — standalone website copy
+
+Firebase project already configured in the HTML: digirisegeneralstore.
+Enable Google Authentication and create Firestore database in Firebase Console.
+Do not delete the existing digirise-ai Worker before deploying/testing this package.
