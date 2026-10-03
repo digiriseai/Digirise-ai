@@ -1,0 +1,13 @@
+{
+  "name": "digirise-ai",
+  "main": "worker.js",
+  "compatibility_date": "2026-09-29",
+  "ai": {
+    "binding": "AI"
+  },
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  }
+}
