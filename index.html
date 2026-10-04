@@ -75,27 +75,7 @@ label{display:block;margin:11px 0 5px;font-size:13px;font-weight:700}.output{min
 <div class="kcard" style="margin-bottom:15px"><h3>Data Safety</h3><p class="muted" style="margin:5px 0 10px">Cloud sync works after Google Sign-in + Firestore are enabled. You can always keep an offline backup too.</p><button class="btn secondary" onclick="exportData()">Download Backup</button><button class="btn secondary" onclick="document.getElementById('importFile').click()">Restore Backup</button><input id="importFile" type="file" accept="application/json" class="hide" onchange="importData(event)"><div class="notice" id="syncStatus">Local backup is active on this device.</div></div>
 <div id="firebaseNotice" class="notice" style="background:#fff7ed;color:#9a3412;display:none">Firebase code is ready. Google Sign-in and Firestore must be enabled once in Firebase Console before cloud data can sync.</div>
 
-<div class="kcard" style="margin-bottom:15px">
-<h3>KARYANA MEMO</h3><p class="muted" style="margin:4px 0 10px">One memo — choose SALE or PURCHASE.</p>
-<div class="toggle"><button id="memoSale" class="on" onclick="memoType('SALE')">SALE</button><button id="memoPurchase" onclick="memoType('PURCHASE')">PURCHASE</button></div>
-<div class="row">
-<div class="full"><label>Item</label><input id="mi" placeholder="Sugar"></div>
-<div class="full"><label>Customer / Supplier (optional)</label><input id="mperson" placeholder="Name"></div>
-<div><label>Quantity</label><input id="mq" type="number" step="0.01" oninput="memoCalc()"></div>
-<div><label>Unit</label><select id="mu" onchange="memoCalc()"><option>PCS</option><option>KG</option><option>LTR</option><option>DOZEN</option><option>PACK</option></select></div>
-<div><label>Total Price (Rs)</label><input id="mTotal" type="number" step="0.01" oninput="memoCalc()"></div>
-<div><label>Discount (Rs)</label><input id="mDiscount" type="number" step="0.01" value="0" oninput="memoCalc()"></div>
-<div><label>Karaya / Other Expense (Rs)</label><input id="mExpense" type="number" step="0.01" value="0" oninput="memoCalc()"></div>
-<div><label>Expense Paid?</label><select id="mExpensePaid"><option>YES</option><option>NO</option></select></div>
-<div class="full"><label>Payment</label><select id="mPay"><option>CASH</option><option>CREDIT</option></select></div>
-</div>
-<div class="total">Net Price / Unit: Rs <span id="mUnit">0</span> • Discount / Unit: Rs <span id="mDiscUnit">0</span></div>
-<div class="total">Expense / Unit: Rs <span id="mExpUnit">0</span> • Actual Cost / Unit: Rs <span id="mActualUnit">0</span></div>
-<div class="profit" id="mProfitLine">Profit / Loss: Rs <span id="mProfit">0</span></div>
-<button class="btn save" onclick="saveMemo()">SAVE MEMO</button>
-</div>
-
-<div class="kcard" style="margin-top:15px"><h3>Cash / Expenses</h3><div class="row"><div><label>Type</label><select id="cashType"><option>HOME EXPENSE</option><option>BUSINESS EXPENSE</option><option>SALARY</option><option>GUEST MONEY</option><option>OTHER INCOME</option><option>CASH IN</option><option>CASH OUT</option><option>EXPENSE</option></select></div><div><label>Amount (Rs)</label><input id="cashAmount" type="number" step="0.01"></div><div class="full"><label>Note / Detail</label><input id="cashNote" placeholder="Electricity, food, salary, guest money, other income..."></div></div><button class="btn save" onclick="saveCashEntry()">SAVE CASH ENTRY</button></div>
+<div class="kgrid"><div class="kcard"><h3>MEMO</h3><p class="muted">One memo: choose Sale or Purchase.</p><div class="toggle"><button id="memoSale" class="on" onclick="memoType('SALE')">SALE</button><button id="memoPurchase" onclick="memoType('PURCHASE')">PURCHASE</button></div><div class="row"><div class="full"><label>Item</label><input id="mi"></div><div class="full"><label>Customer / Supplier</label><input id="mperson"></div><div><label>Quantity</label><input id="mq" type="number" step="0.01" oninput="memoCalc()"></div><div><label>Unit</label><select id="mu"><option>KG</option><option>PCS</option><option>LTR</option><option>DOZEN</option><option>PACK</option></select></div><div><label id="mTotalLabel">Sale Total (Rs)</label><input id="mTotal" type="number" step="0.01" oninput="memoCalc()"></div><div><label>Discount (Rs)</label><input id="mDiscount" type="number" step="0.01" value="0" oninput="memoCalc()"></div><div class="full"><label>Karaya / Other Expense (Rs)</label><input id="mExpense" type="number" step="0.01" value="0" oninput="memoCalc()"></div><div><label>Expense Paid?</label><select id="mExpensePaid"><option>YES</option><option>NO</option></select></div></div><div class="total">Net Total: Rs <span id="mNet">0</span> • Unit: Rs <span id="mUnitPrice">0</span> • Actual Cost/Unit: Rs <span id="mActualUnit">0</span></div><div class="profit" id="mProfitLine">Profit/Loss: Rs <span id="mProfit">0</span></div><button class="btn save" onclick="saveMemo()">SAVE MEMO</button></div></div><div class="kcard" style="margin-top:15px"><h3>Cash / Expenses</h3><div class="row"><div><label>Type</label><select id="cashType"><option>HOME EXPENSE</option><option>BUSINESS EXPENSE</option><option>SALARY</option><option>GUEST MONEY</option><option>OTHER INCOME</option><option>CASH IN</option><option>CASH OUT</option><option>EXPENSE</option></select></div><div><label>Amount (Rs)</label><input id="cashAmount" type="number" step="0.01"></div><div class="full"><label>Note</label><input id="cashNote" placeholder="Electricity, transport, other cash movement"></div></div><button class="btn save" onclick="saveCashEntry()">SAVE CASH ENTRY</button></div>
 
 <div class="kcard" style="margin-top:15px"><h3>Today's Report</h3><div class="stats">
 <div class="stat">Sales<b>Rs <span id="rs">0</span></b></div><div class="stat">Purchases<b>Rs <span id="rp">0</span></b></div><div class="stat">Cash In<b>Rs <span id="ri">0</span></b></div><div class="stat">Cash Out<b>Rs <span id="ro">0</span></b></div>
@@ -130,15 +110,15 @@ const firebaseConfig={apiKey:"AIzaSyARfXB9LFSgLkqjs3mvhG0Cpz2h_NcK_dc",authDomai
 document.getElementById("year").textContent=new Date().getFullYear();
 const configured=!firebaseConfig.apiKey.startsWith("PASTE_")&&!firebaseConfig.projectId.startsWith("PASTE_");
 let auth=null,db=null,provider=null,user=null;
-let data=JSON.parse(localStorage.getItem("digirise_karyana_v2")||'{"sales":[],"purchases":[],"cash":[]}'); data.cash=Array.isArray(data.cash)?data.cash:[]; let mtype="SALE";
+let data=JSON.parse(localStorage.getItem("digirise_karyana_v2")||'{"sales":[],"purchases":[],"cash":[]}'); data.cash=Array.isArray(data.cash)?data.cash:[]; stype="CASH",ptype="CASH";
 
 const $=id=>document.getElementById(id), money=n=>Number(n||0).toLocaleString(undefined,{maximumFractionDigits:2}), day=()=>new Date().toISOString().slice(0,10);
 const esc=s=>String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
 function saveLocal(){localStorage.setItem("digirise_karyana_v2",JSON.stringify(data))}
 function render(){
  saveLocal();
- $("salesList").innerHTML=data.sales.slice().reverse().slice(0,40).map(x=>`<div class="item"><div class="actions"><button onclick="window.delS('${x.id}')">DEL</button></div><b>${esc(x.item)}</b><div class="mini">${x.qty} ${x.unit} • ${x.type} • Rs ${money(x.total)} • Discount Rs ${money(x.discount||0)} • Expense Rs ${money(x.expense||0)} • Profit Rs ${money(x.profit||0)}</div></div>`).join("")||'<div class="muted">No sales yet.</div>';
- $("purchaseList").innerHTML=data.purchases.slice().reverse().slice(0,40).map(x=>`<div class="item"><div class="actions"><button onclick="window.delP('${x.id}')">DEL</button></div><b>${esc(x.item)}</b><div class="mini">${x.qty} ${x.unit} • ${x.type} • Purchase Rs ${money(x.total)} • Discount Rs ${money(x.discount||0)} • Expense Rs ${money(x.expense||0)} • Actual/unit Rs ${money(x.actualUnitCost ?? ((Number(x.total||0)+Number(x.expense||0))/(Number(x.qty)||1)))}</div></div>`).join("")||'<div class="muted">No purchases yet.</div>';
+ $("salesList").innerHTML=data.sales.slice().reverse().slice(0,40).map(x=>`<div class="item"><div class="actions"><button onclick="window.delS('${x.id}')">DEL</button></div><b>${esc(x.item)}</b><div class="mini">${x.qty} ${x.unit} • ${x.type} • Rs ${money(x.total)} • Profit Rs ${money(x.profit)}</div></div>`).join("")||'<div class="muted">No sales yet.</div>';
+ $("purchaseList").innerHTML=data.purchases.slice().reverse().slice(0,40).map(x=>`<div class="item"><div class="actions"><button onclick="window.delP('${x.id}')">DEL</button></div><b>${esc(x.item)}</b><div class="mini">${x.qty} ${x.unit} • ${x.type} • Rs ${money(x.total)}</div></div>`).join("")||'<div class="muted">No purchases yet.</div>';
  const d=day(),ss=data.sales.filter(x=>x.date===d),pp=data.purchases.filter(x=>x.date===d),cc=data.cash.filter(x=>x.date===d);
  const sales=ss.reduce((a,x)=>a+x.total,0), purchases=pp.reduce((a,x)=>a+x.total,0), cashIn=ss.filter(x=>x.type==="CASH").reduce((a,x)=>a+x.total,0)+cc.filter(x=>x.type==="CASH IN").reduce((a,x)=>a+x.amount,0), cashOut=purchases*0+pp.filter(x=>x.type==="CASH").reduce((a,x)=>a+x.total,0)+cc.filter(x=>x.type==="CASH OUT"||x.type==="EXPENSE").reduce((a,x)=>a+x.amount,0);
  $("rs").textContent=money(sales);$("rp").textContent=money(purchases);
@@ -149,46 +129,10 @@ function render(){
  const e=Object.entries(stock).filter(([,v])=>Math.abs(v)>0.0001);$("rstock").textContent=e.length;
  $("stockList").innerHTML=e.map(([k,v])=>{let [i,u]=k.split("|");return `<div class="item"><b>${esc(i)}</b><div class="mini">${money(v)} ${u}</div></div>`}).join("")||'<div class="muted">No stock yet.</div>';
 }
-function getStockUnitCost(item,unit){
- let batches=data.purchases.filter(x=>x.item.toLowerCase()===item.toLowerCase() && x.unit===unit && Number(x.qty)>0);
- let totalQty=batches.reduce((a,x)=>a+Number(x.qty||0),0);
- let totalCost=batches.reduce((a,x)=>a+Number(x.costTotal ?? x.total ?? 0),0);
- return totalQty?totalCost/totalQty:0;
-}
-function memoCalc(){
- let q=+$("mq").value||0,total=+$("mTotal").value||0,disc=+$("mDiscount").value||0,ex=+$("mExpense").value||0;
- let net=Math.max(0,total-disc),unit=q?net/q:0,du=q?disc/q:0,eu=q?ex/q:0;
- $("mUnit").textContent=money(unit);$("mDiscUnit").textContent=money(du);$("mExpUnit").textContent=money(eu);
- if(mtype==="PURCHASE"){
-   let actual=q?(net+ex)/q:0;$("mActualUnit").textContent=money(actual);
-   $("mProfitLine").textContent="Purchase Cost: Rs "+money(net+ex);
- }else{
-   let costUnit=getStockUnitCost(($("mi").value||"").trim(),$("mu").value);
-   let profit=net-(q*costUnit)-ex;$("mActualUnit").textContent=money(costUnit);
-   $("mProfitLine").innerHTML='Profit / Loss: Rs <span id="mProfit">'+money(profit)+'</span>';
- }
-}
-window.saleType=t=>{stype=t;$("sc").classList.toggle("on",t==="CASH");$("scr").classList.toggle("on",t==="CREDIT")};
-window.purchaseType=t=>{ptype=t;$("pc").classList.toggle("on",t==="CASH");$("pcr").classList.toggle("on",t==="CREDIT")};
-window.memoType=t=>{mtype=t;$("memoSale").classList.toggle("on",t==="SALE");$("memoPurchase").classList.toggle("on",t==="PURCHASE");memoCalc()};
-window.memoCalc=memoCalc;window.saleCalc=memoCalc;window.purchaseCalc=memoCalc;
-window.saveMemo=async()=>{
- let i=$("mi").value.trim(),q=+$("mq").value||0,total=+$("mTotal").value||0,disc=+$("mDiscount").value||0,ex=+$("mExpense").value||0,unit=$("mu").value,pay=$("mPay").value,paid=$("mExpensePaid").value==="YES";
- if(!i||q<=0||total<=0)return alert("Enter item, quantity and total price.");
- let net=Math.max(0,total-disc);
- if(mtype==="PURCHASE"){
-   let actual=(net+ex)/q;
-   data.purchases.push({id:crypto.randomUUID(),date:day(),item:i,supplier:$("mperson").value.trim(),qty:q,unit,price:net/q,total:net,originalTotal:total,discount:disc,expense:ex,expensePaid:paid,expenseUnit:ex/q,costTotal:net+ex,actualUnitCost:actual,type:pay});
- }else{
-   let costUnit=getStockUnitCost(i,unit);
-   if(costUnit<=0)return alert("No purchase cost found for this item. Record a purchase first.");
-   let costTotal=q*costUnit,profit=net-costTotal-ex;
-   data.sales.push({id:crypto.randomUUID(),date:day(),item:i,customer:$("mperson").value.trim(),qty:q,unit,price:net/q,total:net,originalTotal:total,discount:disc,expense:ex,expensePaid:paid,cost:costUnit,costTotal,profit,type:pay});
- }
- ["mi","mperson","mq","mTotal","mDiscount","mExpense"].forEach(x=>$(x).value="");
- $("mDiscount").value="0";$("mExpense").value="0";$("mExpensePaid").value="YES";
- memoCalc();render();await cloudSave();
-};
+function stockUnitCost(item,unit){const b=data.purchases.filter(x=>String(x.item).toLowerCase()===item.toLowerCase()&&x.unit===unit&&Number(x.qty)>0);const q=b.reduce((a,x)=>a+Number(x.qty||0),0);const c=b.reduce((a,x)=>a+Number(x.costTotal??x.total??0),0);return q?c/q:0;}
+window.memoType=t=>{window.mtype=t;$("memoSale").classList.toggle("on",t==="SALE");$("memoPurchase").classList.toggle("on",t==="PURCHASE");$("mTotalLabel").textContent=t==="SALE"?"Sale Total (Rs)":"Purchase Total (Rs)";$("mProfitLine").style.display=t==="SALE"?"block":"none";memoCalc()};
+window.memoCalc=()=>{const q=+$('mq').value||0,total=+$('mTotal').value||0,d=+$('mDiscount').value||0,e=+$('mExpense').value||0,net=Math.max(0,total-d);$('mNet').textContent=money(net);if(window.mtype==='SALE'){const c=stockUnitCost(($('mi').value||'').trim(),$('mu').value);$('mUnitPrice').textContent=money(q?net/q:0);$('mActualUnit').textContent=money(c);$('mProfit').textContent=money(net-q*c-e)}else{$('mActualUnit').textContent=money(q?(net+e)/q:0);$('mUnitPrice').textContent=money(q?net/q:0)}};
+window.saveMemo=async()=>{const t=window.mtype||'SALE',i=$('mi').value.trim(),person=$('mperson').value.trim(),q=+$('mq').value||0,total=+$('mTotal').value||0,d=+$('mDiscount').value||0,e=+$('mExpense').value||0,u=$('mu').value,paid=$('mExpensePaid').value==='YES';if(!i||q<=0||total<=0)return alert('Enter item, quantity and total.');const net=Math.max(0,total-d);if(t==='PURCHASE'){data.purchases.push({id:crypto.randomUUID(),date:day(),item:i,supplier:person,qty:q,unit:u,price:net/q,total:net,grossTotal:total,discount:d,expense:e,expensePaid:paid,costTotal:net+e,actualUnitCost:(net+e)/q,type:'CASH'});}else{const c=stockUnitCost(i,u),ct=q*c;if(ct<=0)return alert('Record this item purchase first.');data.sales.push({id:crypto.randomUUID(),date:day(),item:i,customer:person,qty:q,unit:u,price:net/q,total:net,grossTotal:total,discount:d,expense:e,expensePaid:paid,cost:c,costTotal:ct,profit:net-ct-e,type:'CASH'});}['mi','mperson','mq','mTotal','mDiscount','mExpense'].forEach(id=>$(id).value='');$('mDiscount').value='0';$('mExpense').value='0';$('mExpensePaid').value='YES';memoCalc();render();await cloudSave()};
 window.delS=async id=>{data.sales=data.sales.filter(x=>x.id!==id);render();await cloudSave()};window.delP=async id=>{data.purchases=data.purchases.filter(x=>x.id!==id);render();await cloudSave()};
 
 async function cloudSave(){if(!user||!db)return;try{await setDoc(doc(db,"karyanaUsers",user.uid),{sales:data.sales,purchases:data.purchases,cash:data.cash,updatedAt:serverTimestamp()});$("authUser").textContent="✓ Cloud saved • "+(user.email||"Google account");$("syncStatus").textContent="Cloud sync successful. A local backup is also kept on this device."}catch(e){$("authUser").textContent="Cloud save error; local data is safe.";$("syncStatus").textContent="Cloud save failed. Your local data is still safe — download a backup before continuing."}}
@@ -203,13 +147,13 @@ if(configured){
  onAuthStateChanged(auth,async u=>{user=u;if(u){$("authUser").textContent=u.email||"Google account";$("loginBtn").classList.add("hide");$("logoutBtn").classList.remove("hide");await cloudLoad()}else{$("authUser").textContent="Not signed in — local saving is active.";$("loginBtn").classList.remove("hide");$("logoutBtn").classList.add("hide")}});
  $("loginBtn").onclick=()=>signInWithRedirect(auth,provider);$("logoutBtn").onclick=()=>signOut(auth);
 }else{$("firebaseNotice").style.display="block";$("loginBtn").onclick=()=>{$("firebaseNotice").style.display="block"}}
-window.mtype="SALE"; render(); memoType("SALE");
+window.mtype="SALE";render();memoType("SALE");
 
 window.generateImage=async()=>{
  const p=$("prompt").value.trim(),out=$("imageOutput"),notice=$("imageNotice");if(!p){out.textContent="Please enter an image prompt first.";return}
  const key="digirise_image_count",count=Number(localStorage.getItem(key)||"0");if(count>=10){out.innerHTML="<b>Free limit reached: 10 attempts.</b>";return}
  out.innerHTML="Generating AI image...";notice.textContent="Connecting to DigiRise Cloudflare AI...";
- try{const r=await fetch("/generate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({prompt:p})});if(!r.ok)throw new Error("HTTP "+r.status);const b=await r.blob(),img=document.createElement("img");img.src=URL.createObjectURL(b);img.style.maxWidth="100%";img.style.maxHeight="500px";img.style.borderRadius="12px";out.innerHTML="";out.appendChild(img);localStorage.setItem(key,String(count+1));notice.textContent="Generated • "+(count+1)+"/10 attempts used."}catch(e){out.innerHTML="<b>AI connection is not working yet.</b><br>"+esc(String(e));notice.textContent="Cloudflare AI connection required."}
+ try{const r=await fetch("https://digirise-ai.zsedu811.workers.dev/generate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({prompt:p})});if(!r.ok)throw new Error("HTTP "+r.status);const b=await r.blob(),img=document.createElement("img");img.src=URL.createObjectURL(b);img.style.maxWidth="100%";img.style.maxHeight="500px";img.style.borderRadius="12px";out.innerHTML="";out.appendChild(img);localStorage.setItem(key,String(count+1));notice.textContent="Generated • "+(count+1)+"/10 attempts used."}catch(e){out.innerHTML="<b>AI connection is not working yet.</b><br>"+esc(String(e));notice.textContent="Cloudflare AI connection required."}
 };
 window.chatDemo=()=>{let v=$("chatInput").value.trim();$("chatOutput").textContent=v?"Message ready for DigiRise AI: "+v:"Please type a message first."};
 </script>
