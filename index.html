@@ -1,272 +1,631 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DigiRise General Store</title>
 
-  <title>DigiRise — Learn • Create • Grow</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f7fb;
-      color: #172033;
-    }
-
-    header {
-      background: linear-gradient(135deg, #2563eb, #7c3aed);
-      color: white;
-      padding: 18px 16px;
-      text-align: center;
-    }
-
-    .logo {
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .tagline {
-      margin-top: 5px;
-      font-size: 14px;
-    }
-
-    nav {
-      background: white;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px;
-      padding: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-
-    nav button {
-      border: none;
-      background: #eef2ff;
-      color: #334155;
-      padding: 10px 13px;
-      border-radius: 20px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    nav button:hover {
-      background: #dbeafe;
-    }
-
-    .hero {
-      text-align: center;
-      padding: 55px 20px;
-      background: white;
-    }
-
-    .hero h1 {
-      font-size: 36px;
-      margin-bottom: 15px;
-    }
-
-    .hero p {
-      max-width: 650px;
-      margin: auto;
-      line-height: 1.6;
-      color: #64748b;
-    }
-
-    .start-btn {
-      margin-top: 25px;
-      padding: 14px 25px;
-      border: none;
-      border-radius: 10px;
-      background: #2563eb;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .section {
-      padding: 35px 18px;
-      max-width: 1100px;
-      margin: auto;
-    }
-
-    .section h2 {
-      text-align: center;
-      margin-bottom: 25px;
-      font-size: 27px;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px;
-    }
-
-    .card {
-      background: white;
-      padding: 25px 20px;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.07);
-      text-align: center;
-    }
-
-    .card .icon {
-      font-size: 38px;
-      margin-bottom: 12px;
-    }
-
-    .card h3 {
-      margin-bottom: 8px;
-    }
-
-    .card p {
-      color: #64748b;
-      line-height: 1.5;
-      font-size: 14px;
-    }
-
-    footer {
-      margin-top: 30px;
-      background: #172033;
-      color: white;
-      text-align: center;
-      padding: 25px 15px;
-    }
-
-    @media (max-width: 600px) {
-      .hero h1 {
-        font-size: 29px;
-      }
-
-      nav button {
-        font-size: 12px;
-        padding: 9px 10px;
-      }
-    }
-  </style>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f4f7fb;color:#172033;font-family:Arial,sans-serif}
+header{background:linear-gradient(135deg,#2563eb,#7c3aed);color:white;text-align:center;padding:16px}
+header h1{margin:0;font-size:24px}
+header p{margin:5px 0 0;font-size:13px}
+nav{background:white;padding:10px;display:flex;gap:7px;flex-wrap:wrap;justify-content:center;box-shadow:0 2px 8px #0001}
+nav button,.btn{border:0;border-radius:9px;padding:10px 13px;font-weight:bold;cursor:pointer}
+nav button{background:#eef2ff;color:#334155}
+.btn{background:#2563eb;color:white}
+.green{background:#15803d}.gray{background:#64748b}.red{background:#b91c1c}
+.page{max-width:850px;margin:auto;padding:12px}
+.box{background:white;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 3px 12px #0001}
+h2{font-size:20px;margin:4px 0 13px}
+label{display:block;font-size:12px;font-weight:bold;color:#475569;margin:5px 0}
+input,select,textarea{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;background:white}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.full{grid-column:1/-1}
+.buttons{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.hidden{display:none}
+.suggestions{position:absolute;left:0;right:0;background:white;border:1px solid #cbd5e1;border-radius:8px;z-index:50}
+.suggestions div{padding:10px;border-bottom:1px solid #eee}
+.relative{position:relative}
+.calc{background:#f8fafc;padding:10px;border-radius:8px;font-size:13px;margin-top:8px}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+.stat{background:#f8fafc;border-radius:9px;padding:10px;font-size:12px}
+.stat b{display:block;font-size:16px;margin-top:3px}
+table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
+th,td{border-bottom:1px solid #e2e8f0;padding:7px;text-align:left}
+.status{text-align:center;padding:8px;font-size:13px}
+.item{background:#f8fafc;padding:10px;border-radius:9px;margin-top:7px}
+footer{text-align:center;background:#172033;color:white;padding:20px;margin-top:20px}
+@media(max-width:520px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.cards{grid-template-columns:1fr}}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <div class="logo">DigiRise</div>
-    <div class="tagline">Learn • Create • Grow</div>
-  </header>
+<header>
+<h1>DigiRise</h1>
+<p>General Store • Learn • Create • Grow</p>
+</header>
 
-  <nav>
-    <button onclick="showMessage('Home')">Home</button>
-    <button onclick="showMessage('AI Image')">AI Image</button>
-    <button onclick="showMessage('AI Video')">AI Video</button>
-    <button onclick="showMessage('AI Chat')">AI Chat</button>
-    <button onclick="showMessage('Learn')">Learn</button>
-    <button onclick="showMessage('Quran')">Quran</button>
-    <button onclick="showMessage('Products')">Products</button>
-    <button onclick="showMessage('Teachers')">Teachers</button>
-    <button onclick="showMessage('Students')">Students</button>
-    <button onclick="showMessage('Login')">Login</button>
-  </nav>
+<nav>
+<button onclick="home()">Home</button>
+<button onclick="store()">🏪 General Store</button>
+<button onclick="account()">Account</button>
+</nav>
 
-  <main>
+<!-- HOME -->
+<div id="homePage" class="page">
 
-    <section class="hero">
-      <h1>Welcome to DigiRise</h1>
+<div class="box">
+<h2>Welcome to DigiRise</h2>
+<p>Learn, create, grow and manage your General Store from one place.</p>
+<div class="buttons">
+<button class="btn" onclick="store()">Open General Store</button>
+</div>
+</div>
 
-      <p>
-        Learn new skills, create useful content,
-        discover AI tools and grow your knowledge with DigiRise.
-      </p>
+<div class="box">
+<h2>DigiRise Features</h2>
+<div class="cards">
+<div class="stat">🤖 AI Image<b>AI Tools</b></div>
+<div class="stat">🎬 AI Video<b>AI Video</b></div>
+<div class="stat">💬 AI Chat<b>AI Chat</b></div>
+<div class="stat">📚 Learn<b>Education</b></div>
+<div class="stat">📖 Quran<b>Quran Learning</b></div>
+<div class="stat">🏪 Store<b>General Store</b></div>
+</div>
+</div>
 
-      <button class="start-btn" onclick="startDigiRise()">
-        Start Learning
-      </button>
-    </section>
+</div>
 
-    <section class="section">
-      <h2>Explore DigiRise</h2>
+<!-- STORE -->
+<div id="storePage" class="page hidden">
 
-      <div class="cards">
+<div class="box">
 
-        <div class="card">
-          <div class="icon">🤖</div>
-          <h3>AI Tools</h3>
-          <p>
-            Explore useful AI tools for learning,
-            creativity and productivity.
-          </p>
-        </div>
+<h2>🏪 General Store Memo</h2>
 
-        <div class="card">
-          <div class="icon">📚</div>
-          <h3>Learn</h3>
-          <p>
-            Learn practical knowledge and useful
-            digital skills.
-          </p>
-        </div>
+<div class="grid">
 
-        <div class="card">
-          <div class="icon">📖</div>
-          <h3>Quran</h3>
-          <p>
-            A future space for Quran learning
-            and educational content.
-          </p>
-        </div>
+<div class="full relative">
+<label>Type</label>
+<input id="type" placeholder="Type sale, purchase, income, expense..." autocomplete="off">
+<div id="suggestions" class="suggestions hidden"></div>
+</div>
 
-        <div class="card">
-          <div class="icon">🎓</div>
-          <h3>Students</h3>
-          <p>
-            Learning resources and tools for
-            students.
-          </p>
-        </div>
+<div class="full">
+<label>Description / Product</label>
+<input id="description" placeholder="Product name or detail">
+</div>
 
-        <div class="card">
-          <div class="icon">👨‍🏫</div>
-          <h3>Teachers</h3>
-          <p>
-            Useful resources and tools for
-            teachers.
-          </p>
-        </div>
+<div>
+<label>Quantity</label>
+<input id="quantity" type="number" min="0" step="1" placeholder="0">
+</div>
 
-        <div class="card">
-          <div class="icon">💼</div>
-          <h3>Business</h3>
-          <p>
-            Digital tools and ideas for
-            business growth.
-          </p>
-        </div>
+<div>
+<label>Cash In / Out</label>
+<input id="cash" type="number" step="0.01" placeholder="Amount">
+</div>
 
-      </div>
-    </section>
+<div>
+<label>Unit Purchase Price</label>
+<input id="purchasePrice" type="number" step="0.01" placeholder="0">
+</div>
 
-  </main>
+<div>
+<label>Purchase Expense / Unit</label>
+<input id="purchaseExpense" type="number" step="0.01" placeholder="0">
+</div>
 
-  <footer>
-    <p>DigiRise — Learn • Create • Grow</p>
-    <p style="margin-top:8px;font-size:13px;">
-      Building knowledge, skills and opportunities.
-    </p>
-  </footer>
+<div>
+<label>Unit Sale Price</label>
+<input id="salePrice" type="number" step="0.01" placeholder="0">
+</div>
 
-  <script>
-    function startDigiRise() {
-      alert("Welcome to DigiRise! Your learning journey starts here.");
-    }
+<div>
+<label>Discount</label>
+<input id="discount" type="number" step="0.01" placeholder="0">
+</div>
 
-    function showMessage(name) {
-      alert(name + " section is coming soon.");
-    }
-  </script>
+<div>
+<label>Offer</label>
+<input id="offer" placeholder="Optional">
+</div>
+
+<div>
+<label>Amount Received / Paid</label>
+<input id="paid" type="number" step="0.01" placeholder="0">
+</div>
+
+<div class="full">
+<label>Customer / Dealer / Supplier</label>
+<input id="party" placeholder="Name">
+</div>
+
+<div class="full">
+<label>Optional Contact</label>
+<input id="contact" placeholder="Village • Mobile • WhatsApp">
+</div>
+
+<div>
+<label>Date</label>
+<input id="date" type="date">
+</div>
+
+</div>
+
+<div id="calculation" class="calc">
+Cost/unit: 0 • Sale/unit: 0 • Total: 0 • Profit: 0 • Dues: 0
+</div>
+
+<div class="buttons">
+<button class="btn green" onclick="saveEntry()">＋ New Entry / Save</button>
+<button class="btn gray" onclick="clearForm()">Clear</button>
+<button class="btn gray" onclick="toggleReport()">Report</button>
+</div>
+
+<div id="status" class="status"></div>
+
+</div>
+
+<!-- HIDDEN REPORT -->
+<div id="report" class="box hidden">
+
+<h2>Reports</h2>
+
+<div class="grid">
+
+<div>
+<label>Date From</label>
+<input id="dateFrom" type="date">
+</div>
+
+<div>
+<label>Date To</label>
+<input id="dateTo" type="date">
+</div>
+
+</div>
+
+<div class="buttons">
+<button class="btn" onclick="makeReport()">Show Report</button>
+<button class="btn gray" onclick="toggleReport()">Hide Report</button>
+</div>
+
+<div id="reportResult"></div>
+
+</div>
+
+</div>
+
+<!-- ACCOUNT -->
+<div id="accountPage" class="page hidden">
+
+<div class="box">
+
+<h2>👤 DigiRise Account</h2>
+
+<label>Name</label>
+<input id="accountName" placeholder="Your name">
+
+<label>Gmail / Email</label>
+<input id="accountEmail" type="email" placeholder="your@gmail.com">
+
+<label>Mobile</label>
+<input id="accountMobile" placeholder="Mobile number">
+
+<div class="buttons">
+<button class="btn green" onclick="saveAccount()">Save Account</button>
+</div>
+
+<div id="accountResult" class="status"></div>
+
+</div>
+
+</div>
+
+<footer>
+DigiRise — Learn • Create • Grow
+</footer>
+
+<script>
+
+const STORAGE="DigiRise_GeneralStore_Entries";
+const ACCOUNT="DigiRise_Account";
+
+const typeList=[
+"sale",
+"purchase",
+"income",
+"expense",
+"dues",
+"dues payment",
+"cash in",
+"cash out",
+"stock in",
+"stock out",
+"return"
+];
+
+let entries=JSON.parse(localStorage.getItem(STORAGE)||"[]");
+
+document.getElementById("date").value=today();
+
+function today(){
+return new Date().toISOString().slice(0,10);
+}
+
+function money(n){
+return Number(n||0).toFixed(2);
+}
+
+function number(id){
+return Number(document.getElementById(id).value)||0;
+}
+
+function text(id){
+return document.getElementById(id).value.trim();
+}
+
+function home(){
+hideAll();
+document.getElementById("homePage").classList.remove("hidden");
+}
+
+function store(){
+hideAll();
+document.getElementById("storePage").classList.remove("hidden");
+}
+
+function account(){
+hideAll();
+document.getElementById("accountPage").classList.remove("hidden");
+loadAccount();
+}
+
+function hideAll(){
+document.getElementById("homePage").classList.add("hidden");
+document.getElementById("storePage").classList.add("hidden");
+document.getElementById("accountPage").classList.add("hidden");
+document.getElementById("report").classList.add("hidden");
+}
+
+document.getElementById("type").addEventListener("input",function(){
+
+let q=this.value.toLowerCase();
+
+let box=document.getElementById("suggestions");
+
+if(!q){
+box.classList.add("hidden");
+return;
+}
+
+let matches=typeList.filter(x=>x.includes(q));
+
+box.innerHTML="";
+
+matches.forEach(function(item){
+
+let d=document.createElement("div");
+
+d.textContent=item;
+
+d.onclick=function(){
+document.getElementById("type").value=item;
+box.classList.add("hidden");
+calculate();
+};
+
+box.appendChild(d);
+
+});
+
+if(matches.length) box.classList.remove("hidden");
+else box.classList.add("hidden");
+
+});
+
+document.addEventListener("click",function(e){
+
+if(!e.target.closest(".relative")){
+document.getElementById("suggestions").classList.add("hidden");
+}
+
+});
+
+[
+"quantity",
+"cash",
+"purchasePrice",
+"purchaseExpense",
+"salePrice",
+"discount",
+"paid",
+"type"
+].forEach(function(id){
+
+document.getElementById(id).addEventListener("input",calculate);
+
+});
+
+function calculate(){
+
+let type=text("type").toLowerCase();
+
+let qty=number("quantity");
+let purchase=number("purchasePrice");
+let purchaseExpense=number("purchaseExpense");
+let sale=number("salePrice");
+let discount=number("discount");
+let paid=number("paid");
+
+let cost=purchase+purchaseExpense;
+let finalSale=Math.max(0,sale-discount);
+
+let total=0;
+
+if(type==="sale"){
+total=qty*finalSale;
+}else if(type==="purchase"){
+total=qty*cost;
+}else{
+total=number("cash");
+}
+
+let dues=type==="sale" ? Math.max(0,total-paid) : 0;
+
+let profit=type==="sale" ? qty*(finalSale-cost) : 0;
+
+document.getElementById("calculation").textContent=
+"Cost/unit: "+money(cost)+
+" • Sale/unit: "+money(finalSale)+
+" • Total: "+money(total)+
+" • Profit: "+money(profit)+
+" • Dues: "+money(dues);
+
+}
+
+function saveEntry(){
+
+let type=text("type").toLowerCase();
+let description=text("description");
+
+if(!type){
+document.getElementById("status").textContent="Please enter a Type.";
+return;
+}
+
+if(!description){
+document.getElementById("status").textContent="Please enter Description / Product.";
+return;
+}
+
+let qty=number("quantity");
+let purchase=number("purchasePrice");
+let purchaseExpense=number("purchaseExpense");
+let sale=number("salePrice");
+let discount=number("discount");
+let paid=number("paid");
+
+let cost=purchase+purchaseExpense;
+let finalSale=Math.max(0,sale-discount);
+
+let total;
+
+if(type==="sale"){
+total=qty*finalSale;
+}else if(type==="purchase"){
+total=qty*cost;
+}else{
+total=number("cash");
+}
+
+let dues=type==="sale" ? Math.max(0,total-paid) : 0;
+
+let profit=type==="sale" ? qty*(finalSale-cost) : 0;
+
+let entry={
+id:Date.now(),
+date:text("date")||today(),
+type:type,
+description:description,
+quantity:qty,
+cash:number("cash"),
+purchasePrice:purchase,
+purchaseExpense:purchaseExpense,
+costPerUnit:cost,
+salePrice:sale,
+discount:discount,
+offer:text("offer"),
+paid:paid,
+dues:dues,
+profit:profit,
+party:text("party"),
+contact:text("contact")
+};
+
+entries.push(entry);
+
+localStorage.setItem(STORAGE,JSON.stringify(entries));
+
+document.getElementById("status").innerHTML=
+"<b>Entry Saved ✓</b>"+
+(dues>0 ? " &nbsp; Dues: "+money(dues) : "");
+
+clearForm(false);
+
+}
+
+function clearForm(clearStatus=true){
+
+[
+"type",
+"description",
+"quantity",
+"cash",
+"purchasePrice",
+"purchaseExpense",
+"salePrice",
+"discount",
+"offer",
+"paid",
+"party",
+"contact"
+].forEach(function(id){
+document.getElementById(id).value="";
+});
+
+document.getElementById("date").value=today();
+
+calculate();
+
+if(clearStatus){
+document.getElementById("status").textContent="";
+}
+
+}
+
+function toggleReport(){
+
+document.getElementById("report").classList.toggle("hidden");
+
+}
+
+function makeReport(){
+
+let from=document.getElementById("dateFrom").value;
+let to=document.getElementById("dateTo").value;
+
+let data=entries.filter(function(e){
+
+return (!from || e.date>=from) &&
+       (!to || e.date<=to);
+
+});
+
+let sales=data.filter(e=>e.type==="sale");
+let purchases=data.filter(e=>e.type==="purchase");
+
+let saleTotal=sales.reduce(function(a,e){
+
+return a+(e.quantity*Math.max(0,e.salePrice-e.discount));
+
+},0);
+
+let purchaseTotal=purchases.reduce(function(a,e){
+
+return a+(e.quantity*e.costPerUnit);
+
+},0);
+
+let totalReceived=data.reduce(function(a,e){
+return a+e.paid;
+},0);
+
+let totalDues=data.reduce(function(a,e){
+return a+e.dues;
+},0);
+
+let totalProfit=sales.reduce(function(a,e){
+return a+e.profit;
+},0);
+
+let cashIn=data.filter(function(e){
+return ["sale","income","cash in","dues payment"].includes(e.type);
+}).reduce(function(a,e){
+return a+e.paid;
+},0);
+
+let cashOut=data.filter(function(e){
+return ["purchase","expense","cash out"].includes(e.type);
+}).reduce(function(a,e){
+return a+e.paid;
+},0);
+
+let netCash=cashIn-cashOut;
+
+let rows=data.slice().reverse().map(function(e){
+
+return "<tr>"+
+"<td>"+e.date+"</td>"+
+"<td>"+e.type+"</td>"+
+"<td>"+e.description+"</td>"+
+"<td>"+e.quantity+"</td>"+
+"<td>"+money(e.paid)+"</td>"+
+"<td>"+money(e.dues)+"</td>"+
+"</tr>";
+
+}).join("");
+
+document.getElementById("reportResult").innerHTML=
+
+"<br>"+
+
+"<div class='cards'>"+
+
+"<div class='stat'>Daily/Period Sales<b>"+money(saleTotal)+"</b></div>"+
+
+"<div class='stat'>Purchase<b>"+money(purchaseTotal)+"</b></div>"+
+
+"<div class='stat'>Total Received<b>"+money(totalReceived)+"</b></div>"+
+
+"<div class='stat'>Total Dues<b>"+money(totalDues)+"</b></div>"+
+
+"<div class='stat'>Net Cash<b>"+money(netCash)+"</b></div>"+
+
+"<div class='stat'>Net Profit<b>"+money(totalProfit)+"</b></div>"+
+
+"</div>"+
+
+"<table>"+
+"<tr><th>Date</th><th>Type</th><th>Detail</th><th>Qty</th><th>Paid</th><th>Dues</th></tr>"+
+rows+
+"</table>";
+
+}
+
+function saveAccount(){
+
+let name=document.getElementById("accountName").value.trim();
+let email=document.getElementById("accountEmail").value.trim();
+let mobile=document.getElementById("accountMobile").value.trim();
+
+if(!name || !email){
+
+document.getElementById("accountResult").textContent=
+"Name and Gmail are required.";
+
+return;
+
+}
+
+localStorage.setItem(ACCOUNT,JSON.stringify({
+name:name,
+email:email,
+mobile:mobile
+}));
+
+document.getElementById("accountResult").innerHTML=
+"<b>Account saved ✓</b><br>Welcome "+name;
+
+}
+
+function loadAccount(){
+
+let a=JSON.parse(localStorage.getItem(ACCOUNT)||"null");
+
+if(!a)return;
+
+document.getElementById("accountName").value=a.name||"";
+document.getElementById("accountEmail").value=a.email||"";
+document.getElementById("accountMobile").value=a.mobile||"";
+
+}
+
+</script>
 
 </body>
 </html>
