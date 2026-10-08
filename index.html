@@ -82,101 +82,192 @@ label{display:block;margin:11px 0 5px;font-size:13px;font-weight:700}.output{min
 <section class="hero">
 <h1>Welcome to <span class="gradient">DigiRise</span></h1>
 <p>AI tools, productivity, business and useful digital services — built mobile-first and ready for desktop/web.</p>
-<a class="btn" href="#karyana">Open General Store</a>
-</section>
-
-<section class="section" id="image">
-<h2 class="section-title">AI Image Generator</h2>
-<p class="section-sub">Create an image with DigiRise AI. The existing Worker connection is kept unchanged.</p>
-<div class="tool">
-  <div class="tool-grid">
-    <div>
-      <label for="prompt">Image prompt</label>
-      <textarea id="prompt" placeholder="Describe the image you want..."></textarea>
-      <label for="ratio">Aspect ratio</label>
-      <select id="ratio"><option>Square — 1:1</option><option>Landscape — 16:9</option><option>Portrait — 9:16</option></select>
-      <button class="btn save" onclick="generateImage()">Generate AI Image</button>
-      <div id="imageNotice" class="notice">Ready.</div>
-    </div>
-    <div id="imageOutput" class="output">Your generated image will appear here.</div>
-  </div>
-</div>
-</section>
-
-<section class="section" id="video">
-<h2 class="section-title">AI Video</h2>
-<p class="section-sub">Video module remains available without changing the rest of DigiRise.</p>
-<div class="cards">
-  <div class="card"><div class="icon">🎬</div><h3>Text → Video</h3><p>Video generation module foundation.</p></div>
-  <div class="card"><div class="icon">🖼️</div><h3>Image → Video</h3><p>Turn an image into a video when a provider is connected.</p></div>
-  <div class="card"><div class="icon">🎙️</div><h3>Urdu Voice</h3><p>Voice-over option can be connected later.</p></div>
-  <div class="card"><div class="icon">📱</div><h3>Social Sizes</h3><p>1:1, 16:9 and 9:16 formats.</p></div>
-</div>
-</section>
-
-<section class="section" id="chat">
-<h2 class="section-title">AI Chat</h2>
-<p class="section-sub">Chat interface is preserved as a safe front-end demo until a real AI API is connected.</p>
-<div class="tool">
-  <label for="chatInput">Your message</label>
-  <textarea id="chatInput" placeholder="Type your message..."></textarea>
-  <button class="btn save" onclick="chatDemo()">Send</button>
-  <div id="chatOutput" class="notice">DigiRise AI Chat is ready.</div>
-</div>
-</section>
-
-<section class="section" id="learn"><h2 class="section-title">Learn</h2><p class="section-sub">Learning area.</p><div class="cards"><div class="card"><div class="icon">📚</div><h3>Courses</h3><p>Learning content can be added here.</p></div><div class="card"><div class="icon">📝</div><h3>Notes</h3><p>Useful notes and study material.</p></div><div class="card"><div class="icon">🎯</div><h3>Practice</h3><p>Practice activities and quizzes.</p></div></div></section>
-<section class="section" id="quran"><h2 class="section-title">Quran</h2><p class="section-sub">Quran learning area.</p><div class="card"><h3>Quran Module</h3><p>Quran text, audio and learning features can be connected here.</p></div></section>
-<section class="section" id="products"><h2 class="section-title">Products</h2><p class="section-sub">Products and digital services.</p><div class="cards"><div class="card"><div class="icon">🛍️</div><h3>Digital Products</h3><p>Product listings can be added here.</p></div><div class="card"><div class="icon">💳</div><h3>Orders</h3><p>Order management can be connected later.</p></div></div></section>
-<section class="section" id="teachers"><h2 class="section-title">Teachers</h2><p class="section-sub">Teacher area.</p><div class="card"><h3>Teacher Portal</h3><p>Teacher profiles, classes and resources can be added here.</p></div></section>
-<section class="section" id="students"><h2 class="section-title">Students</h2><p class="section-sub">Student area.</p><div class="card"><h3>Student Portal</h3><p>Student learning and progress features can be added here.</p></div></section>
-
-<section class="section" id="login">
-<h2 class="section-title">Login</h2><p class="section-sub">Account access foundation.</p>
-<div class="loginbox">
-  <label for="mainLoginPassword">Password</label>
-  <input type="password" id="mainLoginPassword" placeholder="Enter password">
-  <button class="btn save" onclick="alert('Secure account authentication will be connected in the Login phase.')">Login</button>
-  <p class="muted" style="margin-top:10px">Secure authentication should be connected before sensitive admin controls are enabled.</p>
-</div>
-</section>
-
+<a class="btn" href="#karyana">Open
 <section class="section" id="karyana">
 <h2 class="section-title">DigiRise Smart Memo</h2>
-<p class="section-sub">One simple memo — choose Purchase, Sale, Expenses or Cash In.</p>
+<p class="section-sub">One Memo — choose one transaction type. Unit prices and profit are calculated automatically.</p>
+
 <div class="memo-tabs" role="tablist" aria-label="Memo type">
-  <button class="memo-tab active" data-type="purchase" onclick="memoType('purchase')">🛒 Purchase</button>
-  <button class="memo-tab" data-type="sale" onclick="memoType('sale')">💰 Sale</button>
-  <button class="memo-tab" data-type="expense" onclick="memoType('expense')">💸 Expenses</button>
-  <button class="memo-tab" data-type="cashin" onclick="memoType('cashin')">💵 Cash In</button>
+  <button class="memo-tab active" data-type="purchase" onclick="memoType('purchase')">Purchase</button>
+  <button class="memo-tab" data-type="sale" onclick="memoType('sale')">Sale</button>
+  <button class="memo-tab" data-type="expense" onclick="memoType('expense')">Expenses</button>
+  <button class="memo-tab" data-type="cashin" onclick="memoType('cashin')">Cash In</button>
+  <button class="memo-tab" data-type="cashout" onclick="memoType('cashout')">Cash Out</button>
 </div>
+
 <div class="memo-panel">
-  <div class="memo-head"><div><span class="badge">ONE MEMO</span><h3 id="memoTitle">Purchase Entry</h3></div><div class="memo-date"><label for="memoDate">Date</label><input id="memoDate" type="date"></div></div>
-  <datalist id="memoItems"></datalist><datalist id="memoAccounts"></datalist><datalist id="memoExpenseTypes"></datalist>
-  <div id="memoPurchase" class="memo-fields"><div><label>Item / Account</label><input id="memoPurchaseItem" list="memoItems" placeholder="e.g. Sugar"></div><div class="memo-row"><div><label>Quantity</label><input id="memoPurchaseQty" type="number" min="0" step="0.001" placeholder="0"></div><div><label>Unit</label><select id="memoPurchaseUnit"><option>PCS</option><option>KG</option><option>LTR</option><option>DOZEN</option><option>PACK</option><option>BAG</option></select></div></div><div><label>Purchase Amount (Rs)</label><input id="memoPurchaseAmount" type="number" min="0" step="0.01" placeholder="0"></div></div>
-  <div id="memoSale" class="memo-fields hide"><div><label>Item / Account</label><input id="memoSaleItem" list="memoItems" placeholder="e.g. Sugar"></div><div class="memo-row"><div><label>Quantity</label><input id="memoSaleQty" type="number" min="0" step="0.001" placeholder="0"></div><div><label>Unit</label><select id="memoSaleUnit"><option>PCS</option><option>KG</option><option>LTR</option><option>DOZEN</option><option>PACK</option><option>BAG</option></select></div></div><div><label>Sale Amount (Rs)</label><input id="memoSaleAmount" type="number" min="0" step="0.01" placeholder="0"></div><div><label>Payment</label><select id="memoSalePayment"><option>Cash</option><option>Credit / Due</option></select></div></div>
-  <div id="memoExpense" class="memo-fields hide"><div><label>Expense Type</label><input id="memoExpenseType" list="memoExpenseTypes" placeholder="e.g. Electricity"></div><div><label>Amount (Rs)</label><input id="memoExpenseAmount" type="number" min="0" step="0.01" placeholder="0"></div></div>
-  <div id="memoCashin" class="memo-fields hide"><div><label>Cash Source / Account</label><input id="memoCashSource" list="memoAccounts" placeholder="e.g. Owner, Bank, Customer"></div><div><label>Amount (Rs)</label><input id="memoCashAmount" type="number" min="0" step="0.01" placeholder="0"></div></div>
+  <div class="memo-head">
+    <div><span class="badge">ONE MEMO</span><h3 id="memoTitle">Purchase Entry</h3></div>
+    <div class="memo-date"><label for="memoDate">Date</label><input id="memoDate" type="date"></div>
+  </div>
+
+  <div id="memoPurchase" class="memo-fields">
+    <div><label>Product</label><input id="memoPurchaseItem" list="memoItems" placeholder="e.g. Sugar"></div>
+    <div><label>Supplier / Account</label><input id="memoPurchaseAccount" list="memoAccounts" placeholder="Supplier name"></div>
+    <div class="memo-row">
+      <div><label>Quantity</label><input id="memoPurchaseQty" type="number" min="0" step="0.001" placeholder="5"></div>
+      <div><label>Unit</label><select id="memoPurchaseUnit"><option>PCS</option><option>KG</option><option>LTR</option><option>DOZEN</option><option>PACK</option><option>BAG</option></select></div>
+    </div>
+    <div><label>Purchase Amount (Rs)</label><input id="memoPurchaseAmount" type="number" min="0" step="0.01" placeholder="500"></div>
+    <div><label>Expenses (Rs)</label><input id="memoPurchaseExpenses" type="number" min="0" step="0.01" value="0" placeholder="50"></div>
+    <div class="memo-calc" id="memoPurchaseCalc">Unit Cost: Rs 0</div>
+  </div>
+
+  <div id="memoSale" class="memo-fields hide">
+    <div><label>Product</label><input id="memoSaleItem" list="memoItems" placeholder="e.g. Sugar"></div>
+    <div><label>Customer / Account</label><input id="memoSaleAccount" list="memoAccounts" placeholder="Customer name"></div>
+    <div class="memo-row">
+      <div><label>Quantity</label><input id="memoSaleQty" type="number" min="0" step="0.001" placeholder="5"></div>
+      <div><label>Unit</label><select id="memoSaleUnit"><option>PCS</option><option>KG</option><option>LTR</option><option>DOZEN</option><option>PACK</option><option>BAG</option></select></div>
+    </div>
+    <div><label>Sale Amount (Rs)</label><input id="memoSaleAmount" type="number" min="0" step="0.01" placeholder="600"></div>
+    <div class="memo-calc" id="memoSaleCalc">Unit Sale Price: Rs 0 • Profit: Rs 0</div>
+  </div>
+
+  <div id="memoExpense" class="memo-fields hide">
+    <div><label>Expense Detail</label><input id="memoExpenseType" list="memoExpenseTypes" placeholder="e.g. Electricity"></div>
+    <div><label>Amount (Rs)</label><input id="memoExpenseAmount" type="number" min="0" step="0.01" placeholder="100"></div>
+  </div>
+
+  <div id="memoCashin" class="memo-fields hide">
+    <div><label>Account / Detail</label><input id="memoCashSource" list="memoAccounts" placeholder="Customer / Account"></div>
+    <div><label>Amount (Rs)</label><input id="memoCashAmount" type="number" min="0" step="0.01" placeholder="300"></div>
+  </div>
+
+  <div id="memoCashout" class="memo-fields hide">
+    <div><label>Supplier / Account</label><input id="memoCashOutSource" list="memoAccounts" placeholder="Supplier / Account"></div>
+    <div><label>Amount (Rs)</label><input id="memoCashOutAmount" type="number" min="0" step="0.01" placeholder="300"></div>
+  </div>
+
   <div><label>Detail / Note <span class="muted">(optional)</span></label><input id="memoNote" placeholder="Optional detail"></div>
-  <div class="memo-actions"><button class="btn" onclick="memoSave()">💾 Save Entry</button><button class="btn secondary" onclick="memoNew()">＋ New Entry</button><button class="btn secondary" onclick="memoReports()">📊 Reports</button></div>
-  <div id="memoMessage" class="memo-message">Ready — choose Purchase, Sale, Expenses or Cash In.</div>
+
+  <div class="memo-actions">
+    <button class="btn" onclick="memoSave()">Save Entry</button>
+    <button class="btn secondary" onclick="memoNew()">New Entry</button>
+    <button class="btn secondary" onclick="memoReports()">Reports</button>
+  </div>
+  <div id="memoMessage" class="memo-message">Ready — choose Purchase, Sale, Expenses, Cash In or Cash Out.</div>
 </div>
-<div id="memoReport" class="memo-report hide"><div class="memo-report-head"><div><span class="badge">REPORTS</span><h3>Memo Summary</h3></div><button class="btn secondary" onclick="memoReports()">Hide Reports</button></div><div class="memo-stats"><div><span>Income / Sales</span><b id="memoIncome">Rs 0</b></div><div><span>Expenses</span><b id="memoExpenses">Rs 0</b></div><div><span>Balance</span><b id="memoBalance">Rs 0</b></div><div><span>Due</span><b id="memoDue">Rs 0</b></div></div><div class="memo-summary-row"><div><h4>Monthly Income / Expense</h4><p id="memoMonthly">Income Rs 0 • Expense Rs 0</p></div><div><h4>Daily Summary</h4><p id="memoDaily">Today: Income Rs 0 • Expense Rs 0</p></div></div><div class="memo-account-summary"><h4>Account / Item Suggestions</h4><p class="muted">Repeated names are grouped automatically. Individual entries are kept out of this report.</p><div id="memoAccountsList"></div></div></div>
-<div class="hide" aria-hidden="true"><div id="authUser"></div><button id="loginBtn"></button><button id="logoutBtn"></button><div id="firebaseNotice"></div><div id="salesList"></div><div id="purchaseList"></div><div id="stockList"></div><span id="rs">0</span><span id="rp">0</span><span id="ri">0</span><span id="ro">0</span><span id="rc">0</span><span id="rv">0</span><span id="rpr">0</span><span id="rstock">0</span><input id="si"><input id="sq"><select id="su"><option>PCS</option></select><input id="spTotal"><input id="skTotal"><input id="pi"><input id="pq"><select id="pu"><option>PCS</option></select><input id="ppTotal"><span id="spUnit">0</span><span id="skUnit">0</span><span id="st">0</span><span id="sf">0</span><span id="ppUnit">0</span><span id="pt">0</span><span id="sc"></span><span id="scr"></span><span id="pc"></span><span id="pcr"></span></div>
+
+<div id="memoReport" class="memo-report hide">
+  <div class="memo-report-head"><div><span class="badge">REPORTS</span><h3>Memo Summary</h3></div><button class="btn secondary" onclick="memoReports()">Hide Reports</button></div>
+  <div class="memo-stats">
+    <div><span>Sales</span><b id="memoIncome">Rs 0</b></div>
+    <div><span>Expenses</span><b id="memoExpenses">Rs 0</b></div>
+    <div><span>Cash Balance</span><b id="memoBalance">Rs 0</b></div>
+    <div><span>Due</span><b id="memoDue">Rs 0</b></div>
+  </div>
+  <div class="memo-summary-row"><div><h4>Monthly</h4><p id="memoMonthly">Sales Rs 0 • Expenses Rs 0</p></div><div><h4>Daily</h4><p id="memoDaily">Today: Sales Rs 0 • Expenses Rs 0</p></div></div>
+  <div class="memo-account-summary"><h4>Accounts / Products</h4><p class="muted">Repeated names are grouped automatically.</p><div id="memoAccountsList"></div></div>
+</div>
+
+<!-- Compatibility data area for the original DigiRise General Store engine.
+     It is hidden so the original modules remain intact and are not broken. -->
+<div class="hide" aria-hidden="true">
+  <div id="authUser"></div><button id="loginBtn"></button><button id="logoutBtn"></button><div id="firebaseNotice"></div>
+  <div id="salesList"></div><div id="purchaseList"></div><div id="stockList"></div>
+  <span id="rs">0</span><span id="rp">0</span><span id="ri">0</span><span id="ro">0</span>
+  <span id="rc">0</span><span id="rv">0</span><span id="rpr">0</span><span id="rstock">0</span>
+  <input id="si"><input id="sq"><select id="su"><option>PCS</option></select><input id="spTotal"><input id="skTotal">
+  <input id="pi"><input id="pq"><select id="pu"><option>PCS</option></select><input id="ppTotal">
+  <span id="spUnit">0</span><span id="skUnit">0</span><span id="st">0</span><span id="sf">0</span><span id="ppUnit">0</span><span id="pt">0</span>
+  <span id="sc"></span><span id="scr"></span><span id="pc"></span><span id="pcr"></span>
+</div>
 </section>
 
-<section class="section" id="tools"><h2 class="section-title">Digital Tools</h2><p class="section-sub">More tools can be added one by one.</p><div class="cards"><div class="card"><div class="icon">✨</div><h3>AI Enhance</h3><p>Image enhancement.</p></div><div class="card"><div class="icon">🖼️</div><h3>Background Remove</h3><p>Image/video background tools.</p></div><div class="card"><div class="icon">🎙️</div><h3>Voice Over</h3><p>Voice and audio tools.</p></div><div class="card"><div class="icon">🎬</div><h3>AI Video</h3><p>Video module foundation.</p></div></div></section>
-<section class="section" id="admin"><h2 class="section-title">Admin Panel</h2><p class="section-sub">Responsive management control center foundation.</p><div class="adminbox"><span class="badge">ADMIN CONTROL CENTER</span><h2>DigiRise Management</h2><p class="muted" style="margin-top:7px">Real protected admin actions should be connected to authenticated roles before sensitive controls are enabled.</p><div class="cards" style="margin-top:16px"><div class="card"><div class="icon">👥</div><h3>Users</h3><p>Accounts and roles module.</p></div><div class="card"><div class="icon">🧾</div><h3>Karyana</h3><p>Store/memo management module.</p></div><div class="card"><div class="icon">📊</div><h3>Analytics</h3><p>Visitors, usage and earning metrics later.</p></div><div class="card"><div class="icon">🔐</div><h3>Security</h3><p>Authentication, roles and audit controls.</p></div></div></div></section>
+<input type="password" id="mainLoginPassword" placeholder="Enter password">
+  <button class="btn save" onclick="alert('Secure account authentication will be connected in the Login phase. The current General Store local/cloud foundation remains unchanged.')">Login</button>
+  <p class="muted" style="margin-top:10px">Important: this page does not claim secure authentication yet. Admin access must be protected by real authentication and roles.</p>
+</div>
+</section>
 
-<section class="section" id="stock-expenses"><h2 class="section-title">DigiRise General Store — Stock & Daily Expenses</h2><p class="section-sub">Functional browser-based stock, sales, profit and expense account. Records are saved on this device.</p>
+<section class="section" id="tools"><h2 class="section-title">Digital Tools</h2><p class="section-sub">More tools can be added one by one.</p>
+<div class="cards"><div class="card"><div class="icon">✨</div><h3>AI Enhance</h3><p>Image enhancement.</p></div><div class="card"><div class="icon">🖼️</div><h3>Background Remove</h3><p>Image/video background tools.</p></div><div class="card"><div class="icon">🎙️</div><h3>Voice Over</h3><p>Voice and audio tools.</p></div><div class="card"><div class="icon">🎬</div><h3>AI Video</h3><p>Video module for later integration.</p></div></div></section>
+
+<section class="section" id="admin"><h2 class="section-title">Admin Panel</h2><p class="section-sub">Separate web/desktop responsive control center — foundation started.</p>
+<div class="adminbox"><span class="badge">ADMIN CONTROL CENTER</span><h2>DigiRise Management</h2><p class="muted" style="margin-top:7px">This panel is the starting UI. Real protected admin actions should be connected to authenticated roles before sensitive controls are enabled.</p>
+<div class="cards" style="margin-top:16px">
+<div class="card"><div class="icon">👥</div><h3>Users</h3><p>Accounts and roles module.</p></div><div class="card"><div class="icon">🧾</div><h3>Karyana</h3><p>Store/memo management module.</p></div><div class="card"><div class="icon">📊</div><h3>Analytics</h3><p>Visitors, usage and earning metrics later.</p></div><div class="card"><div class="icon">🔐</div><h3>Security</h3><p>Authentication, roles and audit controls.</p></div>
+</div>
+</div></section>
+</div>
+<section class="section" id="stock-expenses">
+<h2 class="section-title">DigiRise General Store — Stock & Daily Expenses</h2>
+<p class="section-sub">Separate records for stock quantity, purchase cost, sale quantity, daily profit, and shop expenses. Existing General Store records are not overwritten.</p>
+
 <div class="kgrid">
-<div class="kcard"><h3>ADD STOCK / PURCHASE</h3><div class="row"><div class="full"><label>Item name</label><input id="gsItem" list="gsItems" placeholder="e.g. Sugar, Ghee, Tea"></div><div><label>Date</label><input id="gsPurchaseDate" type="date"></div><div><label>Quantity bought</label><input id="gsPurchaseQty" type="number" min="0" step="0.001" placeholder="0"></div><div><label>Unit</label><select id="gsPurchaseUnit"><option>KG</option><option>PCS</option><option>PACK</option><option>LTR</option><option>DOZEN</option><option>BAG</option></select></div><div><label>Total cost (Rs)</label><input id="gsPurchaseCost" type="number" min="0" step="0.01" placeholder="0"></div></div><button class="btn save" onclick="gsSavePurchase()">Save Stock Purchase</button></div>
-<div class="kcard"><h3>RECORD SALE</h3><div class="row"><div class="full"><label>Item name</label><input id="gsSaleItem" list="gsItems" placeholder="Select/type item"></div><div><label>Date</label><input id="gsSaleDate" type="date"></div><div><label>Quantity sold</label><input id="gsSaleQty" type="number" min="0" step="0.001" placeholder="0"></div><div><label>Unit sale price (Rs)</label><input id="gsSalePrice" type="number" min="0" step="0.01" placeholder="0"></div></div><button class="btn save" onclick="gsSaveSale()">Save Sale</button><p class="muted">Sale profit is estimated using the item's average purchase cost.</p></div>
-<div class="kcard"><h3>DAILY SHOP EXPENSE</h3><div class="row"><div><label>Date</label><input id="gsExpenseDate" type="date"></div><div><label>Expense type</label><input id="gsExpenseType" list="gsExpenseTypes" placeholder="Electricity, labour..."></div><div><label>Amount (Rs)</label><input id="gsExpenseAmount" type="number" min="0" step="0.01" placeholder="0"></div><div class="full"><label>Details (optional)</label><input id="gsExpenseNote" placeholder="e.g. today's shop electricity bill"></div></div><datalist id="gsExpenseTypes"><option value="Kiryana / shop supplies"></option><option value="Labour"></option><option value="Electricity"></option><option value="Roti"></option><option value="Tea"></option><option value="Transport / rent"></option><option value="Gas"></option><option value="Repair"></option><option value="Other"></option></datalist><datalist id="gsItems"></datalist><button class="btn save" onclick="gsSaveExpense()">Save Expense</button></div>
+  <div class="kcard">
+    <h3>ADD STOCK / PURCHASE</h3>
+    <div class="row">
+      <div class="full"><label>Item name</label><input id="gsItem" list="gsItems" placeholder="e.g. Sugar, Ghee, Tea"></div>
+      <div><label>Date</label><input id="gsPurchaseDate" type="date"></div>
+      <div><label>Quantity bought</label><input id="gsPurchaseQty" type="number" min="0" step="0.001" placeholder="0"></div>
+      <div><label>Unit</label><select id="gsPurchaseUnit"><option>KG</option><option>PCS</option><option>PACK</option><option>LTR</option><option>DOZEN</option><option>BAG</option></select></div>
+      <div><label>Total cost (Rs)</label><input id="gsPurchaseCost" type="number" min="0" step="0.01" placeholder="0"></div>
+    </div>
+    <button class="btn save" onclick="gsSavePurchase()">Save Stock Purchase</button>
+  </div>
+
+  <div class="kcard">
+    <h3>RECORD SALE</h3>
+    <div class="row">
+      <div class="full"><label>Item name</label><input id="gsSaleItem" list="gsItems" placeholder="Select/type item"></div>
+      <div><label>Date</label><input id="gsSaleDate" type="date"></div>
+      <div><label>Quantity sold</label><input id="gsSaleQty" type="number" min="0" step="0.001" placeholder="0"></div>
+      <div><label>Unit sale price (Rs)</label><input id="gsSalePrice" type="number" min="0" step="0.01" placeholder="0"></div>
+    </div>
+    <button class="btn save" onclick="gsSaveSale()">Save Sale</button>
+    <p class="muted">Sale profit is estimated using the item's average purchase cost.</p>
+  </div>
+
+  <div class="kcard">
+    <h3>DAILY SHOP EXPENSE</h3>
+    <div class="row">
+      <div><label>Date</label><input id="gsExpenseDate" type="date"></div>
+      <div><label>Expense type</label><input id="gsExpenseType" list="gsExpenseTypes" placeholder="Electricity, labour..."></div>
+      <div><label>Amount (Rs)</label><input id="gsExpenseAmount" type="number" min="0" step="0.01" placeholder="0"></div>
+      <div class="full"><label>Details (optional)</label><input id="gsExpenseNote" placeholder="e.g. today's shop electricity bill"></div>
+    </div>
+    <datalist id="gsExpenseTypes">
+      <option value="Kiryana / shop supplies"></option><option value="Labour"></option>
+      <option value="Electricity"></option><option value="Roti"></option>
+      <option value="Tea"></option><option value="Transport / rent"></option>
+      <option value="Gas"></option><option value="Repair"></option><option value="Other"></option>
+    </datalist>
+    <datalist id="gsItems"></datalist>
+    <button class="btn save" onclick="gsSaveExpense()">Save Expense</button>
+  </div>
 </div>
-<div class="kcard"><h3>STOCK SUMMARY</h3><div class="tablewrap"><table><thead><tr><th>Item</th><th>Stock Qty</th><th>Unit</th><th>Avg Cost / Unit</th><th>Stock Cost Value (Rs)</th></tr></thead><tbody id="gsStockRows"><tr><td colspan="5">No stock recorded yet.</td></tr></tbody></table></div></div>
-<div class="kcard"><h3>DAILY PROFIT & EXPENSE REPORT</h3><div class="row"><div><label>Report date</label><input id="gsReportDate" type="date" onchange="gsRender()"></div></div><div class="stats"><div class="stat"><span>Sales (Rs)</span><strong id="gsDailySales">0</strong></div><div class="stat"><span>Cost of sold goods (Rs)</span><strong id="gsDailyCost">0</strong></div><div class="stat"><span>Gross profit (Rs)</span><strong id="gsDailyGross">0</strong></div><div class="stat"><span>Daily expenses (Rs)</span><strong id="gsDailyExpense">0</strong></div><div class="stat"><span>Net profit after expenses (Rs)</span><strong id="gsDailyNet">0</strong></div></div><h3>Expenses for selected day</h3><div class="tablewrap"><table><thead><tr><th>Type</th><th>Details</th><th>Amount (Rs)</th><th></th></tr></thead><tbody id="gsExpenseRows"><tr><td colspan="4">No expenses recorded.</td></tr></tbody></table></div><h3>Recent stock and sales entries</h3><div class="tablewrap"><table><thead><tr><th>Date</th><th>Type</th><th>Item</th><th>Qty</th><th>Amount (Rs)</th><th></th></tr></thead><tbody id="gsTxnRows"><tr><td colspan="6">No entries recorded.</td></tr></tbody></table></div><div class="row"><button class="btn secondary" onclick="gsExport()">Export General Store Records (CSV)</button><button class="btn secondary" onclick="gsClearAll()">Clear these new records</button></div><p class="muted">Records are stored locally on this device. Export a backup regularly.</p></div>
+
+<div class="kcard">
+  <h3>STOCK SUMMARY</h3>
+  <div class="tablewrap"><table><thead><tr><th>Item</th><th>Stock Qty</th><th>Unit</th><th>Avg Cost / Unit</th><th>Stock Cost Value (Rs)</th></tr></thead><tbody id="gsStockRows"><tr><td colspan="5">No stock recorded yet.</td></tr></tbody></table></div>
+</div>
+
+<div class="kcard">
+  <h3>DAILY PROFIT & EXPENSE REPORT</h3>
+  <div class="row">
+    <div><label>Report date</label><input id="gsReportDate" type="date" onchange="gsRender()"></div>
+  </div>
+  <div class="stats">
+    <div class="stat"><span>Sales (Rs)</span><strong id="gsDailySales">0</strong></div>
+    <div class="stat"><span>Cost of sold goods (Rs)</span><strong id="gsDailyCost">0</strong></div>
+    <div class="stat"><span>Gross profit (Rs)</span><strong id="gsDailyGross">0</strong></div>
+    <div class="stat"><span>Daily expenses (Rs)</span><strong id="gsDailyExpense">0</strong></div>
+    <div class="stat"><span>Net profit after expenses (Rs)</span><strong id="gsDailyNet">0</strong></div>
+  </div>
+  <h3>Expenses for selected day</h3>
+  <div class="tablewrap"><table><thead><tr><th>Type</th><th>Details</th><th>Amount (Rs)</th><th></th></tr></thead><tbody id="gsExpenseRows"><tr><td colspan="4">No expenses recorded.</td></tr></tbody></table></div>
+  <h3>Recent stock and sales entries</h3>
+  <div class="tablewrap"><table><thead><tr><th>Date</th><th>Type</th><th>Item</th><th>Qty</th><th>Amount (Rs)</th><th></th></tr></thead><tbody id="gsTxnRows"><tr><td colspan="6">No entries recorded.</td></tr></tbody></table></div>
+  <div class="row">
+    <button class="btn secondary" onclick="gsExport()">Export General Store Records (CSV)</button>
+    <button class="btn secondary" onclick="gsClearAll()">Clear these new records</button>
+  </div>
+  <p class="muted">Important: these new stock/expense records are saved in this browser on this device. Export a backup regularly. They are separate from your existing account records.</p>
+</div>
 </section>
+
 </main>
 <footer class="footer">© <span id="year"></span> DigiRise — mobile + desktop web.</footer>
 
@@ -350,72 +441,56 @@ window.chatDemo=()=>{let v=$("chatInput").value.trim();$("chatOutput").textConte
 
 <script>
 (function(){
-  const KEY="digirise_smart_memo_v2";
+  const KEY="digirise_smart_memo_v3";
   let entries=[];
   try{entries=JSON.parse(localStorage.getItem(KEY)||"[]");if(!Array.isArray(entries))entries=[];}catch(e){entries=[];}
+  const old=localStorage.getItem("digirise_smart_memo_v2");
+  if(!entries.length && old){try{const x=JSON.parse(old);if(Array.isArray(x))entries=x;}catch(e){}}
   let current="purchase";
   const $=id=>document.getElementById(id);
   const today=()=>new Date().toISOString().slice(0,10);
   const money=n=>Number(n||0).toLocaleString(undefined,{maximumFractionDigits:2});
   const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   function persist(){localStorage.setItem(KEY,JSON.stringify(entries));}
-  function setMsg(t){$("memoMessage").textContent=t;}
-  window.memoType=function(type){
-    current=type;
-    const titles={purchase:"Purchase Entry",sale:"Sale Entry",expense:"Expense Entry",cashin:"Cash In Entry"};
-    $("memoTitle").textContent=titles[type];
-    ["purchase","sale","expense","cashin"].forEach(x=>$("memo"+x.charAt(0).toUpperCase()+x.slice(1)).classList.toggle("hide",x!==type));
-    document.querySelectorAll(".memo-tab").forEach(b=>b.classList.toggle("active",b.dataset.type===type));
-    setMsg("Ready — "+titles[type]+".");
-  };
-  window.memoNew=function(){
-    ["memoPurchaseItem","memoPurchaseQty","memoPurchaseAmount","memoSaleItem","memoSaleQty","memoSaleAmount","memoExpenseType","memoExpenseAmount","memoCashSource","memoCashAmount","memoNote"].forEach(id=>{if($(id))$(id).value="";});
-    $("memoDate").value=today(); setMsg("New entry ready.");
-  };
+  function setMsg(t){if($("memoMessage"))$("memoMessage").textContent=t;}
+  function purchaseUnitCost(){const q=Number($("memoPurchaseQty").value)||0,a=Number($("memoPurchaseAmount").value)||0,e=Number($("memoPurchaseExpenses").value)||0;return q?(a+e)/q:0;}
+  function saleUnitPrice(){const q=Number($("memoSaleQty").value)||0,a=Number($("memoSaleAmount").value)||0;return q?a/q:0;}
+  function latestUnitCost(item){const rows=entries.filter(r=>r.type==="purchase"&&String(r.item).toLowerCase()===String(item).toLowerCase()&&Number(r.qty)>0);if(!rows.length)return 0;const r=rows[rows.length-1];return Number(r.totalCost||r.amount||0)/Number(r.qty||1);}
+  function calcPurchase(){if($("memoPurchaseCalc"))$("memoPurchaseCalc").textContent="Unit Cost: Rs "+money(purchaseUnitCost());}
+  function calcSale(){const price=saleUnitPrice(),item=$("memoSaleItem").value.trim(),cost=latestUnitCost(item),q=Number($("memoSaleQty").value)||0,profit=(price-cost)*q; if($("memoSaleCalc"))$("memoSaleCalc").textContent="Unit Sale Price: Rs "+money(price)+" • Profit: Rs "+money(profit);}
+  window.memoType=function(type){current=type;const titles={purchase:"Purchase Entry",sale:"Sale Entry",expense:"Expenses Entry",cashin:"Cash In Entry",cashout:"Cash Out Entry"};$("memoTitle").textContent=titles[type];["purchase","sale","expense","cashin","cashout"].forEach(x=>$("memo"+x.charAt(0).toUpperCase()+x.slice(1)).classList.toggle("hide",x!==type));document.querySelectorAll(".memo-tab").forEach(b=>b.classList.toggle("active",b.dataset.type===type));setMsg("Ready — "+titles[type]+".");if(type==="purchase")calcPurchase();if(type==="sale")calcSale();};
+  window.memoNew=function(){["memoPurchaseItem","memoPurchaseAccount","memoPurchaseQty","memoPurchaseAmount","memoPurchaseExpenses","memoSaleItem","memoSaleAccount","memoSaleQty","memoSaleAmount","memoExpenseType","memoExpenseAmount","memoCashSource","memoCashAmount","memoCashOutSource","memoCashOutAmount","memoNote"].forEach(id=>{if($(id))$(id).value="";});$("memoPurchaseExpenses").value="0";$("memoDate").value=today();calcPurchase();calcSale();setMsg("New entry ready.");};
   window.memoSave=function(){
-    const date=$("memoDate").value||today(), note=$("memoNote").value.trim();
-    let r={id:Date.now()+Math.random(),date,type:current,note,amount:0,item:"",qty:0,unit:"",payment:""};
+    const date=$("memoDate").value||today(),note=$("memoNote").value.trim();
+    let r={id:Date.now()+Math.random(),date,type:current,note,amount:0,item:"",account:"",qty:0,unit:"",expenses:0,totalCost:0,unitCost:0,unitSalePrice:0,profit:0};
     if(current==="purchase"){
-      r.item=$("memoPurchaseItem").value.trim();r.qty=Number($("memoPurchaseQty").value)||0;r.unit=$("memoPurchaseUnit").value;r.amount=Number($("memoPurchaseAmount").value)||0;
-      if(!r.item||r.qty<=0||r.amount<=0)return setMsg("Purchase ke liye Item, Quantity aur Amount zaroori hain.");
+      r.item=$("memoPurchaseItem").value.trim();r.account=$("memoPurchaseAccount").value.trim();r.qty=Number($("memoPurchaseQty").value)||0;r.unit=$("memoPurchaseUnit").value;r.amount=Number($("memoPurchaseAmount").value)||0;r.expenses=Number($("memoPurchaseExpenses").value)||0;r.totalCost=r.amount+r.expenses;r.unitCost=r.qty?r.totalCost/r.qty:0;
+      if(!r.item||r.qty<=0||r.amount<0)return setMsg("Purchase needs Product and Quantity. Enter the Purchase Amount.");
     }else if(current==="sale"){
-      r.item=$("memoSaleItem").value.trim();r.qty=Number($("memoSaleQty").value)||0;r.unit=$("memoSaleUnit").value;r.amount=Number($("memoSaleAmount").value)||0;r.payment=$("memoSalePayment").value;
-      if(!r.item||r.qty<=0||r.amount<=0)return setMsg("Sale ke liye Item, Quantity aur Amount zaroori hain.");
+      r.item=$("memoSaleItem").value.trim();r.account=$("memoSaleAccount").value.trim();r.qty=Number($("memoSaleQty").value)||0;r.unit=$("memoSaleUnit").value;r.amount=Number($("memoSaleAmount").value)||0;r.unitSalePrice=r.qty?r.amount/r.qty:0;r.unitCost=latestUnitCost(r.item);r.profit=(r.unitSalePrice-r.unitCost)*r.qty;
+      if(!r.item||r.qty<=0||r.amount<=0)return setMsg("Sale needs Product, Quantity and Sale Amount.");
     }else if(current==="expense"){
-      r.item=$("memoExpenseType").value.trim();r.amount=Number($("memoExpenseAmount").value)||0;
-      if(!r.item||r.amount<=0)return setMsg("Expense type aur Amount zaroori hain.");
+      r.item=$("memoExpenseType").value.trim();r.amount=Number($("memoExpenseAmount").value)||0;if(!r.item||r.amount<=0)return setMsg("Expense Detail and Amount are required.");
+    }else if(current==="cashin"){
+      r.account=$("memoCashSource").value.trim();r.item=r.account;r.amount=Number($("memoCashAmount").value)||0;if(!r.account||r.amount<=0)return setMsg("Account / Detail and Amount are required.");
     }else{
-      r.item=$("memoCashSource").value.trim();r.amount=Number($("memoCashAmount").value)||0;
-      if(!r.item||r.amount<=0)return setMsg("Cash source aur Amount zaroori hain.");
+      r.account=$("memoCashOutSource").value.trim();r.item=r.account;r.amount=Number($("memoCashOutAmount").value)||0;if(!r.account||r.amount<=0)return setMsg("Supplier / Account and Amount are required.");
     }
-    entries.push(r);persist();updateLists();memoNew();setMsg("✓ Entry save ho gayi.");
+    entries.push(r);persist();updateLists();memoNew();setMsg("Entry saved.");
   };
   function updateLists(){
-    const names={}; entries.forEach(r=>{if(r.item)names[r.item]=(names[r.item]||0)+r.amount;});
+    const names={};entries.forEach(r=>{[r.item,r.account].filter(Boolean).forEach(n=>{names[n]=(names[n]||0)+Number(r.amount||0);});});
     const itemNames=Object.keys(names).sort((a,b)=>a.localeCompare(b));
-    $("memoItems").innerHTML=itemNames.map(x=>`<option value="${esc(x)}"></option>`).join("");
-    $("memoAccounts").innerHTML=itemNames.map(x=>`<option value="${esc(x)}"></option>`).join("");
-    $("memoAccountsList").innerHTML=itemNames.length?itemNames.map(x=>`<div class="memo-account-item"><span>${esc(x)}</span><b>Rs ${money(names[x])}</b></div>`).join(""):"<span class='muted'>Abhi koi account/item nahi.</span>";
-    const now=new Date(),ym=now.toISOString().slice(0,7),d=today();
-    const sales=entries.filter(r=>r.type==="sale"&&r.date===d).reduce((a,r)=>a+r.amount,0);
-    const cashIn=entries.filter(r=>r.type==="cashin"&&r.date===d).reduce((a,r)=>a+r.amount,0);
-    const expenses=entries.filter(r=>r.type==="expense"&&r.date===d).reduce((a,r)=>a+r.amount,0);
-    const purchases=entries.filter(r=>r.type==="purchase"&&r.date===d).reduce((a,r)=>a+r.amount,0);
-    const due=entries.filter(r=>r.type==="sale"&&r.payment==="Credit / Due"&&r.date===d).reduce((a,r)=>a+r.amount,0);
-    $("memoIncome").textContent="Rs "+money(sales+cashIn);
-    $("memoExpenses").textContent="Rs "+money(expenses+purchases);
-    $("memoBalance").textContent="Rs "+money(sales+cashIn-expenses-purchases);
-    $("memoDue").textContent="Rs "+money(due);
-    const mi=entries.filter(r=>r.date.slice(0,7)===ym&&["sale","cashin"].includes(r.type)).reduce((a,r)=>a+r.amount,0);
-    const me=entries.filter(r=>r.date.slice(0,7)===ym&&["expense","purchase"].includes(r.type)).reduce((a,r)=>a+r.amount,0);
-    $("memoMonthly").textContent="Income Rs "+money(mi)+" • Expense Rs "+money(me);
-    $("memoDaily").textContent="Today: Income Rs "+money(sales+cashIn)+" • Expense Rs "+money(expenses+purchases);
+    $("memoItems").innerHTML=itemNames.map(x=>`<option value="${esc(x)}"></option>`).join("");$("memoAccounts").innerHTML=itemNames.map(x=>`<option value="${esc(x)}"></option>`).join("");
+    $("memoAccountsList").innerHTML=itemNames.length?itemNames.map(x=>`<div class="memo-account-item"><span>${esc(x)}</span><b>Rs ${money(names[x])}</b></div>`).join(""):"<span class='muted'>No accounts/products yet.</span>";
+    const d=today(),ym=d.slice(0,7);const sales=entries.filter(r=>r.type==="sale"&&r.date===d).reduce((a,r)=>a+Number(r.amount||0),0),cashIn=entries.filter(r=>r.type==="cashin"&&r.date===d).reduce((a,r)=>a+Number(r.amount||0),0),cashOut=entries.filter(r=>r.type==="cashout"&&r.date===d).reduce((a,r)=>a+Number(r.amount||0),0),expenses=entries.filter(r=>r.type==="expense"&&r.date===d).reduce((a,r)=>a+Number(r.amount||0),0),purchase=entries.filter(r=>r.type==="purchase"&&r.date===d).reduce((a,r)=>a+Number(r.totalCost||r.amount||0),0);
+    const due=entries.filter(r=>r.type==="purchase").reduce((a,r)=>a+Number(r.totalCost||r.amount||0),0)-entries.filter(r=>r.type==="cashout").reduce((a,r)=>a+Number(r.amount||0),0);
+    $("memoIncome").textContent="Rs "+money(sales);$("memoExpenses").textContent="Rs "+money(expenses);$("memoBalance").textContent="Rs "+money(sales+cashIn-cashOut-expenses);$("memoDue").textContent="Rs "+money(Math.max(0,due));
+    const ms=entries.filter(r=>r.date.slice(0,7)===ym&&r.type==="sale").reduce((a,r)=>a+Number(r.amount||0),0),me=entries.filter(r=>r.date.slice(0,7)===ym&&r.type==="expense").reduce((a,r)=>a+Number(r.amount||0),0);$("memoMonthly").textContent="Sales Rs "+money(ms)+" • Expenses Rs "+money(me);$("memoDaily").textContent="Today: Sales Rs "+money(sales)+" • Expenses Rs "+money(expenses);
   }
-  window.memoReports=function(){ $("memoReport").classList.toggle("hide"); updateLists(); };
-  const d=$("memoDate"); if(d)d.value=today();
-  $("memoExpenseTypes").innerHTML=["Electricity","Labour","Transport","Rent","Gas","Repair","Shop Supplies","Other"].map(x=>`<option value="${x}"></option>`).join("");
-  $("memoItems").innerHTML="";$("memoAccounts").innerHTML="";
-  updateLists();
+  window.memoReports=function(){$("memoReport").classList.toggle("hide");updateLists();};
+  ["memoPurchaseQty","memoPurchaseAmount","memoPurchaseExpenses"].forEach(id=>$(id)?.addEventListener("input",calcPurchase));["memoSaleQty","memoSaleAmount","memoSaleItem"].forEach(id=>$(id)?.addEventListener("input",calcSale));
+  $("memoDate").value=today();$("memoExpenseTypes").innerHTML=["Electricity","Labour","Transport","Rent","Gas","Repair","Shop Supplies","Other"].map(x=>`<option value="${x}"></option>`).join("");updateLists();
 })();
 </script>
 
