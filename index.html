@@ -2,287 +2,268 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>DigiRise General Store</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DigiRise</title>
 
 <style>
 *{box-sizing:border-box}
 
 body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#f5f7fb;
-color:#172033;
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#f5f7fb;
+ color:#172033;
 }
 
 header{
-background:linear-gradient(135deg,#315eea,#713ce8);
-color:#fff;
-text-align:center;
-padding:26px 15px;
+ background:linear-gradient(135deg,#315eea,#713ce8);
+ color:white;
+ text-align:center;
+ padding:28px 15px 22px;
 }
 
 header h1{
-margin:0;
-font-size:32px;
+ margin:0;
+ font-size:32px;
 }
 
 header p{
-margin:7px 0 0;
-font-size:17px;
+ margin:8px 0 0;
+ font-size:18px;
 }
 
 nav{
-display:flex;
-gap:8px;
-justify-content:center;
-flex-wrap:wrap;
-background:#fff;
-padding:12px;
-position:sticky;
-top:0;
-z-index:10;
-box-shadow:0 2px 8px #0002;
+ display:flex;
+ gap:10px;
+ justify-content:center;
+ flex-wrap:wrap;
+ background:white;
+ padding:14px;
+ position:sticky;
+ top:0;
+ z-index:5;
+ box-shadow:0 2px 8px #0001;
 }
 
-button{
-border:0;
-border-radius:10px;
-padding:12px 16px;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
+button,.navbtn{
+ border:0;
+ border-radius:12px;
+ padding:12px 17px;
+ font-size:16px;
+ font-weight:bold;
+ background:#eaf0ff;
+ color:#172033;
+ cursor:pointer;
 }
 
-.navbtn{
-background:#eaf0ff;
-color:#172033;
+button.primary{
+ background:#2864df;
+ color:white;
 }
 
-.primary{
-background:#2864df;
-color:#fff;
-}
-
-.danger{
-background:#ffe8e8;
-color:#a00000;
-}
-
-.edit{
-background:#fff0bd;
-padding:7px 9px;
-font-size:13px;
-}
-
-.delete{
-background:#ffe0e0;
-color:#a00000;
-padding:7px 9px;
-font-size:13px;
+button.danger{
+ background:#ffe8e8;
+ color:#b40000;
 }
 
 main{
-max-width:1000px;
-margin:auto;
-padding:16px;
+ max-width:950px;
+ margin:auto;
+ padding:20px;
 }
 
 .card{
-background:#fff;
-border-radius:17px;
-padding:19px;
-margin-bottom:16px;
-box-shadow:0 3px 14px #0001;
+ background:white;
+ border-radius:18px;
+ padding:20px;
+ margin-bottom:16px;
+ box-shadow:0 3px 14px #00000012;
+}
+
+h2{
+ margin-top:0;
 }
 
 .hidden{
-display:none!important;
+ display:none!important;
 }
 
 .features{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
-gap:12px;
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+ gap:14px;
 }
 
 .feature{
-background:#f8faff;
-border:1px solid #e2e7f1;
-border-radius:14px;
-padding:17px;
-cursor:pointer;
+ background:#f8faff;
+ border-radius:15px;
+ padding:18px;
+ cursor:pointer;
+ border:1px solid #e5eafa;
 }
 
 .feature b{
-display:block;
-font-size:18px;
-margin:5px 0;
+ display:block;
+ font-size:18px;
+ margin-top:6px;
 }
 
 .tabs{
-display:flex;
-gap:8px;
-flex-wrap:wrap;
-margin-bottom:16px;
-}
-
-.tabs button{
-background:#eaf0ff;
+ display:flex;
+ gap:8px;
+ flex-wrap:wrap;
+ margin-bottom:15px;
 }
 
 .tabs button.active{
-background:#2864df;
-color:#fff;
+ background:#2864df;
+ color:white;
 }
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-}
-
-.full{
-grid-column:1/-1;
+.formgrid{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:12px;
 }
 
 .field{
-display:flex;
-flex-direction:column;
-gap:6px;
+ display:flex;
+ flex-direction:column;
+ gap:6px;
+}
+
+.field.full{
+ grid-column:1/-1;
 }
 
 label{
-font-weight:bold;
+ font-weight:bold;
 }
 
 input,select{
-width:100%;
-padding:13px;
-font-size:16px;
-border:1px solid #cbd4e2;
-border-radius:10px;
-background:#fff;
+ width:100%;
+ padding:13px;
+ border:1px solid #cfd6e4;
+ border-radius:10px;
+ font-size:16px;
+ background:white;
 }
 
-.unitqty{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:8px;
+input.invalid,select.invalid{
+ border-color:#c62828;
+ background:#fff5f5;
 }
 
-.result{
-background:#eef5ff;
-padding:13px;
-border-radius:10px;
-font-weight:bold;
-font-size:17px;
-}
-
-.profit{
-background:#eaf8ed;
-padding:13px;
-border-radius:10px;
-font-weight:bold;
-font-size:18px;
-}
-
-.warning{
-background:#fff5d9;
-padding:13px;
-border-radius:10px;
-font-weight:bold;
-}
-
-.summary{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px;
-}
-
-.stat{
-background:#f8faff;
-border:1px solid #e1e6ef;
-border-radius:12px;
-padding:13px;
-}
-
-.stat b{
-display:block;
-font-size:20px;
-margin-top:5px;
-}
-
-.suggestion{
-position:relative;
+.suggestionbox{
+ position:relative;
 }
 
 .suggestions{
-position:absolute;
-left:0;
-right:0;
-top:100%;
-background:#fff;
-border:1px solid #ccd4e3;
-border-radius:0 0 10px 10px;
-z-index:50;
-box-shadow:0 5px 12px #0002;
+ position:absolute;
+ left:0;
+ right:0;
+ top:100%;
+ background:white;
+ border:1px solid #ccd4e3;
+ border-radius:0 0 10px 10px;
+ z-index:20;
+ box-shadow:0 5px 12px #0002;
 }
 
 .suggestions div{
-padding:11px;
-cursor:pointer;
+ padding:10px;
+ cursor:pointer;
 }
 
 .suggestions div:hover{
-background:#eef3ff;
+ background:#eef3ff;
 }
 
-.wrap{
-overflow-x:auto;
+.result{
+ background:#eef5ff;
+ padding:12px;
+ border-radius:10px;
+ font-weight:bold;
 }
 
-table{
-width:100%;
-border-collapse:collapse;
-font-size:14px;
+.message{
+ padding:12px;
+ border-radius:10px;
+ margin:0 0 15px;
+ font-weight:bold;
 }
 
-th,td{
-padding:9px;
-border-bottom:1px solid #e5e8ee;
-text-align:left;
-white-space:nowrap;
+.message.success{
+ background:#e8f8ee;
+ color:#176b36;
+ border:1px solid #a9dfba;
 }
 
-.small{
-font-size:13px;
-color:#5d6878;
-}
-
-.actions{
-display:flex;
-gap:5px;
-}
-
-@media(max-width:600px){
-
-.grid{
-grid-template-columns:1fr;
-}
-
-.full{
-grid-column:auto;
+.message.error{
+ background:#fff0f0;
+ color:#a40000;
+ border:1px solid #efb0b0;
 }
 
 .summary{
-grid-template-columns:1fr;
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:10px;
 }
 
-header h1{
-font-size:28px;
+.stat{
+ background:#f8faff;
+ border:1px solid #e2e7f0;
+ border-radius:12px;
+ padding:13px;
 }
 
+.stat b{
+ display:block;
+ font-size:20px;
+ margin-top:4px;
+}
+
+.table-scroll{
+ width:100%;
+ overflow-x:auto;
+ -webkit-overflow-scrolling:touch;
+}
+
+.table-scroll table{
+ min-width:560px;
+}
+
+table{
+ width:100%;
+ border-collapse:collapse;
+ font-size:14px;
+}
+
+th,td{
+ padding:9px;
+ border-bottom:1px solid #e6e9ef;
+ text-align:left;
+ white-space:nowrap;
+}
+
+.small{
+ font-size:13px;
+ color:#596579;
+}
+
+@media(max-width:600px){
+ .formgrid{
+  grid-template-columns:1fr;
+ }
+
+ .summary{
+  grid-template-columns:1fr;
+ }
+
+ header h1{
+  font-size:28px;
+ }
 }
 </style>
 </head>
@@ -302,16 +283,15 @@ font-size:28px;
 
 <main>
 
-<!-- HOME -->
-
-<section id="home">
+<section id="home" class="page">
 
 <div class="card">
 <h2>Welcome to DigiRise</h2>
 
 <p>
 Manage your General Store from one place.
-Purchase, Sale, Expenses, Cash In, Stock and Reports.
+Purchase, Sale, Expenses, Cash In, Stock and reports
+are saved on this device.
 </p>
 
 <button class="primary" onclick="showPage('store')">
@@ -320,7 +300,6 @@ Open General Store
 </div>
 
 <div class="card">
-
 <h2>DigiRise Features</h2>
 
 <div class="features">
@@ -328,34 +307,34 @@ Open General Store
 <div class="feature" onclick="showPage('store')">
 🛒
 <b>General Store</b>
-<span class="small">Purchase, Sale & Stock</span>
+<span class="small">Purchase, Sale & stock</span>
 </div>
 
-<div class="feature">
+<div class="feature" onclick="showMessage('AI Image needs an image-generation API connection.','error')">
 🤖
 <b>AI Image</b>
 <span class="small">Connection required</span>
 </div>
 
-<div class="feature">
+<div class="feature" onclick="showMessage('AI Video needs a video-generation API connection.','error')">
 🎬
 <b>AI Video</b>
 <span class="small">Connection required</span>
 </div>
 
-<div class="feature">
+<div class="feature" onclick="showMessage('AI Chat needs a chat API connection.','error')">
 💬
 <b>AI Chat</b>
 <span class="small">Connection required</span>
 </div>
 
-<div class="feature">
+<div class="feature" onclick="showMessage('Learn section can be connected to your lessons.','error')">
 📚
 <b>Learn</b>
 <span class="small">Education</span>
 </div>
 
-<div class="feature">
+<div class="feature" onclick="showMessage('Quran section can be connected to Quran content.','error')">
 📖
 <b>Quran</b>
 <span class="small">Quran Learning</span>
@@ -367,34 +346,37 @@ Open General Store
 </section>
 
 
-<!-- STORE -->
-
-<section id="store" class="hidden">
+<section id="store" class="page hidden">
 
 <div class="card">
 
 <h2>🏪 General Store</h2>
 
+<div id="formMessage" aria-live="polite"></div>
+
 <div class="tabs">
 
-<button id="purchaseTab"
-class="active"
+<button class="active"
+id="tabPurchase"
 onclick="setMode('purchase')">
 Purchase
 </button>
 
-<button id="saleTab"
+<button
+id="tabSale"
 onclick="setMode('sale')">
 Sale
 </button>
 
-<button id="expenseTab"
+<button
+id="tabExpense"
 onclick="setMode('expense')">
 Expenses
 </button>
 
-<button id="cashTab"
-onclick="setMode('cash')">
+<button
+id="tabCash"
+onclick="setMode('cashin')">
 Cash In
 </button>
 
@@ -403,13 +385,11 @@ Cash In
 <div id="formArea"></div>
 
 <p class="small">
-Press Enter to save the entry.
+Press <b>Enter</b> to save the entry.
 </p>
 
 </div>
 
-
-<!-- DAILY SUMMARY -->
 
 <div class="card">
 
@@ -418,50 +398,48 @@ Press Enter to save the entry.
 <div class="summary">
 
 <div class="stat">
-Daily Sale
-<b id="dailySale">0.00</b>
+Daily Sale Total
+<b id="saleTotal">0</b>
 </div>
 
 <div class="stat">
-Purchase
-<b id="dailyPurchase">0.00</b>
+Purchase Total
+<b id="purchaseTotal">0</b>
 </div>
 
 <div class="stat">
 Expenses
-<b id="dailyExpense">0.00</b>
+<b id="expenseTotal">0</b>
 </div>
 
 <div class="stat">
 Cash In
-<b id="dailyCash">0.00</b>
+<b id="cashTotal">0</b>
 </div>
 
 <div class="stat">
 Total Dues
-<b id="totalDues">0.00</b>
+<b id="dueTotal">0</b>
 </div>
 
 <div class="stat">
 Net Profit
-<b id="netProfit">0.00</b>
+<b id="profitTotal">0</b>
 </div>
 
 <div class="stat">
 Cash Balance
-<b id="cashBalance">0.00</b>
+<b id="cashBalance">0</b>
 </div>
 
 <div class="stat">
 Stock Items
-<b id="stockItems">0</b>
+<b id="stockCount">0</b>
 </div>
 
 </div>
 </div>
 
-
-<!-- STOCK -->
 
 <div class="card">
 
@@ -473,8 +451,6 @@ No stock yet.
 
 </div>
 
-
-<!-- ENTRIES -->
 
 <div class="card">
 
@@ -489,20 +465,19 @@ No entries yet.
 </section>
 
 
-<!-- ACCOUNT -->
-
-<section id="account" class="hidden">
+<section id="account" class="page hidden">
 
 <div class="card">
 
 <h2>Account</h2>
 
 <p>
-Your General Store data is saved in this phone/browser.
+This version stores your General Store data
+in this phone/browser using local storage.
 </p>
 
-<button class="danger" onclick="deleteAllData()">
-Delete All Store Data
+<button class="danger" onclick="clearAll()">
+Delete all local store data
 </button>
 
 </div>
@@ -514,295 +489,1485 @@ Delete All Store Data
 
 <script>
 
-/* =========================
-   DATA
-========================= */
+const KEY='digirise_store_v2';
 
-const KEY="digirise_store_v2";
-
-let data={
-entries:[],
-stock:{}
-};
+let data;
 
 try{
 
-const oldData=localStorage.getItem(KEY);
+ data=JSON.parse(
+  localStorage.getItem(KEY) ||
+  '{"entries":[],"stock":{}}'
+ );
 
-if(oldData){
-data=JSON.parse(oldData);
+ if(!data.entries || !Array.isArray(data.entries))data.entries=[];
+ if(!data.stock || typeof data.stock!=='object')data.stock={};
+
+}catch(e){
+
+ data={
+  entries:[],
+  stock:{}
+ };
+
 }
 
-if(!data.entries)data.entries=[];
-if(!data.stock)data.stock={};
+let mode='purchase';
 
-}catch(error){
-
-data={
-entries:[],
-stock:{}
-};
-
-}
-
-let currentMode="purchase";
-
-
-/* =========================
-   BASIC FUNCTIONS
-========================= */
 
 function saveData(){
 
-localStorage.setItem(KEY,JSON.stringify(data));
+ localStorage.setItem(
+  KEY,
+  JSON.stringify(data)
+ );
 
-renderAll();
+ renderAll();
+}
+
+
+function money(n){
+
+ const value=Number(n);
+
+ return Number.isFinite(value) ? value.toFixed(2) : '0.00';
 
 }
 
 
-function money(value){
+function esc(s){
 
-return Number(value||0).toFixed(2);
+ return String(s??'').replace(
+  /[&<>"']/g,
+  m=>({
+   '&':'&amp;',
+   '<':'&lt;',
+   '>':'&gt;',
+   '"':'&quot;',
+   "'":'&#39;'
+  }[m])
+ );
+
+}
+
+
+function normalizeDetail(detail){
+
+ return String(detail||'').trim().toLowerCase();
+
+}
+
+
+function findStock(detail){
+
+ const key=normalizeDetail(detail);
+
+ return Object.entries(data.stock)
+  .find(([storedDetail])=>normalizeDetail(storedDetail)===key);
+
+}
+
+
+function getStock(detail){
+
+ const match=findStock(detail);
+
+ return match ? match[1] : null;
+
+}
+
+
+function getStockKey(detail){
+
+ const match=findStock(detail);
+
+ return match ? match[0] : null;
 
 }
 
 
 function today(){
 
-return new Date().toISOString().slice(0,10);
+ const d=new Date();
+
+ const y=d.getFullYear();
+ const m=String(d.getMonth()+1).padStart(2,'0');
+ const day=String(d.getDate()).padStart(2,'0');
+
+ return y+'-'+m+'-'+day;
 
 }
 
 
-function escapeHTML(value){
+function isValidDate(value){
 
-return String(value??"")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#39;");
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(value))return false;
 
-}
+ const d=new Date(value+'T00:00:00');
 
-
-function getValue(id){
-
-const el=document.getElementById(id);
-
-return el ? el.value.trim() : "";
+ return !Number.isNaN(d.getTime()) &&
+  d.toISOString().slice(0,10)===value;
 
 }
 
 
-/* =========================
-   PAGE
-========================= */
+function validNumber(value,options={}){
+
+ const n=Number(value);
+
+ if(value==='' || value===null || value===undefined)return false;
+ if(!Number.isFinite(n))return false;
+ if(options.integer && !Number.isInteger(n))return false;
+ if(options.min!==undefined && n<options.min)return false;
+ if(options.max!==undefined && n>options.max)return false;
+
+ return true;
+
+}
+
+
+function getNumber(id){
+
+ const value=document.getElementById(id)?.value;
+
+ return validNumber(value) ? Number(value) : null;
+
+}
+
+
+function markInvalid(id,invalid=true){
+
+ const el=document.getElementById(id);
+
+ if(el)el.classList.toggle('invalid',invalid);
+
+}
+
+
+function clearInvalid(){
+
+ document.querySelectorAll('.invalid')
+ .forEach(el=>el.classList.remove('invalid'));
+
+}
+
+
+function showMessage(message,type='success'){
+
+ const box=document.getElementById('formMessage');
+
+ if(!box)return;
+
+ box.className='message '+type;
+ box.textContent=message;
+
+}
+
+
+function clearMessage(){
+
+ const box=document.getElementById('formMessage');
+
+ if(box){
+
+  box.className='';
+  box.textContent='';
+
+ }
+
+}
+
 
 function showPage(id){
 
-document.querySelectorAll("main section")
-.forEach(function(section){
+ document.querySelectorAll('.page')
+ .forEach(x=>x.classList.add('hidden'));
 
-section.classList.add("hidden");
+ document.getElementById(id)
+ .classList.remove('hidden');
 
-});
+ if(id==='store'){
+  renderAll();
+ }
 
-document.getElementById(id)
-.classList.remove("hidden");
-
-if(id==="store"){
-
-renderAll();
-
-}
-
-window.scrollTo(0,0);
+ window.scrollTo(0,0);
 
 }
 
 
-/* =========================
-   MODE
-========================= */
+function setMode(m){
 
-function setMode(mode){
+ mode=m;
+ clearMessage();
 
-currentMode=mode;
+ const map={
+  purchase:'Purchase',
+  sale:'Sale',
+  expense:'Expense',
+  cashin:'Cash'
+ };
 
-document.getElementById("purchaseTab")
-.classList.remove("active");
+ ['Purchase','Sale','Expense','Cash']
+ .forEach(x=>{
+  const b=document.getElementById('tab'+x);
+  if(b)b.classList.remove('active');
+ });
 
-document.getElementById("saleTab")
-.classList.remove("active");
+ const active=document.getElementById(
+  'tab'+map[m]
+ );
 
-document.getElementById("expenseTab")
-.classList.remove("active");
+ if(active)active.classList.add('active');
 
-document.getElementById("cashTab")
-.classList.remove("active");
-
-
-if(mode==="purchase"){
-
-document.getElementById("purchaseTab")
-.classList.add("active");
-
-}
-
-if(mode==="sale"){
-
-document.getElementById("saleTab")
-.classList.add("active");
-
-}
-
-if(mode==="expense"){
-
-document.getElementById("expenseTab")
-.classList.add("active");
-
-}
-
-if(mode==="cash"){
-
-document.getElementById("cashTab")
-.classList.add("active");
-
-}
-
-renderForm();
+ renderForm();
 
 }
 
 
-/* =========================
-   FORM
-========================= */
+function detailSuggestions(inputId,boxId){
+
+ const input=document.getElementById(inputId);
+ const box=document.getElementById(boxId);
+
+ if(!input || !box)return;
+
+ input.addEventListener('input',()=>{
+
+  const q=input.value.trim().toLowerCase();
+
+  if(!q){
+
+   box.innerHTML='';
+   return;
+
+  }
+
+  const vals=[
+   ...new Set(
+    data.entries
+    .map(e=>e.detail)
+    .filter(Boolean)
+   )
+  ]
+  .filter(x=>
+   x.toLowerCase().includes(q)
+  )
+  .slice(0,6);
+
+  box.innerHTML=vals
+  .map(v=>'<div>'+esc(v)+'</div>')
+  .join('');
+
+  box.querySelectorAll('div')
+  .forEach(d=>{
+
+   d.onclick=()=>{
+
+    input.value=d.textContent;
+    box.innerHTML='';
+
+   };
+
+  });
+
+ });
+
+ input.addEventListener('blur',()=>{
+  setTimeout(()=>{
+   box.innerHTML='';
+  },200);
+ });
+
+}
+
 
 function renderForm(){
 
-const area=document.getElementById("formArea");
+ const a=document.getElementById('formArea');
 
 
 /* PURCHASE */
 
-if(currentMode==="purchase"){
+if(mode==='purchase'){
 
-area.innerHTML=`
+ a.innerHTML=`
 
-<div class="grid">
+ <div class="formgrid">
 
-<div class="field full">
-
-<label>Dealer Name</label>
-
-<input id="dealer"
-placeholder="Dealer name">
-
-</div>
+ <div class="field full">
+ <label>Dealer Name</label>
+ <input id="dealer" autocomplete="off">
+ </div>
 
 
-<div class="field full suggestion">
+ <div class="field full suggestionbox">
 
-<label>Description / Detail</label>
+ <label>Description / Detail</label>
 
-<input id="detail"
-placeholder="Item description"
-autocomplete="off">
+ <input
+ id="detail"
+ autocomplete="off">
 
-<div id="suggestions"
-class="suggestions">
-</div>
+ <div
+ id="sugg"
+ class="suggestions">
+ </div>
 
-</div>
-
-
-<div class="field">
-
-<label>Unit + Quantity</label>
-
-<div class="unitqty">
-
-<select id="unit">
-
-<option>Kg</option>
-<option>PCS</option>
-<option>Liter</option>
-<option>Meter</option>
-<option>Dozen</option>
-<option>Pack</option>
-<option>Box</option>
-
-</select>
-
-<input id="qty"
-type="number"
-step="any"
-min="0"
-placeholder="Quantity">
-
-</div>
-
-</div>
+ </div>
 
 
-<div class="field">
+ <div class="field">
 
-<label>Total Purchase Amount</label>
+ <label>Unit</label>
 
-<input id="amount"
-type="number"
-step="any"
-min="0"
-placeholder="Total amount">
+ <select id="unit">
 
-</div>
+ <option>Kg</option>
+ <option>PCS</option>
+ <option>Liter</option>
+ <option>Meter</option>
 
+ </select>
 
-<div class="field">
-
-<label>Purchase Expenses</label>
-
-<input id="expense"
-type="number"
-step="any"
-min="0"
-value="0">
-
-</div>
+ </div>
 
 
-<div class="field">
+ <div class="field">
 
-<div class="result">
+ <label>Quantity</label>
 
-Total Purchase Cost:
-<span id="purchaseCost">0.00</span>
+ <input
+ id="qty"
+ type="number"
+ step="any"
+ min="0"
+ oninput="calcPurchase()">
 
-</div>
-
-</div>
+ </div>
 
 
-<div class="field full">
+ <div class="field full">
 
-<button class="primary"
-onclick="savePurchase()">
+ <label>Total Purchase Amount</label>
 
-Save Purchase
+ <input
+ id="amount"
+ type="number"
+ step="any"
+ min="0">
 
-</button>
+ </div>
 
-</div>
 
-</div>
+ <div class="field full">
 
-`;
+ <div class="result">
 
-document.getElementById("amount")
-.oninput=calculatePurchase;
+ Unit Purchase Price:
+ <span id="unitPrice">0.00</span>
 
-document.getElementById("expense")
-.oninput
+ </div>
+
+ </div>
+
+
+ <div class="field full">
+
+ <button
+ class="primary"
+ onclick="savePurchase()">
+
+ Save Purchase
+
+ </button>
+
+ </div>
+
+ </div>
+
+ `;
+
+}
+
+
+/* SALE */
+
+else if(mode==='sale'){
+
+ a.innerHTML=`
+
+ <div class="formgrid">
+
+
+ <div class="field full">
+
+ <label>Customer Name</label>
+
+ <input
+ id="customer"
+ autocomplete="off">
+
+ </div>
+
+
+ <div class="field full suggestionbox">
+
+ <label>Description / Detail</label>
+
+ <input
+ id="detail"
+ autocomplete="off">
+
+ <div
+ id="sugg"
+ class="suggestions">
+ </div>
+
+ </div>
+
+
+ <div class="field">
+
+ <label>Unit</label>
+
+ <select id="unit">
+
+ <option>Kg</option>
+ <option>PCS</option>
+ <option>Liter</option>
+ <option>Meter</option>
+
+ </select>
+
+ </div>
+
+
+ <div class="field">
+
+ <label>Quantity</label>
+
+ <input
+ id="qty"
+ type="number"
+ step="any"
+ min="0"
+ oninput="calcSale()">
+
+ </div>
+
+
+ <div class="field">
+
+ <label>Total Sale Amount</label>
+
+ <input
+ id="saleTotalInput"
+ type="number"
+ step="any"
+ min="0"
+ oninput="calcSale()">
+
+ </div>
+
+
+ <div class="field">
+
+ <label>Amount Received</label>
+
+ <input
+ id="received"
+ type="number"
+ step="any"
+ min="0"
+ oninput="calcSale()">
+
+ </div>
+
+
+ <div class="field">
+
+ <div class="result">
+
+ Unit Sale Price:
+ <span id="saleUnit">0.00</span>
+
+ </div>
+
+ </div>
+
+
+ <div class="field">
+
+ <div class="result">
+
+ Net Profit:
+ <span id="saleProfit">0.00</span>
+
+ </div>
+
+ </div>
+
+
+ <div class="field full">
+
+ <div class="result">
+
+ Due:
+ <span id="saleDue">0.00</span>
+
+ </div>
+
+ </div>
+
+
+ <div class="field full">
+
+ <button
+ class="primary"
+ onclick="saveSale()">
+
+ Save Sale
+
+ </button>
+
+ </div>
+
+
+ </div>
+
+ `;
+
+}
+
+
+/* EXPENSE */
+
+else if(mode==='expense'){
+
+ a.innerHTML=`
+
+ <div class="formgrid">
+
+ <div class="field">
+
+ <label>Date</label>
+
+ <input
+ id="date"
+ type="date"
+ value="${today()}">
+
+ </div>
+
+
+ <div class="field full suggestionbox">
+
+ <label>Detail</label>
+
+ <input
+ id="detail"
+ autocomplete="off">
+
+ <div
+ id="sugg"
+ class="suggestions">
+ </div>
+
+ </div>
+
+
+ <div class="field full">
+
+ <label>Total Amount</label>
+
+ <input
+ id="amount"
+ type="number"
+ step="any"
+ min="0">
+
+ </div>
+
+
+ <div class="field full">
+
+ <button
+ class="primary"
+ onclick="saveExpense()">
+
+ Save Expense
+
+ </button>
+
+ </div>
+
+ </div>
+
+ `;
+
+}
+
+
+/* CASH IN */
+
+else{
+
+ a.innerHTML=`
+
+ <div class="formgrid">
+
+ <div class="field">
+
+ <label>Date</label>
+
+ <input
+ id="date"
+ type="date"
+ value="${today()}">
+
+ </div>
+
+
+ <div class="field full suggestionbox">
+
+ <label>Detail</label>
+
+ <input
+ id="detail"
+ autocomplete="off">
+
+ <div
+ id="sugg"
+ class="suggestions">
+ </div>
+
+ </div>
+
+
+ <div class="field full">
+
+ <label>Amount</label>
+
+ <input
+ id="amount"
+ type="number"
+ step="any"
+ min="0">
+
+ </div>
+
+
+ <div class="field full">
+
+ <button
+ class="primary"
+ onclick="saveCash()">
+
+ Save Cash In
+
+ </button>
+
+ </div>
+
+ </div>
+
+ `;
+
+ }
+
+
+ if(document.getElementById('detail')){
+
+  detailSuggestions('detail','sugg');
+
+ }
+
+
+ a.querySelectorAll('input,select')
+ .forEach(el=>{
+
+  el.addEventListener('keydown',e=>{
+
+   if(e.key==='Enter'){
+
+    e.preventDefault();
+
+    if(mode==='purchase')
+     savePurchase();
+
+    else if(mode==='sale')
+     saveSale();
+
+    else if(mode==='expense')
+     saveExpense();
+
+    else
+     saveCash();
+
+   }
+
+  });
+
+ });
+
+}
+
+
+/* PURCHASE CALCULATION */
+
+function calcPurchase(){
+
+ const q=getNumber('qty')||0;
+ const amount=getNumber('amount')||0;
+
+ const price=q ? amount/q : 0;
+
+ const box=
+ document.getElementById('unitPrice');
+
+ if(box){
+
+  box.textContent=
+  price.toFixed(2);
+
+ }
+
+}
+
+
+/* SALE CALCULATION */
+
+function calcSale(){
+
+ const q=getNumber('qty')||0;
+ const total=getNumber('saleTotalInput')||0;
+ const received=getNumber('received')||0;
+
+ const detail=
+ document.getElementById('detail')?.value.trim()||'';
+
+ const unitSale=
+ q ? total/q : 0;
+
+ const stock=
+ getStock(detail);
+
+ const cost=
+ stock ? Number(stock.cost||0) : 0;
+
+ const profit=
+ total-(cost*q);
+
+ const due=
+ Math.max(0,total-received);
+
+
+ const unitBox=
+ document.getElementById('saleUnit');
+
+ const profitBox=
+ document.getElementById('saleProfit');
+
+ const dueBox=
+ document.getElementById('saleDue');
+
+
+ if(unitBox)
+  unitBox.textContent=
+  unitSale.toFixed(2);
+
+ if(profitBox)
+  profitBox.textContent=
+  profit.toFixed(2);
+
+ if(dueBox)
+  dueBox.textContent=
+  due.toFixed(2);
+
+}
+
+
+/* ADD ENTRY */
+
+function addEntry(e){
+
+ const duplicate=data.entries.some(existing=>
+  existing.type===e.type &&
+  existing.date===e.date &&
+  normalizeDetail(existing.detail)===normalizeDetail(e.detail) &&
+  Number(existing.qty||0)===Number(e.qty||0) &&
+  Number(existing.amount ?? existing.total ?? 0)===
+  Number(e.amount ?? e.total ?? 0)
+ );
+
+ if(duplicate){
+
+  showMessage('A matching entry already exists. Duplicate entries were not saved.','error');
+  return false;
+
+ }
+
+ data.entries.unshift(e);
+
+ saveData();
+
+ return true;
+
+}
+
+
+/* PURCHASE */
+
+function savePurchase(){
+
+ clearInvalid();
+
+ const dealer=
+ document.getElementById('dealer')?.value.trim()||'';
+
+ const detail=
+ document.getElementById('detail')?.value.trim()||'';
+
+ const unit=
+ document.getElementById('unit')?.value||'';
+
+ const qty=getNumber('qty');
+ const amount=getNumber('amount');
+
+
+ if(!detail){
+
+  markInvalid('detail');
+  showMessage('Enter a purchase description.','error');
+  return;
+
+ }
+
+ if(qty===null || qty<=0){
+
+  markInvalid('qty');
+  showMessage('Quantity must be a valid number greater than zero.','error');
+  return;
+
+ }
+
+ if(amount===null || amount<=0){
+
+  markInvalid('amount');
+  showMessage('Purchase amount must be a valid number greater than zero.','error');
+  return;
+
+ }
+
+
+ const unitPrice=
+ amount/qty;
+
+
+ const stockKey=
+ getStockKey(detail);
+
+ let s=
+ stockKey
+ ?
+ data.stock[stockKey]
+ :
+ {
+  qty:0,
+  unit:unit,
+  cost:unitPrice
+ };
+
+
+ const oldQty=
+ Math.max(0,Number(s.qty)||0);
+
+ const oldCost=
+ Number(s.cost)||0;
+
+
+ s.cost=
+ oldQty
+ ?
+ ((oldCost*oldQty)+(unitPrice*qty))
+ /(oldQty+qty)
+ :
+ unitPrice;
+
+
+ s.qty=
+ oldQty+qty;
+
+ s.unit=unit;
+
+ data.stock[stockKey||detail]=s;
+
+
+ const saved=addEntry({
+
+  type:'Purchase',
+
+  date:today(),
+
+  dealer:dealer,
+
+  detail:detail,
+
+  unit:unit,
+
+  qty:qty,
+
+  amount:amount,
+
+  unitPrice:unitPrice
+
+ });
+
+ if(!saved){
+
+  if(stockKey || !stockKey)renderAll();
+  return;
+
+ }
+
+ renderForm();
+
+ showMessage('Purchase saved successfully.','success');
+
+}
+
+
+/* SALE */
+
+function saveSale(){
+
+ clearInvalid();
+
+ const customer=
+ document.getElementById('customer')?.value.trim()||'';
+
+ const detail=
+ document.getElementById('detail')?.value.trim()||'';
+
+ const unit=
+ document.getElementById('unit')?.value||'';
+
+ const qty=getNumber('qty');
+ const total=getNumber('saleTotalInput');
+ const received=getNumber('received');
+
+
+ if(!detail){
+
+  markInvalid('detail');
+  showMessage('Enter a sale description.','error');
+  return;
+
+ }
+
+ if(qty===null || qty<=0){
+
+  markInvalid('qty');
+  showMessage('Quantity must be a valid number greater than zero.','error');
+  return;
+
+ }
+
+ if(total===null || total<=0){
+
+  markInvalid('saleTotalInput');
+  showMessage('Sale amount must be a valid number greater than zero.','error');
+  return;
+
+ }
+
+ if(received===null || received<0){
+
+  markInvalid('received');
+  showMessage('Amount received must be a valid number zero or greater.','error');
+  return;
+
+ }
+
+ if(received>total){
+
+  markInvalid('received');
+  showMessage('Amount received cannot be greater than the total sale amount.','error');
+  return;
+
+ }
+
+
+ const stockKey=
+ getStockKey(detail);
+
+ const s=
+ stockKey ? data.stock[stockKey] : null;
+
+
+ if(!s){
+
+  markInvalid('detail');
+  showMessage('This item is not available in stock.','error');
+  return;
+
+ }
+
+
+ const availableQty=
+ Number(s.qty);
+
+ if(!Number.isFinite(availableQty) || availableQty<0){
+
+  showMessage('This stock record is invalid. Correct the stock data before making a sale.','error');
+  return;
+
+ }
+
+ if(availableQty<qty){
+
+  markInvalid('qty');
+  showMessage('Stock is not enough for this sale.','error');
+  return;
+
+ }
+
+
+ const unitSale=
+ total/qty;
+
+ const cost=
+ Number(s.cost)||0;
+
+ const profit=
+ total-(cost*qty);
+
+ const due=
+ total-received;
+
+
+ s.qty=
+ Math.max(0,availableQty-qty);
+
+
+ data.stock[stockKey]=s;
+
+
+ const saved=addEntry({
+
+  type:'Sale',
+
+  date:today(),
+
+  customer:customer,
+
+  detail:detail,
+
+  unit:unit,
+
+  qty:qty,
+
+  total:total,
+
+  received:received,
+
+  unitSale:unitSale,
+
+  profit:profit,
+
+  due:due
+
+ });
+
+ if(!saved){
+
+  data.stock[stockKey].qty=availableQty;
+  saveData();
+  return;
+
+ }
+
+ renderForm();
+
+ showMessage('Sale saved successfully.','success');
+
+}
+
+
+/* EXPENSE */
+
+function saveExpense(){
+
+ clearInvalid();
+
+ const detail=
+ document.getElementById('detail')?.value.trim()||'';
+
+ const amount=getNumber('amount');
+
+ const date=
+ document.getElementById('date')?.value||'';
+
+
+ if(!detail){
+
+  markInvalid('detail');
+  showMessage('Enter an expense detail.','error');
+  return;
+
+ }
+
+ if(!isValidDate(date)){
+
+  markInvalid('date');
+  showMessage('Enter a valid expense date.','error');
+  return;
+
+ }
+
+ if(amount===null || amount<=0){
+
+  markInvalid('amount');
+  showMessage('Expense amount must be a valid number greater than zero.','error');
+  return;
+
+ }
+
+
+ const saved=addEntry({
+
+  type:'Expense',
+
+  date:date,
+
+  detail:detail,
+
+  amount:amount
+
+ });
+
+ if(!saved)return;
+
+ renderForm();
+
+ showMessage('Expense saved successfully.','success');
+
+}
+
+
+/* CASH IN */
+
+function saveCash(){
+
+ clearInvalid();
+
+ const detail=
+ document.getElementById('detail')?.value.trim()||'';
+
+ const amount=getNumber('amount');
+
+ const date=
+ document.getElementById('date')?.value||'';
+
+
+ if(!detail){
+
+  markInvalid('detail');
+  showMessage('Enter a cash-in detail.','error');
+  return;
+
+ }
+
+ if(!isValidDate(date)){
+
+  markInvalid('date');
+  showMessage('Enter a valid cash-in date.','error');
+  return;
+
+ }
+
+ if(amount===null || amount<=0){
+
+  markInvalid('amount');
+  showMessage('Cash-in amount must be a valid number greater than zero.','error');
+  return;
+
+ }
+
+
+ const saved=addEntry({
+
+  type:'Cash In',
+
+  date:date,
+
+  detail:detail,
+
+  amount:amount
+
+ });
+
+ if(!saved)return;
+
+ renderForm();
+
+ showMessage('Cash In saved successfully.','success');
+
+}
+
+
+/* GET VALUE */
+
+function val(id){
+
+ return document
+ ?.getElementById(id)
+ ?.value.trim()||'';
+
+}
+
+
+/* RENDER EVERYTHING */
+
+function renderAll(){
+
+ const sales=
+ data.entries.filter(
+  e=>e.type==='Sale'
+ );
+
+ const purchases=
+ data.entries.filter(
+  e=>e.type==='Purchase'
+ );
+
+ const expenses=
+ data.entries.filter(
+  e=>e.type==='Expense'
+ );
+
+ const cash=
+ data.entries.filter(
+  e=>e.type==='Cash In'
+ );
+
+
+ const t=today();
+
+
+ const dailySales=
+ sales.filter(e=>e.date===t);
+
+ const dailyPurchases=
+ purchases.filter(e=>e.date===t);
+
+ const dailyExpenses=
+ dailyExpenses.filter(e=>e.date===t);
+
+ const dailyCash=
+ cash.filter(e=>e.date===t);
+
+
+ const saleTotal=
+ dailySales.reduce(
+  (a,e)=>a+Number(e.total||0),0
+ );
+
+ const purchaseTotal=
+ dailyPurchases.reduce(
+  (a,e)=>a+Number(e.amount||0),0
+ );
+
+ const expenseTotal=
+ dailyExpenses.reduce(
+  (a,e)=>a+Number(e.amount||0),0
+ );
+
+ const cashTotal=
+ dailyCash.reduce(
+  (a,e)=>a+Number(e.amount||0),0
+ );
+
+
+ const dues=
+ sales.reduce(
+  (a,e)=>a+Number(e.due||0),0
+ );
+
+ const profit=
+ sales.reduce(
+  (a,e)=>a+Number(e.profit||0),0
+ );
+
+ const received=
+ sales.reduce(
+  (a,e)=>a+Number(e.received||0),0
+ );
+
+
+ document.getElementById(
+  'saleTotal'
+ ).textContent=money(saleTotal);
+
+
+ document.getElementById(
+  'purchaseTotal'
+ ).textContent=money(purchaseTotal);
+
+
+ document.getElementById(
+  'expenseTotal'
+ ).textContent=money(expenseTotal);
+
+
+ document.getElementById(
+  'cashTotal'
+ ).textContent=money(cashTotal);
+
+
+ document.getElementById(
+  'dueTotal'
+ ).textContent=money(dues);
+
+
+ document.getElementById(
+  'profitTotal'
+ ).textContent=money(profit);
+
+
+ document.getElementById(
+  'cashBalance'
+ ).textContent=
+ money(
+  received+
+  cashTotal-
+  purchaseTotal-
+  expenseTotal
+ );
+
+
+ const items=
+ Object.entries(data.stock)
+ .filter(
+  ([k,v])=>Number(v.qty)>0
+ );
+
+
+ document.getElementById(
+  'stockCount'
+ ).textContent=items.length;
+
+
+ document.getElementById(
+  'stockTable'
+ ).innerHTML=
+
+ items.length
+
+ ?
+
+ '<div class="table-scroll"><table>'+
+ '<tr>'+
+ '<th>Item</th>'+
+ '<th>Qty</th>'+
+ '<th>Unit</th>'+
+ '<th>Purchase Cost</th>'+
+ '</tr>'+
+
+ items.map(
+  ([k,v])=>
+
+  '<tr>'+
+  '<td>'+esc(k)+'</td>'+
+  '<td>'+money(Math.max(0,Number(v.qty)||0))+'</td>'+
+  '<td>'+esc(v.unit)+'</td>'+
+  '<td>'+money(v.cost)+'</td>'+
+  '</tr>'
+
+ ).join('')+
+
+ '</table></div>'
+
+ :
+
+ 'No stock yet.';
+
+
+ document.getElementById(
+  'entriesTable'
+ ).innerHTML=
+
+ data.entries.length
+
+ ?
+
+ '<div class="table-scroll"><table>'+
+ '<tr>'+
+ '<th>Date</th>'+
+ '<th>Type</th>'+
+ '<th>Detail</th>'+
+ '<th>Qty</th>'+
+ '<th>Amount</th>'+
+ '</tr>'+
+
+ data.entries.slice(0,30).map(e=>
+
+ '<tr>'+
+ '<td>'+esc(e.date)+'</td>'+
+ '<td>'+esc(e.type)+'</td>'+
+ '<td>'+esc(e.detail)+'</td>'+
+ '<td>'+money(e.qty||0)+'</td>'+
+ '<td>'+
+ money(
+  e.amount ??
+  e.total ??
+  e.received ??
+  0
+ )+
+ '</td>'+
+ '</tr>'
+
+ ).join('')+
+
+ '</table></div>'
+
+ :
+
+ 'No entries yet.';
+
+}
+
+
+/* DELETE LOCAL DATA */
+
+function clearAll(){
+
+ const box=document.getElementById('formMessage');
+
+ if(!confirm(
+  'Delete all DigiRise store data from this device?'
+ )){
+
+  if(box)showMessage('Data deletion was cancelled.','error');
+  return;
+
+ }
+
+ localStorage.removeItem(KEY);
+
+ if(box)showMessage('All local store data was deleted.','success');
+
+ setTimeout(()=>location.reload(),500);
+
+}
+
+
+/* START */
+
+renderForm();
+renderAll();
+
+</script>
+
+</body>
+</html>
