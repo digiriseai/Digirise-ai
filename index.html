@@ -9,7 +9,7 @@
 *{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,Helvetica,sans-serif;background:#f5f7fb;color:#172033;line-height:1.5}
 a{text-decoration:none;color:inherit}.header{background:#101827;color:#fff;position:sticky;top:0;z-index:1000;box-shadow:0 3px 15px #0002}
 .nav{max-width:1180px;margin:auto;min-height:68px;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.top-left-menu{display:flex;align-items:center}.top-left-menu select{width:auto;min-width:150px;padding:9px 34px 9px 11px;border:1px solid #334155;border-radius:10px;background:#182238;color:#fff;font-weight:700;cursor:pointer}.top-left-menu select option{background:#fff;color:#172033}.logo{font-size:25px;font-weight:800;background:linear-gradient(90deg,#55d6ff,#9b6cff,#ff5ebc);-webkit-background-clip:text;color:transparent}
+.logo{font-size:25px;font-weight:800;background:linear-gradient(90deg,#55d6ff,#9b6cff,#ff5ebc);-webkit-background-clip:text;color:transparent}
 .menu{display:flex;gap:6px;flex-wrap:wrap}.menu a{padding:9px 11px;border-radius:9px;font-size:13px;color:#dbe4f5}.menu a:hover,.menu a.active{background:#26334a;color:#fff}
 .adminnav{background:#7c4dff!important;color:#fff!important}.hero{max-width:1180px;margin:auto;padding:52px 16px 30px;text-align:center}.hero h1{font-size:clamp(34px,7vw,62px);margin-bottom:10px}
 .gradient{background:linear-gradient(90deg,#1b9cff,#7b55ff,#ed3fa9);-webkit-background-clip:text;color:transparent}.hero p{max-width:720px;margin:0 auto 22px;color:#667085;font-size:17px}
@@ -27,7 +27,7 @@ label{display:block;margin:11px 0 5px;font-size:13px;font-weight:700}.output{min
 .adminbox{background:#fff;border:1px solid #e7eaf1;border-radius:16px;padding:20px}.badge{display:inline-block;background:#ece9ff;color:#5943cc;padding:5px 9px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:8px}
 .footer{background:#101827;color:#aeb8ca;text-align:center;padding:28px 16px}.muted{color:#64748b;font-size:12px}.hide{display:none}
 @media(max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}.tool-grid,.kgrid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
-@media(max-width:600px){.nav{align-items:center;flex-direction:row}.menu{width:100%;overflow-x:auto;flex-wrap:nowrap}.menu a{white-space:nowrap}.hero{padding-top:35px}.cards{grid-template-columns:1fr}.btn{display:block;width:100%;margin:7px 0!important}.row{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.nav{align-items:flex-start;flex-direction:column}.menu{width:100%;overflow-x:auto;flex-wrap:nowrap}.menu a{white-space:nowrap}.hero{padding-top:35px}.cards{grid-template-columns:1fr}.btn{display:block;width:100%;margin:7px 0!important}.row{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
 
 .module-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
 .module-card{background:#fff;border:1px solid #e7eaf1;border-radius:16px;padding:20px;box-shadow:0 7px 25px #1822300b}
@@ -39,7 +39,7 @@ label{display:block;margin:11px 0 5px;font-size:13px;font-weight:700}.output{min
 @media(max-width:900px){.module-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.module-grid{grid-template-columns:1fr}}
 
-.memo-tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin:15px 0}
+.memo-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:15px 0}
 .memo-tab{border:1px solid #d8deea;border-radius:12px;padding:13px 8px;background:#fff;color:#27324a;font-weight:800;cursor:pointer}
 .memo-tab.active{background:linear-gradient(135deg,#6757e8,#1b9cff);color:#fff;border-color:transparent;box-shadow:0 8px 22px #6757e82b}
 .memo-panel,.memo-report{background:#fff;border:1px solid #e7eaf1;border-radius:18px;padding:20px;box-shadow:0 7px 25px #1822300b}
@@ -57,92 +57,99 @@ label{display:block;margin:11px 0 5px;font-size:13px;font-weight:700}.output{min
 .memo-account-summary{margin-top:10px}.memo-account-summary h4,.memo-summary-row h4{margin-bottom:5px}
 .memo-account-item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #e5e7eb;font-size:13px}
 @media(max-width:700px){.memo-tabs{grid-template-columns:1fr 1fr}.memo-head,.memo-report-head{align-items:stretch;flex-direction:column}.memo-date{width:100%}.memo-actions{grid-template-columns:1fr}.memo-stats{grid-template-columns:1fr 1fr}.memo-summary-row{grid-template-columns:1fr}}
+
+.memo-option-box{margin:0 0 16px;padding:14px;border:1px solid #dbe3ef;border-radius:14px;background:#f8fafc}.memo-option-box label{display:block;margin-bottom:7px}.memo-option-box select{width:100%;padding:12px;border:1px solid #cfd8e5;border-radius:10px;background:#fff;font-size:16px}
 </style>
 </head>
 <body>
 <header class="header"><nav class="nav">
-<div class="top-left-menu">
-  <select id="topMenu" aria-label="DigiRise menu" onchange="if(this.value==='#memoReport'){location.hash='#karyana';if(document.getElementById('memoReport').classList.contains('hide'))memoReports();}else if(this.value)location.hash=this.value">
-    <option value="#home">☰ Menu</option>
-    <option value="#home">Home</option>
-    <option value="#karyana">Memo</option>
-    <option value="#memoReport">Reports / Accounts</option>
-    <option value="#admin">Admin</option>
-  </select>
-</div>
 <a class="logo" href="#home">DigiRise</a>
+<div class="menu">
+<a href="#home">Home</a>
+<a href="#image">AI Image</a>
+<a href="#video">AI Video</a>
+<a href="#chat">AI Chat</a>
+<a href="#learn">Learn</a>
+<a href="#quran">Quran</a>
+<a href="#products">Products</a>
+<a href="#teachers">Teachers</a>
+<a href="#students">Students</a>
+<a href="#login">Login</a>
+<a href="#karyana">General Store</a>
+<a href="#admin" class="adminnav">Admin</a>
+</div>
 </nav></header>
 
 <main id="home">
 <section class="hero">
 <h1>Welcome to <span class="gradient">DigiRise</span></h1>
 <p>AI tools, productivity, business and useful digital services — built mobile-first and ready for desktop/web.</p>
-<a class="btn" href="#karyana">Open Memo</a>
-</section>
+<a class="btn" href="#karyana">Open
 <section class="section" id="karyana">
 <h2 class="section-title">DigiRise Smart Memo</h2>
 <p class="section-sub">One Memo — choose one transaction type. Unit prices and profit are calculated automatically.</p>
 
-<div class="memo-tabs" role="tablist" aria-label="Memo type">
-  <button class="memo-tab active" data-type="purchase" onclick="memoType('purchase')">Purchase</button>
-  <button class="memo-tab" data-type="sale" onclick="memoType('sale')">Sale</button>
-  <button class="memo-tab" data-type="expense" onclick="memoType('expense')">Expenses</button>
-  <button class="memo-tab" data-type="cashin" onclick="memoType('cashin')">Cash In</button>
-  <button class="memo-tab" data-type="cashout" onclick="memoType('cashout')">Cash Out</button>
-</div>
-
 <div class="memo-panel">
   <div class="memo-head">
-    <div><span class="badge">ONE MEMO</span><h3 id="memoTitle">Purchase Entry</h3></div>
+    <div><span class="badge">ONE MEMO</span><h3 id="memoTitle">Purchase</h3></div>
     <div class="memo-date"><label for="memoDate">Date</label><input id="memoDate" type="date"></div>
   </div>
 
+  <div class="memo-option-box">
+    <label for="memoOption"><b>Memo Option</b></label>
+    <select id="memoOption" onchange="memoType(this.value)">
+      <option value="purchase">Purchase</option>
+      <option value="sale">Sale</option>
+      <option value="expense">Expenses</option>
+      <option value="cashin">Cash In</option>
+      <option value="cashout">Cash Out</option>
+    </select>
+  </div>
+
   <div id="memoPurchase" class="memo-fields">
-    <div><label>Product</label><input id="memoPurchaseItem" list="memoItems" placeholder="e.g. Sugar"></div>
-    <div><label>Supplier / Account</label><input id="memoPurchaseAccount" list="memoAccounts" placeholder="Supplier name"></div>
+    <div><label>Product</label><input id="memoPurchaseItem" list="memoItems" placeholder="Product name"></div>
+    <div><label>Supplier / Account</label><input id="memoPurchaseAccount" list="memoAccounts" placeholder="Supplier / Account"></div>
     <div class="memo-row">
-      <div><label>Quantity</label><input id="memoPurchaseQty" type="number" min="0" step="0.001" placeholder="5"></div>
+      <div><label>Quantity</label><input id="memoPurchaseQty" type="number" min="0" step="0.001" placeholder="Quantity"></div>
       <div><label>Unit</label><select id="memoPurchaseUnit"><option>PCS</option><option>KG</option><option>LTR</option><option>DOZEN</option><option>PACK</option><option>BAG</option></select></div>
     </div>
-    <div><label>Purchase Amount (Rs)</label><input id="memoPurchaseAmount" type="number" min="0" step="0.01" placeholder="500"></div>
-    <div><label>Expenses (Rs)</label><input id="memoPurchaseExpenses" type="number" min="0" step="0.01" value="0" placeholder="50"></div>
+    <div><label>Purchase Amount (Rs)</label><input id="memoPurchaseAmount" type="number" min="0" step="0.01" placeholder="Total purchase amount"></div>
+    <div><label>Purchase Expenses (Rs)</label><input id="memoPurchaseExpenses" type="number" min="0" step="0.01" value="0" placeholder="Extra purchase expense"></div>
     <div class="memo-calc" id="memoPurchaseCalc">Unit Cost: Rs 0</div>
   </div>
 
   <div id="memoSale" class="memo-fields hide">
-    <div><label>Product</label><input id="memoSaleItem" list="memoItems" placeholder="e.g. Sugar"></div>
-    <div><label>Customer / Account</label><input id="memoSaleAccount" list="memoAccounts" placeholder="Customer name"></div>
+    <div><label>Product</label><input id="memoSaleItem" list="memoItems" placeholder="Product name"></div>
+    <div><label>Customer / Account</label><input id="memoSaleAccount" list="memoAccounts" placeholder="Customer / Account"></div>
     <div class="memo-row">
-      <div><label>Quantity</label><input id="memoSaleQty" type="number" min="0" step="0.001" placeholder="5"></div>
+      <div><label>Quantity</label><input id="memoSaleQty" type="number" min="0" step="0.001" placeholder="Quantity"></div>
       <div><label>Unit</label><select id="memoSaleUnit"><option>PCS</option><option>KG</option><option>LTR</option><option>DOZEN</option><option>PACK</option><option>BAG</option></select></div>
     </div>
-    <div><label>Sale Amount (Rs)</label><input id="memoSaleAmount" type="number" min="0" step="0.01" placeholder="600"></div>
+    <div><label>Sale Amount (Rs)</label><input id="memoSaleAmount" type="number" min="0" step="0.01" placeholder="Total sale amount"></div>
     <div class="memo-calc" id="memoSaleCalc">Unit Sale Price: Rs 0 • Profit: Rs 0</div>
   </div>
 
   <div id="memoExpense" class="memo-fields hide">
-    <div><label>Expense Detail</label><input id="memoExpenseType" list="memoExpenseTypes" placeholder="e.g. shop expense"></div>
-    <div><label>Amount (Rs)</label><input id="memoExpenseAmount" type="number" min="0" step="0.01" placeholder="100"></div>
+    <div><label>Expense Detail</label><input id="memoExpenseType" placeholder="What was the expense?"></div>
+    <div><label>Amount (Rs)</label><input id="memoExpenseAmount" type="number" min="0" step="0.01" placeholder="Amount"></div>
   </div>
 
   <div id="memoCashin" class="memo-fields hide">
-    <div><label>Account / Detail</label><input id="memoCashSource" list="memoAccounts" placeholder="Customer / Account"></div>
-    <div><label>Amount (Rs)</label><input id="memoCashAmount" type="number" min="0" step="0.01" placeholder="300"></div>
+    <div><label>Account / Detail</label><input id="memoCashSource" list="memoAccounts" placeholder="Customer / Account / Detail"></div>
+    <div><label>Amount (Rs)</label><input id="memoCashAmount" type="number" min="0" step="0.01" placeholder="Amount received"></div>
   </div>
 
   <div id="memoCashout" class="memo-fields hide">
-    <div><label>Supplier / Account</label><input id="memoCashOutSource" list="memoAccounts" placeholder="Supplier / Account"></div>
-    <div><label>Amount (Rs)</label><input id="memoCashOutAmount" type="number" min="0" step="0.01" placeholder="300"></div>
+    <div><label>Supplier / Account</label><input id="memoCashOutSource" list="memoAccounts" placeholder="Supplier / Account / Detail"></div>
+    <div><label>Amount (Rs)</label><input id="memoCashOutAmount" type="number" min="0" step="0.01" placeholder="Amount paid"></div>
   </div>
-
-  <div><label>Detail / Note <span class="muted">(optional)</span></label><input id="memoNote" placeholder="Optional detail"></div>
 
   <div class="memo-actions">
     <button class="btn" onclick="memoSave()">Save Entry</button>
     <button class="btn secondary" onclick="memoNew()">New Entry</button>
     <button class="btn secondary" onclick="memoReports()">Reports</button>
   </div>
-  <div id="memoMessage" class="memo-message">Ready — choose Purchase, Sale, Expenses, Cash In or Cash Out.</div>
+  <div id="memoMessage" class="memo-message">Ready — choose a Memo option.</div>
 </div>
 
 <div id="memoReport" class="memo-report hide">
@@ -187,6 +194,83 @@ label{display:block;margin:11px 0 5px;font-size:13px;font-weight:700}.output{min
 </div>
 </div></section>
 </div>
+<section class="section" id="stock-expenses">
+<h2 class="section-title">DigiRise General Store — Stock & Daily Expenses</h2>
+<p class="section-sub">Separate records for stock quantity, purchase cost, sale quantity, daily profit, and shop expenses. Existing General Store records are not overwritten.</p>
+
+<div class="kgrid">
+  <div class="kcard">
+    <h3>ADD STOCK / PURCHASE</h3>
+    <div class="row">
+      <div class="full"><label>Item name</label><input id="gsItem" list="gsItems" placeholder="e.g. Sugar, Ghee, Tea"></div>
+      <div><label>Date</label><input id="gsPurchaseDate" type="date"></div>
+      <div><label>Quantity bought</label><input id="gsPurchaseQty" type="number" min="0" step="0.001" placeholder="0"></div>
+      <div><label>Unit</label><select id="gsPurchaseUnit"><option>KG</option><option>PCS</option><option>PACK</option><option>LTR</option><option>DOZEN</option><option>BAG</option></select></div>
+      <div><label>Total cost (Rs)</label><input id="gsPurchaseCost" type="number" min="0" step="0.01" placeholder="0"></div>
+    </div>
+    <button class="btn save" onclick="gsSavePurchase()">Save Stock Purchase</button>
+  </div>
+
+  <div class="kcard">
+    <h3>RECORD SALE</h3>
+    <div class="row">
+      <div class="full"><label>Item name</label><input id="gsSaleItem" list="gsItems" placeholder="Select/type item"></div>
+      <div><label>Date</label><input id="gsSaleDate" type="date"></div>
+      <div><label>Quantity sold</label><input id="gsSaleQty" type="number" min="0" step="0.001" placeholder="0"></div>
+      <div><label>Unit sale price (Rs)</label><input id="gsSalePrice" type="number" min="0" step="0.01" placeholder="0"></div>
+    </div>
+    <button class="btn save" onclick="gsSaveSale()">Save Sale</button>
+    <p class="muted">Sale profit is estimated using the item's average purchase cost.</p>
+  </div>
+
+  <div class="kcard">
+    <h3>DAILY SHOP EXPENSE</h3>
+    <div class="row">
+      <div><label>Date</label><input id="gsExpenseDate" type="date"></div>
+      <div><label>Expense type</label><input id="gsExpenseType" list="gsExpenseTypes" placeholder="Electricity, labour..."></div>
+      <div><label>Amount (Rs)</label><input id="gsExpenseAmount" type="number" min="0" step="0.01" placeholder="0"></div>
+      <div class="full"><label>Details (optional)</label><input id="gsExpenseNote" placeholder="e.g. today's shop electricity bill"></div>
+    </div>
+    <datalist id="gsExpenseTypes">
+      <option value="Kiryana / shop supplies"></option><option value="Labour"></option>
+      <option value="Electricity"></option><option value="Roti"></option>
+      <option value="Tea"></option><option value="Transport / rent"></option>
+      <option value="Gas"></option><option value="Repair"></option><option value="Other"></option>
+    </datalist>
+    <datalist id="gsItems"></datalist>
+    <button class="btn save" onclick="gsSaveExpense()">Save Expense</button>
+  </div>
+</div>
+
+<div class="kcard">
+  <h3>STOCK SUMMARY</h3>
+  <div class="tablewrap"><table><thead><tr><th>Item</th><th>Stock Qty</th><th>Unit</th><th>Avg Cost / Unit</th><th>Stock Cost Value (Rs)</th></tr></thead><tbody id="gsStockRows"><tr><td colspan="5">No stock recorded yet.</td></tr></tbody></table></div>
+</div>
+
+<div class="kcard">
+  <h3>DAILY PROFIT & EXPENSE REPORT</h3>
+  <div class="row">
+    <div><label>Report date</label><input id="gsReportDate" type="date" onchange="gsRender()"></div>
+  </div>
+  <div class="stats">
+    <div class="stat"><span>Sales (Rs)</span><strong id="gsDailySales">0</strong></div>
+    <div class="stat"><span>Cost of sold goods (Rs)</span><strong id="gsDailyCost">0</strong></div>
+    <div class="stat"><span>Gross profit (Rs)</span><strong id="gsDailyGross">0</strong></div>
+    <div class="stat"><span>Daily expenses (Rs)</span><strong id="gsDailyExpense">0</strong></div>
+    <div class="stat"><span>Net profit after expenses (Rs)</span><strong id="gsDailyNet">0</strong></div>
+  </div>
+  <h3>Expenses for selected day</h3>
+  <div class="tablewrap"><table><thead><tr><th>Type</th><th>Details</th><th>Amount (Rs)</th><th></th></tr></thead><tbody id="gsExpenseRows"><tr><td colspan="4">No expenses recorded.</td></tr></tbody></table></div>
+  <h3>Recent stock and sales entries</h3>
+  <div class="tablewrap"><table><thead><tr><th>Date</th><th>Type</th><th>Item</th><th>Qty</th><th>Amount (Rs)</th><th></th></tr></thead><tbody id="gsTxnRows"><tr><td colspan="6">No entries recorded.</td></tr></tbody></table></div>
+  <div class="row">
+    <button class="btn secondary" onclick="gsExport()">Export General Store Records (CSV)</button>
+    <button class="btn secondary" onclick="gsClearAll()">Clear these new records</button>
+  </div>
+  <p class="muted">Important: these new stock/expense records are saved in this browser on this device. Export a backup regularly. They are separate from your existing account records.</p>
+</div>
+</section>
+
 </main>
 <footer class="footer">© <span id="year"></span> DigiRise — mobile + desktop web.</footer>
 
@@ -287,7 +371,75 @@ window.generateImage=async()=>{
 window.chatDemo=()=>{let v=$("chatInput").value.trim();$("chatOutput").textContent=v?"Message ready for DigiRise AI: "+v:"Please type a message first."};
 </script>
 
-
+<script>
+(function(){
+  const KEY="digirise_general_store_stock_expenses_v1";
+  const $=id=>document.getElementById(id);
+  const today=new Date().toISOString().slice(0,10);
+  let records=[];
+  try{records=JSON.parse(localStorage.getItem(KEY)||"[]");if(!Array.isArray(records))records=[];}catch(e){records=[];}
+  ["gsPurchaseDate","gsSaleDate","gsExpenseDate","gsReportDate"].forEach(id=>{if($(id))$(id).value=today;});
+  const money=n=>Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+  const num=id=>Math.max(0,Number($(id).value)||0);
+  const safe=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  function save(){localStorage.setItem(KEY,JSON.stringify(records));gsRender();}
+  function stockMap(){
+    const m={};
+    records.filter(r=>r.type==="purchase"||r.type==="sale").sort((a,b)=>a.date.localeCompare(b.date)).forEach(r=>{
+      const k=r.item.trim().toLowerCase();
+      if(!m[k])m[k]={item:r.item,unit:r.unit||"PCS",boughtQty:0,boughtCost:0,soldQty:0};
+      if(r.type==="purchase"){m[k].boughtQty+=r.qty;m[k].boughtCost+=r.amount;m[k].unit=r.unit||m[k].unit;}
+      else m[k].soldQty+=r.qty;
+    });
+    return m;
+  }
+  window.gsSavePurchase=function(){
+    const item=$("gsItem").value.trim(),date=$("gsPurchaseDate").value,qty=num("gsPurchaseQty"),amount=num("gsPurchaseCost"),unit=$("gsPurchaseUnit").value;
+    if(!item||!date||qty<=0||amount<=0){alert("Item, date, quantity and total cost enter karein.");return;}
+    records.push({id:Date.now(),type:"purchase",date,item,qty,unit,amount});save();
+    $("gsPurchaseQty").value="";$("gsPurchaseCost").value="";
+  };
+  window.gsSaveSale=function(){
+    const item=$("gsSaleItem").value.trim(),date=$("gsSaleDate").value,qty=num("gsSaleQty"),price=num("gsSalePrice");
+    if(!item||!date||qty<=0||price<=0){alert("Item, date, quantity and unit sale price enter karein.");return;}
+    const m=stockMap()[item.toLowerCase()];
+    if(!m||m.boughtQty-m.soldQty<qty){if(!confirm("Recorded stock is less than this sale quantity. Sale phir bhi save karein?"))return;}
+    const avg=m&&m.boughtQty>0?m.boughtCost/m.boughtQty:0;
+    records.push({id:Date.now(),type:"sale",date,item,qty,unit:m?.unit||"PCS",amount:qty*price,cost:qty*avg});
+    save();$("gsSaleQty").value="";$("gsSalePrice").value="";
+  };
+  window.gsSaveExpense=function(){
+    const date=$("gsExpenseDate").value,type=$("gsExpenseType").value.trim(),amount=num("gsExpenseAmount"),note=$("gsExpenseNote").value.trim();
+    if(!date||!type||amount<=0){alert("Date, expense type and amount enter karein.");return;}
+    records.push({id:Date.now(),type:"expense",date,item:type,qty:0,unit:"",amount,note});save();
+    $("gsExpenseAmount").value="";$("gsExpenseNote").value="";
+  };
+  window.gsRender=function(){
+    const m=stockMap(),keys=Object.keys(m).sort();
+    $("gsStockRows").innerHTML=keys.length?keys.map(k=>{
+      const x=m[k],qty=x.boughtQty-x.soldQty,avg=x.boughtQty?x.boughtCost/x.boughtQty:0;
+      return `<tr><td>${safe(x.item)}</td><td>${qty.toFixed(3)}</td><td>${safe(x.unit)}</td><td>${money(avg)}</td><td>${money(Math.max(0,qty)*avg)}</td></tr>`;
+    }).join(""):'<tr><td colspan="5">No stock recorded yet.</td></tr>';
+    $("gsItems").innerHTML=keys.map(k=>`<option value="${safe(m[k].item)}"></option>`).join("");
+    const d=$("gsReportDate").value||today;
+    const sales=records.filter(r=>r.type==="sale"&&r.date===d);
+    const expenses=records.filter(r=>r.type==="expense"&&r.date===d);
+    const saleTotal=sales.reduce((s,r)=>s+r.amount,0),cost=sales.reduce((s,r)=>s+(r.cost||0),0),exp=expenses.reduce((s,r)=>s+r.amount,0),gross=saleTotal-cost;
+    $("gsDailySales").textContent=money(saleTotal);$("gsDailyCost").textContent=money(cost);$("gsDailyGross").textContent=money(gross);$("gsDailyExpense").textContent=money(exp);$("gsDailyNet").textContent=money(gross-exp);
+    $("gsExpenseRows").innerHTML=expenses.length?expenses.map(r=>`<tr><td>${safe(r.item)}</td><td>${safe(r.note||"")}</td><td>${money(r.amount)}</td><td><button onclick="gsDelete(${r.id})">Delete</button></td></tr>`).join(""):'<tr><td colspan="4">No expenses recorded.</td></tr>';
+    const recent=[...records].sort((a,b)=>b.id-a.id).slice(0,30);
+    $("gsTxnRows").innerHTML=recent.length?recent.map(r=>`<tr><td>${safe(r.date)}</td><td>${r.type==="purchase"?"Purchase":r.type==="sale"?"Sale":"Expense"}</td><td>${safe(r.item)}</td><td>${r.qty?Number(r.qty).toFixed(3):"—"} ${safe(r.unit||"")}</td><td>${money(r.amount)}</td><td><button onclick="gsDelete(${r.id})">Delete</button></td></tr>`).join(""):'<tr><td colspan="6">No entries recorded.</td></tr>';
+  };
+  window.gsDelete=function(id){if(confirm("Is record ko delete karna hai?")){records=records.filter(r=>r.id!==id);save();}};
+  window.gsExport=function(){
+    const rows=[["Date","Type","Item/Expense","Quantity","Unit","Amount Rs","Cost Rs","Details"],...records.map(r=>[r.date,r.type,r.item,r.qty||"",r.unit||"",r.amount,r.cost||"",r.note||""])];
+    const csv=rows.map(row=>row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\r\n");
+    const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8;"}));a.download="DigiRise-General-Store-Records.csv";a.click();URL.revokeObjectURL(a.href);
+  };
+  window.gsClearAll=function(){if(confirm("Sirf naye Stock & Expenses records delete honge. Existing General Store account records safe rahenge. Continue?")){records=[];save();}};
+  gsRender();
+})();
+</script>
 
 
 <script>
@@ -309,7 +461,7 @@ window.chatDemo=()=>{let v=$("chatInput").value.trim();$("chatOutput").textConte
   function latestUnitCost(item){const rows=entries.filter(r=>r.type==="purchase"&&String(r.item).toLowerCase()===String(item).toLowerCase()&&Number(r.qty)>0);if(!rows.length)return 0;const r=rows[rows.length-1];return Number(r.totalCost||r.amount||0)/Number(r.qty||1);}
   function calcPurchase(){if($("memoPurchaseCalc"))$("memoPurchaseCalc").textContent="Unit Cost: Rs "+money(purchaseUnitCost());}
   function calcSale(){const price=saleUnitPrice(),item=$("memoSaleItem").value.trim(),cost=latestUnitCost(item),q=Number($("memoSaleQty").value)||0,profit=(price-cost)*q; if($("memoSaleCalc"))$("memoSaleCalc").textContent="Unit Sale Price: Rs "+money(price)+" • Profit: Rs "+money(profit);}
-  window.memoType=function(type){current=type;const titles={purchase:"Purchase Entry",sale:"Sale Entry",expense:"Expenses Entry",cashin:"Cash In Entry",cashout:"Cash Out Entry"};$("memoTitle").textContent=titles[type];["purchase","sale","expense","cashin","cashout"].forEach(x=>$("memo"+x.charAt(0).toUpperCase()+x.slice(1)).classList.toggle("hide",x!==type));document.querySelectorAll(".memo-tab").forEach(b=>b.classList.toggle("active",b.dataset.type===type));setMsg("Ready — "+titles[type]+".");if(type==="purchase")calcPurchase();if(type==="sale")calcSale();};
+  window.memoType=function(type){current=type;const titles={purchase:"Purchase",sale:"Sale",expense:"Expenses",cashin:"Cash In",cashout:"Cash Out"};$("memoTitle").textContent=titles[type];["purchase","sale","expense","cashin","cashout"].forEach(x=>$("memo"+x.charAt(0).toUpperCase()+x.slice(1)).classList.toggle("hide",x!==type));const sel=$("memoOption");if(sel)sel.value=type;setMsg("Ready — "+titles[type]+".");if(type==="purchase")calcPurchase();if(type==="sale")calcSale();};
   window.memoNew=function(){["memoPurchaseItem","memoPurchaseAccount","memoPurchaseQty","memoPurchaseAmount","memoPurchaseExpenses","memoSaleItem","memoSaleAccount","memoSaleQty","memoSaleAmount","memoExpenseType","memoExpenseAmount","memoCashSource","memoCashAmount","memoCashOutSource","memoCashOutAmount","memoNote"].forEach(id=>{if($(id))$(id).value="";});$("memoPurchaseExpenses").value="0";$("memoDate").value=today();calcPurchase();calcSale();setMsg("New entry ready.");};
   window.memoSave=function(){
     const date=$("memoDate").value||today(),note=$("memoNote").value.trim();
@@ -341,7 +493,7 @@ window.chatDemo=()=>{let v=$("chatInput").value.trim();$("chatOutput").textConte
   }
   window.memoReports=function(){$("memoReport").classList.toggle("hide");updateLists();};
   ["memoPurchaseQty","memoPurchaseAmount","memoPurchaseExpenses"].forEach(id=>$(id)?.addEventListener("input",calcPurchase));["memoSaleQty","memoSaleAmount","memoSaleItem"].forEach(id=>$(id)?.addEventListener("input",calcSale));
-  $("memoDate").value=today();$("memoExpenseTypes").innerHTML=["Labour","Transport","Rent","Gas","Repair","Shop Supplies","Other"].map(x=>`<option value="${x}"></option>`).join("");updateLists();
+  $("memoDate").value=today();$("memoOption").value="purchase";updateLists();
 })();
 </script>
 
