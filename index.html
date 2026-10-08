@@ -1,27 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DigiRise Store</title>
+<title>DigiRise</title>
 <style>
-body{font-family:Arial;margin:0;background:#f3f6fb;color:#172033}
-header{background:linear-gradient(135deg,#315eea,#713ce8);color:white;text-align:center;padding:22px}
-main{max-width:600px;margin:auto;padding:15px}
-.card{background:white;padding:18px;margin-bottom:15px;border-radius:15px;box-shadow:0 2px 10px #0001}
-h1,h2{margin-top:0}
-label{font-weight:bold;display:block;margin-top:12px}
-input,select,button{width:100%;padding:13px;margin-top:6px;border-radius:10px;border:1px solid #ccd3df;font-size:16px;box-sizing:border-box}
-button{background:#2864df;color:white;border:0;font-weight:bold}
-.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.tabs button{background:#e8edff;color:#172033}
-.tabs .active{background:#2864df;color:white}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.result{margin-top:12px;background:#eef5ff;padding:14px;border-radius:10px;font-weight:bold}
-#msg{margin-top:10px;font-weight:bold}
-.ok{color:green}.err{color:#c00}
-table{width:100%;border-collapse:collapse;margin-top:10px}
-td,th{padding:8px;border-bottom:1px solid #ddd;text-align:left}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial;background:#f5f7fb;color:#172033}
+header{background:linear-gradient(135deg,#315eea,#713ce8);color:#fff;text-align:center;padding:25px 15px}
+header h1{margin:0;font-size:32px}
+header p{margin:8px 0 0;font-size:18px}
+nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;background:#fff;padding:12px;position:sticky;top:0;z-index:5}
+button{border:0;border-radius:10px;padding:12px 16px;font-size:16px;font-weight:bold;background:#eaf0ff;color:#172033}
+.primary{background:#2864df!important;color:#fff!important}
+.danger{background:#ffe8e8;color:#b40000}
+main{max-width:950px;margin:auto;padding:18px}
+.card{background:#fff;border-radius:16px;padding:18px;margin-bottom:15px;box-shadow:0 3px 12px #0001}
+.hidden{display:none!important}
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.feature{background:#f8faff;border:1px solid #e5eafa;border-radius:14px;padding:16px}
+.feature b{display:block;font-size:18px;margin:6px 0}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+.tabs button.active{background:#2864df;color:#fff}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.full{grid-column:1/-1}
+label{font-weight:bold;display:block;margin-bottom:6px}
+input,select{width:100%;padding:13px;border:1px solid #ccd4e2;border-radius:10px;font-size:16px;background:#fff}
+.invalid{border-color:#c00!important;background:#fff5f5!important}
+.result{background:#eef5ff;padding:13px;border-radius:10px;font-weight:bold}
+.message{padding:12px;border-radius:10px;margin-bottom:12px;font-weight:bold}
+.success{background:#e8f8ee;color:#176b36}
+.error{background:#fff0f0;color:#a40000}
+.summary{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.stat{background:#f8faff;border:1px solid #e2e7f0;border-radius:10px;padding:12px}
+.stat b{display:block;font-size:20px;margin-top:4px}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:600px}
+th,td{padding:8px;border-bottom:1px solid #e5e5e5;text-align:left;white-space:nowrap}
+.suggestion{position:relative}
+.suggestions{position:absolute;left:0;right:0;top:100%;background:#fff;border:1px solid #ccd4e3;z-index:20}
+.suggestions div{padding:10px}
+.small{font-size:13px;color:#596579}
+@media(max-width:600px){
+.grid,.summary{grid-template-columns:1fr}
+.full{grid-column:auto}
+}
 </style>
 </head>
 
@@ -29,187 +52,364 @@ td,th{padding:8px;border-bottom:1px solid #ddd;text-align:left}
 
 <header>
 <h1>DigiRise</h1>
-<p>General Store</p>
+<p>General Store • Learn • Create • Grow</p>
 </header>
+
+<nav>
+<button onclick="page('home')">Home</button>
+<button onclick="page('store')">🏪 General Store</button>
+<button onclick="page('account')">Account</button>
+</nav>
 
 <main>
 
+<section id="home">
 <div class="card">
-<h2>Store Entry</h2>
+<h2>Welcome to DigiRise</h2>
+<p>Manage your General Store from one place. Purchase, Sale, Expenses, Cash In, Stock and reports are saved on this device.</p>
+<button class="primary" onclick="page('store')">Open General Store</button>
+</div>
+
+<div class="card">
+<h2>DigiRise Features</h2>
+<div class="features">
+<div class="feature" onclick="page('store')">🛒<b>General Store</b><span class="small">Purchase, Sale & Stock</span></div>
+<div class="feature" onclick="msg('AI Image connection required.','error')">🤖<b>AI Image</b><span class="small">Connection required</span></div>
+<div class="feature" onclick="msg('AI Video connection required.','error')">🎬<b>AI Video</b><span class="small">Connection required</span></div>
+<div class="feature" onclick="msg('AI Chat connection required.','error')">💬<b>AI Chat</b><span class="small">Connection required</span></div>
+<div class="feature" onclick="msg('Learn section can be connected.','error')">📚<b>Learn</b><span class="small">Education</span></div>
+<div class="feature" onclick="msg('Quran section can be connected.','error')">📖<b>Quran</b><span class="small">Quran Learning</span></div>
+</div>
+</div>
+</section>
+
+
+<section id="store" class="hidden">
+
+<div class="card">
+<h2>🏪 General Store</h2>
+<div id="message"></div>
 
 <div class="tabs">
-<button id="purchaseBtn" class="active" onclick="mode='purchase';draw()">Purchase</button>
-<button id="saleBtn" onclick="mode='sale';draw()">Sale</button>
+<button id="purchaseTab" onclick="setMode('purchase')">Purchase</button>
+<button id="saleTab" onclick="setMode('sale')">Sale</button>
+<button id="expenseTab" onclick="setMode('expense')">Expenses</button>
+<button id="cashTab" onclick="setMode('cash')">Cash In</button>
 </div>
 
 <div id="form"></div>
-<div id="msg"></div>
+<p class="small">Press <b>Enter</b> to save.</p>
 </div>
 
+
 <div class="card">
-<h2>Recent Entries</h2>
-<div id="list">No entries yet.</div>
+<h2>📊 Daily Summary</h2>
+<div class="summary">
+<div class="stat">Daily Sale Total<b id="saleTotal">0.00</b></div>
+<div class="stat">Purchase Total<b id="purchaseTotal">0.00</b></div>
+<div class="stat">Expenses<b id="expenseTotal">0.00</b></div>
+<div class="stat">Cash In<b id="cashTotal">0.00</b></div>
+<div class="stat">Total Dues<b id="dueTotal">0.00</b></div>
+<div class="stat">Net Profit<b id="profitTotal">0.00</b></div>
+<div class="stat">Cash Balance<b id="cashBalance">0.00</b></div>
+<div class="stat">Stock Items<b id="stockCount">0</b></div>
 </div>
+</div>
+
+
+<div class="card">
+<h2>📦 Current Stock</h2>
+<div id="stockTable">No stock yet.</div>
+</div>
+
+
+<div class="card">
+<h2>🧾 Recent Entries</h2>
+<div id="entriesTable">No entries yet.</div>
+</div>
+
+</section>
+
+
+<section id="account" class="hidden">
+<div class="card">
+<h2>Account</h2>
+<p>Your General Store data is saved in this phone/browser.</p>
+<button class="danger" onclick="clearAll()">Delete All Local Store Data</button>
+</div>
+</section>
 
 </main>
 
 <script>
-let mode='purchase';
-let data=JSON.parse(localStorage.getItem('digirise_store')||'[]');
+
+const KEY="digirise_store_v2";
+
+let data={entries:[],stock:{}};
+
+try{
+ let old=localStorage.getItem(KEY);
+ if(old){
+  let x=JSON.parse(old);
+  if(x&&typeof x==="object"){
+   data=x;
+   if(!Array.isArray(data.entries))data.entries=[];
+   if(!data.stock||typeof data.stock!=="object")data.stock={};
+  }
+ }
+}catch(e){
+ data={entries:[],stock:{}};
+}
+
+let mode="purchase";
+
 
 function today(){
  let d=new Date();
- return d.getFullYear()+'-'+
- String(d.getMonth()+1).padStart(2,'0')+'-'+
- String(d.getDate()).padStart(2,'0');
+ return d.getFullYear()+"-"+
+ String(d.getMonth()+1).padStart(2,"0")+"-"+
+ String(d.getDate()).padStart(2,"0");
 }
 
-function save(){
- localStorage.setItem('digirise_store',JSON.stringify(data));
- showList();
+
+function validDate(v){
+ if(!v||!/^\d{4}-\d{2}-\d{2}$/.test(v))return false;
+ let p=v.split("-");
+ let d=new Date(Number(p[0]),Number(p[1])-1,Number(p[2]));
+ return d.getFullYear()==p[0]&&
+ d.getMonth()==Number(p[1])-1&&
+ d.getDate()==Number(p[2]);
 }
 
-function msg(t,ok=false){
- let m=document.getElementById('msg');
- m.textContent=t;
- m.className=ok?'ok':'err';
+
+function num(id){
+ let e=document.getElementById(id);
+ if(!e||e.value==="")return null;
+ let n=Number(e.value);
+ return Number.isFinite(n)?n:null;
 }
 
-function draw(){
 
- document.getElementById('purchaseBtn')
- .className=mode==='purchase'?'active':'';
-
- document.getElementById('saleBtn')
- .className=mode==='sale'?'active':'';
-
- document.getElementById('form').innerHTML=`
-
-<label>Date</label>
-<input id="date" type="date" value="${today()}">
-
-<label>Detail</label>
-<input id="detail" type="text" placeholder="e.g. Sugar">
-
-<div class="row">
-<div>
-<label>Unit</label>
-<select id="unit">
-<option>Kg</option>
-<option>PCS</option>
-<option>Liter</option>
-<option>Meter</option>
-</select>
-</div>
-
-<div>
-<label>Quantity</label>
-<input id="qty" type="number" step="any">
-</div>
-</div>
-
-<label>Total ${mode==='purchase'?'Purchase':'Sale'} Amount</label>
-<input id="amount" type="number" step="any">
-
-${mode==='sale'?`
-<label>Purchase Cost</label>
-<input id="cost" type="number" step="any" placeholder="Cost of sold quantity">
-<div class="result">
-Net Profit: <span id="profit">0.00</span>
-</div>
-`:''}
-
-<button onclick="saveEntry()" style="margin-top:18px">
-Save ${mode==='purchase'?'Purchase':'Sale'}
-</button>
-`;
-
-['amount','qty','cost'].forEach(id=>{
- let x=document.getElementById(id);
- if(x)x.addEventListener('input',profit);
-});
-
-['date','detail','unit','qty','amount','cost'].forEach(id=>{
- let x=document.getElementById(id);
- if(x)x.addEventListener('keydown',e=>{
-  if(e.key==='Enter')saveEntry();
- });
-});
-
+function money(n){
+ n=Number(n);
+ return Number.isFinite(n)?n.toFixed(2):"0.00";
 }
 
-function profit(){
 
- if(mode!=='sale')return;
-
- let amount=Number(document.getElementById('amount').value)||0;
- let cost=Number(document.getElementById('cost').value)||0;
-
- document.getElementById('profit').textContent=
- (amount-cost).toFixed(2);
+function esc(s){
+ return String(s??"").replace(/[&<>"']/g,m=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",
+ '"':"&quot;","'":"&#39;"
+ }[m]));
 }
 
-function saveEntry(){
 
- let date=document.getElementById('date').value;
- let detail=document.getElementById('detail').value.trim();
- let unit=document.getElementById('unit').value;
- let qty=Number(document.getElementById('qty').value);
- let amount=Number(document.getElementById('amount').value);
+function normalize(s){
+ return String(s||"").trim().toLowerCase();
+}
 
- if(!date){
-  msg('Date enter karein.');
-  return;
+
+function msg(text,type="success"){
+ let x=document.getElementById("message");
+ if(!x)return;
+ x.className="message "+type;
+ x.textContent=text;
+}
+
+
+function page(id){
+ document.querySelectorAll("main>section")
+ .forEach(x=>x.classList.add("hidden"));
+ document.getElementById(id).classList.remove("hidden");
+ if(id==="store")render();
+ window.scrollTo(0,0);
+}
+
+
+function setMode(m){
+ mode=m;
+ drawForm();
+}
+
+
+function stockKey(detail){
+ let n=normalize(detail);
+ let found=Object.keys(data.stock)
+ .find(k=>normalize(k)===n);
+ return found||null;
+}
+
+
+/* FORM */
+
+function drawForm(){
+
+ document.querySelectorAll(".tabs button")
+ .forEach(x=>x.classList.remove("active"));
+
+ document.getElementById(
+  mode==="purchase"?"purchaseTab":
+  mode==="sale"?"saleTab":
+  mode==="expense"?"expenseTab":"cashTab"
+ ).classList.add("active");
+
+
+ let f=document.getElementById("form");
+
+ if(mode==="purchase"){
+
+  f.innerHTML=`
+  <div class="grid">
+
+  <div>
+  <label>Date</label>
+  <input id="date" type="date" value="${today()}">
+  </div>
+
+  <div>
+  <label>Dealer Name</label>
+  <input id="dealer">
+  </div>
+
+  <div class="full suggestion">
+  <label>Description / Detail</label>
+  <input id="detail" autocomplete="off">
+  <div id="suggestions" class="suggestions"></div>
+  </div>
+
+  <div>
+  <label>Unit</label>
+  <select id="unit">
+  <option>Kg</option>
+  <option>PCS</option>
+  <option>Liter</option>
+  <option>Meter</option>
+  </select>
+  </div>
+
+  <div>
+  <label>Quantity</label>
+  <input id="qty" type="number" step="any" min="0">
+  </div>
+
+  <div class="full">
+  <label>Total Purchase Amount</label>
+  <input id="amount" type="number" step="any" min="0">
+  </div>
+
+  <div class="full">
+  <button class="primary" onclick="savePurchase()">Save Purchase</button>
+  </div>
+
+  </div>`;
+
  }
 
- if(!detail){
-  msg('Detail enter karein.');
-  return;
+ else if(mode==="sale"){
+
+  f.innerHTML=`
+  <div class="grid">
+
+  <div>
+  <label>Date</label>
+  <input id="date" type="date" value="${today()}">
+  </div>
+
+  <div>
+  <label>Customer Name</label>
+  <input id="customer">
+  </div>
+
+  <div class="full suggestion">
+  <label>Description / Detail</label>
+  <input id="detail" autocomplete="off">
+  <div id="suggestions" class="suggestions"></div>
+  </div>
+
+  <div>
+  <label>Unit</label>
+  <select id="unit">
+  <option>Kg</option>
+  <option>PCS</option>
+  <option>Liter</option>
+  <option>Meter</option>
+  </select>
+  </div>
+
+  <div>
+  <label>Quantity</label>
+  <input id="qty" type="number" step="any" min="0">
+  </div>
+
+  <div>
+  <label>Total Sale Amount</label>
+  <input id="saleAmount" type="number" step="any" min="0">
+  </div>
+
+  <div>
+  <label>Amount Received</label>
+  <input id="received" type="number" step="any" min="0">
+  </div>
+
+  <div class="full">
+  <div class="result">
+  Net Profit: <span id="saleProfit">0.00</span>
+  &nbsp;&nbsp; Due: <span id="saleDue">0.00</span>
+  </div>
+  </div>
+
+  <div class="full">
+  <button class="primary" onclick="saveSale()">Save Sale</button>
+  </div>
+
+  </div>`;
+
+  ["qty","saleAmount","received","detail"]
+  .forEach(id=>{
+   let e=document.getElementById(id);
+   if(e)e.addEventListener("input",calcSale);
+  });
+
  }
 
- if(!qty || qty<=0){
-  msg('Quantity enter karein.');
-  return;
+ else if(mode==="expense"){
+
+  f.innerHTML=`
+  <div class="grid">
+
+  <div>
+  <label>Date</label>
+  <input id="date" type="date" value="${today()}">
+  </div>
+
+  <div class="full suggestion">
+  <label>Detail</label>
+  <input id="detail" autocomplete="off">
+  <div id="suggestions" class="suggestions"></div>
+  </div>
+
+  <div class="full">
+  <label>Total Amount</label>
+  <input id="amount" type="number" step="any" min="0">
+  </div>
+
+  <div class="full">
+  <button class="primary" onclick="saveExpense()">Save Expense</button>
+  </div>
+
+  </div>`;
+
  }
 
- if(!amount || amount<=0){
-  msg('Amount enter karein.');
-  return;
- }
+ else{
 
- let entry={
-  date:date,
-  type:mode,
-  detail:detail,
-  unit:unit,
-  qty:qty,
-  amount:amount
- };
+  f.innerHTML=`
+  <div class="grid">
 
- if(mode==='sale'){
+  <div>
+  <label>Date</label>
+  <input id="date" type="date" value="${today()}">
+  </div>
 
-  let cost=Number(document.getElementById('cost').value);
-
-  if(isNaN(cost)||cost<0){
-   msg('Purchase Cost enter karein.');
-   return;
-  }
-
-  entry.cost=cost;
-  entry.profit=amount-cost;
- }
-
- data.unshift(entry);
- save();
-
- msg('Saved successfully ✓',true);
-
- draw();
-}
-
-function showList(){
-
- let box=document.getElementById('list');
-
- if(!data.length){
-  box.textContent='No entries yet
+  <div class="full suggestion">
+  <label>Detail</label>
