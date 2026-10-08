@@ -7,137 +7,284 @@
 
 <style>
 *{box-sizing:border-box}
+:root{
+ --primary:#315eea;
+ --secondary:#713ce8;
+ --accent:#00b894;
+ --bg:#f4f7ff;
+ --card:#fff;
+ --text:#172033;
+ --muted:#667085;
+ --border:#e1e6f0;
+}
 body{
- margin:0;font-family:Arial,sans-serif;
- background:linear-gradient(135deg,#eef4ff,#f8f5ff);
- color:#172033
-}
-header{
- background:linear-gradient(135deg,#315eea,#713ce8);
- color:white;text-align:center;padding:25px 15px
-}
-header h1{margin:0;font-size:34px}
-header p{margin:7px 0 0;font-size:17px}
-
-nav{
- position:sticky;top:0;z-index:10;
- display:flex;gap:8px;flex-wrap:wrap;
- justify-content:center;padding:12px;
- background:white;
- box-shadow:0 3px 12px #0002
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:linear-gradient(135deg,#f4f7ff,#eef2ff);
+ color:var(--text);
 }
 button{
- border:0;border-radius:12px;padding:12px 16px;
- font-size:15px;font-weight:bold;cursor:pointer
+ border:0;
+ cursor:pointer;
+ font-weight:bold;
+ border-radius:12px;
+ padding:12px 17px;
+ font-size:15px;
 }
-.navbtn{background:#edf2ff;color:#23345c}
-.primary{background:#315eea;color:white}
-.success{background:#13a66a;color:white}
-.danger{background:#ffe5e5;color:#b00000}
-.secondary{background:#eee8ff;color:#5530a5}
-
-main{max-width:1050px;margin:auto;padding:18px}
-.card{
- background:white;border-radius:18px;padding:20px;
- margin-bottom:17px;
- box-shadow:0 4px 18px #00000012
+.primary{
+ background:linear-gradient(135deg,var(--primary),var(--secondary));
+ color:white;
 }
+.secondary{
+ background:#edf1ff;
+ color:var(--primary);
+}
+.danger{
+ background:#ffe8e8;
+ color:#b00020;
+}
+header{
+ background:linear-gradient(135deg,var(--primary),var(--secondary));
+ color:white;
+ padding:22px 15px 25px;
+ text-align:center;
+}
+.logo{
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ gap:10px;
+}
+.logoMark{
+ width:48px;
+ height:48px;
+ border-radius:15px;
+ background:white;
+ color:var(--primary);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:28px;
+ font-weight:bold;
+}
+header h1{
+ margin:0;
+ font-size:31px;
+}
+header p{
+ margin:7px 0 0;
+ font-size:15px;
+ opacity:.95;
+}
+nav{
+ position:sticky;
+ top:0;
+ z-index:50;
+ background:white;
+ box-shadow:0 3px 15px #0001;
+ display:flex;
+ gap:8px;
+ justify-content:center;
+ flex-wrap:wrap;
+ padding:11px;
+}
+nav button{
+ background:#eef2ff;
+ color:#172033;
+}
+nav button:hover{
+ background:var(--primary);
+ color:white;
+}
+main{
+ max-width:1050px;
+ margin:auto;
+ padding:18px;
+}
+.page{display:block}
 .hidden{display:none!important}
-h2{margin-top:0;color:#202d4d}
-
+.card{
+ background:var(--card);
+ border-radius:20px;
+ padding:20px;
+ margin-bottom:16px;
+ box-shadow:0 5px 22px #25304d12;
+ border:1px solid #ffffff;
+}
+.hero{
+ background:linear-gradient(135deg,#ffffff,#eef2ff);
+ padding:25px;
+}
+.hero h2{
+ margin-top:0;
+ font-size:26px;
+}
 .features{
  display:grid;
- grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
- gap:12px
+ grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+ gap:13px;
 }
 .feature{
- padding:18px;border-radius:15px;
- background:#f7f9ff;border:1px solid #e0e6f5;
- cursor:pointer
+ padding:18px;
+ border-radius:17px;
+ background:#f8faff;
+ border:1px solid var(--border);
+ cursor:pointer;
+ transition:.2s;
 }
-.feature b{display:block;font-size:18px;margin:7px 0}
-.small{font-size:13px;color:#667085}
-
+.feature:hover{
+ transform:translateY(-2px);
+ box-shadow:0 5px 15px #0001;
+}
+.icon{
+ font-size:28px;
+}
+.feature b{
+ display:block;
+ font-size:17px;
+ margin:7px 0 4px;
+}
+.small{
+ color:var(--muted);
+ font-size:13px;
+}
 .tabs{
- display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px
+ display:flex;
+ flex-wrap:wrap;
+ gap:8px;
+ margin-bottom:15px;
 }
-.tabs button{background:#edf1fa}
-.tabs .active{background:#315eea;color:white}
-
+.tabs button{
+ background:#eef2ff;
+}
+.tabs button.active{
+ background:var(--primary);
+ color:white;
+}
 .formgrid{
  display:grid;
  grid-template-columns:repeat(2,minmax(0,1fr));
- gap:13px
+ gap:13px;
 }
-.full{grid-column:1/-1}
-.field{display:flex;flex-direction:column;gap:6px}
-label{font-weight:bold}
-
+.field{
+ display:flex;
+ flex-direction:column;
+ gap:6px;
+}
+.full{
+ grid-column:1/-1;
+}
+label{
+ font-weight:bold;
+ font-size:14px;
+}
 input,select{
- width:100%;padding:13px;
- border:1px solid #cdd5e3;
+ width:100%;
+ padding:13px;
+ border:1px solid #cfd6e4;
  border-radius:11px;
  font-size:16px;
- background:white
+ background:white;
+ outline:none;
 }
 input:focus,select:focus{
- outline:2px solid #b9c9ff;
- border-color:#315eea
+ border-color:var(--primary);
+ box-shadow:0 0 0 3px #315eea18;
 }
-
 .result{
- padding:14px;border-radius:12px;
- background:#edf4ff;
- font-weight:bold
+ padding:14px;
+ border-radius:12px;
+ background:#eef5ff;
+ font-weight:bold;
 }
-
 .summary{
  display:grid;
  grid-template-columns:repeat(4,minmax(0,1fr));
- gap:10px
+ gap:10px;
 }
 .stat{
+ padding:14px;
+ border-radius:14px;
  background:#f8faff;
- border:1px solid #e0e6f0;
- border-radius:13px;
- padding:13px
+ border:1px solid var(--border);
+}
+.stat span{
+ display:block;
+ color:var(--muted);
+ font-size:13px;
 }
 .stat b{
- display:block;font-size:20px;margin-top:5px
+ display:block;
+ font-size:20px;
+ margin-top:5px;
 }
-
-.tablewrap{overflow-x:auto}
 table{
- width:100%;border-collapse:collapse;
- min-width:650px
+ width:100%;
+ border-collapse:collapse;
 }
 th,td{
- padding:10px;border-bottom:1px solid #e5e8ef;
- text-align:left
+ padding:10px 8px;
+ border-bottom:1px solid #e8ebf2;
+ text-align:left;
+ font-size:14px;
 }
-th{background:#f1f4fb}
-
-.suggestionbox{position:relative}
+.tableWrap{
+ overflow-x:auto;
+}
+.suggestionbox{
+ position:relative;
+}
 .suggestions{
- position:absolute;left:0;right:0;top:100%;
- background:white;border:1px solid #ccd4e3;
- border-radius:0 0 10px 10px;
- z-index:50;box-shadow:0 6px 15px #0002
+ position:absolute;
+ left:0;
+ right:0;
+ top:100%;
+ z-index:100;
+ background:white;
+ border:1px solid #ccd5e5;
+ border-radius:0 0 11px 11px;
+ box-shadow:0 7px 18px #0002;
 }
 .suggestions div{
- padding:11px;cursor:pointer
+ padding:11px;
+ cursor:pointer;
 }
-.suggestions div:hover{background:#edf3ff}
-
-.reportButtons{
- display:flex;gap:8px;flex-wrap:wrap
+.suggestions div:hover{
+ background:#eef3ff;
 }
-
+.auth{
+ max-width:500px;
+ margin:20px auto;
+}
+.adminBadge{
+ display:inline-block;
+ background:#172033;
+ color:white;
+ padding:5px 9px;
+ border-radius:20px;
+ font-size:11px;
+}
+footer{
+ text-align:center;
+ padding:25px;
+ color:#667085;
+ font-size:13px;
+}
+#adminPanel{
+ display:none;
+}
+.settingsBox{
+ display:none;
+}
 @media(max-width:700px){
- .formgrid{grid-template-columns:1fr}
- .summary{grid-template-columns:repeat(2,1fr)}
- header h1{font-size:29px}
  main{padding:12px}
+ .formgrid{grid-template-columns:1fr}
+ .summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+ header h1{font-size:27px}
+}
+@media(max-width:430px){
+ .summary{grid-template-columns:1fr 1fr}
+ nav button{font-size:13px;padding:10px}
 }
 </style>
 </head>
@@ -145,14 +292,20 @@ th{background:#f1f4fb}
 <body>
 
 <header>
-<h1>🚀 DigiRise</h1>
-<p>General Store • Learn • Create • Grow</p>
+ <div class="logo">
+  <div class="logoMark">D</div>
+  <div>
+   <h1>DigiRise</h1>
+   <p>Learn • Create • Grow</p>
+  </div>
+ </div>
 </header>
 
 <nav>
-<button class="navbtn" onclick="showPage('home')">🏠 Home</button>
-<button class="navbtn" onclick="showPage('store')">🏪 General Store</button>
-<button class="navbtn" onclick="showPage('account')">👤 Account</button>
+ <button onclick="showPage('home')">🏠 Home</button>
+ <button onclick="showPage('store')">🏪 General Store</button>
+ <button onclick="showPage('account')">👤 Account</button>
+ <button onclick="showPage('login')">🔐 Login</button>
 </nav>
 
 <main>
@@ -160,60 +313,65 @@ th{background:#f1f4fb}
 <!-- HOME -->
 <section id="home" class="page">
 
-<div class="card">
-<h2>Welcome to DigiRise</h2>
-<p>
-Manage your General Store, Accounts, Purchase, Sale, Expenses,
-Cash, Stock and Reports from one place.
-</p>
-<button class="primary" onclick="showPage('store')">
-Open General Store
-</button>
-</div>
+ <div class="card hero">
+  <h2>Welcome to DigiRise</h2>
+  <p>
+   Your simple digital platform for business management,
+   learning and future tools.
+  </p>
 
-<div class="card">
-<h2>DigiRise Features</h2>
+  <button class="primary" onclick="showPage('store')">
+   Open General Store
+  </button>
 
-<div class="features">
+  <button class="secondary" onclick="showPage('login')">
+   Login / Register
+  </button>
+ </div>
 
-<div class="feature" onclick="showPage('store')">
-🛒
-<b>General Store</b>
-<span class="small">Purchase, Sale, Stock & Profit</span>
-</div>
+ <div class="card">
+  <h2>DigiRise Features</h2>
 
-<div class="feature" onclick="futureFeature('AI Image')">
-🤖
-<b>AI Image</b>
-<span class="small">Future AI Image Generator</span>
-</div>
+  <div class="features">
 
-<div class="feature" onclick="futureFeature('AI Video')">
-🎬
-<b>AI Video</b>
-<span class="small">Future AI Video Generator</span>
-</div>
+   <div class="feature" onclick="showPage('store')">
+    <div class="icon">🛒</div>
+    <b>General Store</b>
+    <span class="small">Purchase, Sale, Stock & Profit</span>
+   </div>
 
-<div class="feature" onclick="futureFeature('AI Chat')">
-💬
-<b>AI Chat</b>
-<span class="small">Future AI Assistant</span>
-</div>
+   <div class="feature" onclick="futureFeature('AI Image')">
+    <div class="icon">🤖</div>
+    <b>AI Image</b>
+    <span class="small">Future AI image tool</span>
+   </div>
 
-<div class="feature" onclick="futureFeature('Learn')">
-📚
-<b>Learn</b>
-<span class="small">Education & Skills</span>
-</div>
+   <div class="feature" onclick="futureFeature('AI Video')">
+    <div class="icon">🎬</div>
+    <b>AI Video</b>
+    <span class="small">Future video tool</span>
+   </div>
 
-<div class="feature" onclick="futureFeature('Quran')">
-📖
-<b>Quran</b>
-<span class="small">Quran Learning</span>
-</div>
+   <div class="feature" onclick="futureFeature('AI Chat')">
+    <div class="icon">💬</div>
+    <b>AI Chat</b>
+    <span class="small">Future AI assistant</span>
+   </div>
 
-</div>
-</div>
+   <div class="feature" onclick="futureFeature('Learn')">
+    <div class="icon">📚</div>
+    <b>Learn</b>
+    <span class="small">Education & skills</span>
+   </div>
+
+   <div class="feature" onclick="futureFeature('Quran')">
+    <div class="icon">📖</div>
+    <b>Quran</b>
+    <span class="small">Quran learning</span>
+   </div>
+
+  </div>
+ </div>
 
 </section>
 
@@ -221,150 +379,99 @@ Open General Store
 <!-- STORE -->
 <section id="store" class="page hidden">
 
-<div class="card">
+ <div class="card">
 
-<h2>🏪 General Store</h2>
+  <h2>🏪 General Store</h2>
 
-<div class="tabs">
-<button id="tabPurchase" class="active" onclick="setMode('purchase')">
-Purchase
-</button>
+  <div class="tabs">
+   <button id="tabPurchase" class="active"
+    onclick="setMode('purchase')">Purchase</button>
 
-<button id="tabSale" onclick="setMode('sale')">
-Sale
-</button>
+   <button id="tabSale"
+    onclick="setMode('sale')">Sale</button>
 
-<button id="tabExpense" onclick="setMode('expense')">
-Expenses
-</button>
+   <button id="tabExpense"
+    onclick="setMode('expense')">Expenses</button>
 
-<button id="tabCash" onclick="setMode('cashin')">
-Cash In
-</button>
+   <button id="tabCash"
+    onclick="setMode('cashin')">Cash In</button>
+  </div>
 
-<button id="tabDue" onclick="setMode('due')">
-Dues
-</button>
-</div>
+  <div id="formArea"></div>
 
-<div id="formArea"></div>
-
-<p class="small">
-Press Enter to save when you finish the form.
-</p>
-
-</div>
+ </div>
 
 
-<!-- SUMMARY -->
-<div class="card">
+ <div class="card">
 
-<h2>📊 Daily Summary</h2>
+  <h2>📊 Daily Summary</h2>
 
-<div class="summary">
+  <div class="summary">
 
-<div class="stat">
-Daily Sales
-<b id="saleTotal">0.00</b>
-</div>
+   <div class="stat">
+    <span>Daily Sale</span>
+    <b id="saleTotal">0.00</b>
+   </div>
 
-<div class="stat">
-Purchase
-<b id="purchaseTotal">0.00</b>
-</div>
+   <div class="stat">
+    <span>Purchase</span>
+    <b id="purchaseTotal">0.00</b>
+   </div>
 
-<div class="stat">
-Expenses
-<b id="expenseTotal">0.00</b>
-</div>
+   <div class="stat">
+    <span>Expenses</span>
+    <b id="expenseTotal">0.00</b>
+   </div>
 
-<div class="stat">
-Cash In
-<b id="cashTotal">0.00</b>
-</div>
+   <div class="stat">
+    <span>Cash In</span>
+    <b id="cashTotal">0.00</b>
+   </div>
 
-<div class="stat">
-Dues
-<b id="dueTotal">0.00</b>
-</div>
+   <div class="stat">
+    <span>Total Dues</span>
+    <b id="dueTotal">0.00</b>
+   </div>
 
-<div class="stat">
-Net Profit
-<b id="profitTotal">0.00</b>
-</div>
+   <div class="stat">
+    <span>Net Profit</span>
+    <b id="profitTotal">0.00</b>
+   </div>
 
-<div class="stat">
-Cash Balance
-<b id="cashBalance">0.00</b>
-</div>
+   <div class="stat">
+    <span>Cash Balance</span>
+    <b id="cashBalance">0.00</b>
+   </div>
 
-<div class="stat">
-Stock Items
-<b id="stockCount">0</b>
-</div>
+   <div class="stat">
+    <span>Stock Items</span>
+    <b id="stockCount">0</b>
+   </div>
 
-</div>
-</div>
-
-
-<!-- STOCK -->
-<div class="card">
-<h2>📦 Current Stock</h2>
-<div id="stockTable"></div>
-</div>
+  </div>
+ </div>
 
 
-<!-- ENTRIES -->
-<div class="card">
+ <div class="card">
 
-<h2>🧾 Recent Entries</h2>
+  <h2>📦 Current Stock</h2>
 
-<div id="entriesTable"></div>
+  <div class="tableWrap" id="stockTable">
+   No stock yet.
+  </div>
 
-</div>
+ </div>
 
 
-<!-- REPORTS -->
-<div class="card">
+ <div class="card">
 
-<h2>📈 Reports</h2>
+  <h2>🧾 Recent Entries</h2>
 
-<div class="formgrid">
+  <div class="tableWrap" id="entriesTable">
+   No entries yet.
+  </div>
 
-<div class="field">
-<label>Date From</label>
-<input id="reportFrom" type="date">
-</div>
-
-<div class="field">
-<label>Date To</label>
-<input id="reportTo" type="date">
-</div>
-
-<div class="field">
-<label>Category</label>
-<select id="reportCategory">
-<option value="All">All</option>
-<option value="Purchase">Purchase</option>
-<option value="Sale">Sale</option>
-<option value="Expense">Expenses</option>
-<option value="Cash In">Cash In</option>
-<option value="Due">Dues</option>
-</select>
-</div>
-
-<div class="field">
-<label>Report</label>
-<button class="primary" onclick="generateReport()">
-Generate Report
-</button>
-</div>
-
-</div>
-
-<div id="reportResult" style="margin-top:15px"></div>
-
-</div>
+ </div>
 
 </section>
 
@@ -372,416 +479,1145 @@ Generate Report
 <!-- ACCOUNT -->
 <section id="account" class="page hidden">
 
-<div class="card">
+ <div class="card">
 
-<h2>👤 Account & Data</h2>
+  <h2>👤 Account</h2>
 
-<p>
-Your DigiRise store data is saved in this browser/device.
-Do not clear browser storage if you want to keep the data.
-</p>
+  <div id="accountStatus">
+   <p>You are currently using DigiRise as a guest.</p>
 
-<div class="result">
-Future planning: Gmail / cloud account connection can be added
-later without changing the General Store system.
-</div>
+   <button class="primary"
+    onclick="showPage('login')">
+    Login / Register
+   </button>
+  </div>
 
-<br>
+  <div id="loggedStatus" class="hidden">
 
-<button class="danger" onclick="clearAll()">
-Delete All Store Data
-</button>
+   <p>
+    Logged in as:
+    <b id="userName"></b>
+   </p>
 
-</div>
+   <button class="secondary"
+    onclick="logout()">
+    Logout
+   </button>
+
+  </div>
+
+ </div>
+
+ <div class="card">
+
+  <h2>💾 Data</h2>
+
+  <p class="small">
+   Your store records are saved automatically in this browser.
+   The Date is saved with every entry.
+  </p>
+
+ </div>
+
+</section>
+
+
+<!-- LOGIN -->
+<section id="login" class="page hidden">
+
+ <div class="card auth">
+
+  <h2>🔐 DigiRise Login</h2>
+
+  <div class="formgrid">
+
+   <div class="field full">
+    <label>Email / Username</label>
+    <input id="loginUser"
+     placeholder="Enter email or username">
+   </div>
+
+   <div class="field full">
+    <label>Password</label>
+    <input id="loginPass"
+     type="password"
+     placeholder="Enter password">
+   </div>
+
+   <div class="field full">
+    <button class="primary"
+     onclick="loginUser()">
+     Login
+    </button>
+   </div>
+
+   <div class="field full">
+    <button class="secondary"
+     onclick="registerUser()">
+     Register New User
+    </button>
+   </div>
+
+  </div>
+
+  <p class="small">
+   Guest users can continue using the General Store.
+   Registration is available for saving an account on this browser.
+  </p>
+
+ </div>
+
+</section>
+
+
+<!-- HIDDEN ADMIN -->
+<section id="adminPanel">
+
+ <div class="card">
+
+  <span class="adminBadge">ADMIN ONLY</span>
+
+  <h2>⚙️ Admin Control</h2>
+
+  <p>Website administration and future controls.</p>
+
+  <button class="secondary"
+   onclick="openSettings()">
+   Theme Settings
+  </button>
+
+  <div id="settingsBox" class="settingsBox">
+
+   <hr>
+
+   <h3>🎨 Theme Settings</h3>
+
+   <button onclick="setTheme('blue')">Blue</button>
+   <button onclick="setTheme('green')">Green</button>
+   <button onclick="setTheme('purple')">Purple</button>
+
+  </div>
+
+ </div>
 
 </section>
 
 </main>
 
+<footer>
+ DigiRise • Learn • Create • Grow
+</footer>
+
 
 <script>
 
-const KEY="digirise_store_v3";
+/* =====================================================
+   DIGIRISE DATA
+===================================================== */
+
+const DATA_KEY="DigiRise_Main_Data_v3";
+const USER_KEY="DigiRise_User_v3";
 
 let data;
 
 try{
- data=JSON.parse(
- localStorage.getItem(KEY) ||
- '{"entries":[],"stock":{},"accounts":[]}'
- );
+ data=JSON.parse(localStorage.getItem(DATA_KEY))||{
+  entries:[],
+  stock:{}
+ };
 }catch(e){
- data={entries:[],stock:{},accounts:[]};
+ data={entries:[],stock:{}};
 }
 
 let mode="purchase";
 
 
-function today(){
-
- let d=new Date();
-
- return d.getFullYear()+"-"+
- String(d.getMonth()+1).padStart(2,"0")+"-"+
- String(d.getDate()).padStart(2,"0");
-
-}
-
+/* =====================================================
+   BASIC FUNCTIONS
+===================================================== */
 
 function money(n){
  return Number(n||0).toFixed(2);
 }
 
-
-function esc(s){
-
- return String(s??"").replace(/[&<>"']/g,function(m){
- return {
- "&":"&amp;",
- "<":"&lt;",
- ">":"&gt;",
- '"':"&quot;",
- "'":"&#39;"
- }[m];
- });
-
+function today(){
+ return new Date().toLocaleDateString("en-CA");
 }
-
 
 function val(id){
-
- let e=document.getElementById(id);
-
- return e ? e.value.trim() : "";
-
+ const x=document.getElementById(id);
+ return x ? x.value.trim() : "";
 }
 
+function esc(s){
+ return String(s??"").replace(/[&<>"']/g,function(m){
+  return {
+   "&":"&amp;",
+   "<":"&lt;",
+   ">":"&gt;",
+   '"':"&quot;",
+   "'":"&#39;"
+  }[m];
+ });
+}
 
 function saveData(){
-
- localStorage.setItem(KEY,JSON.stringify(data));
-
+ localStorage.setItem(DATA_KEY,JSON.stringify(data));
  renderAll();
-
 }
 
+
+/* =====================================================
+   PAGE SYSTEM
+===================================================== */
 
 function showPage(id){
 
- document.querySelectorAll(".page").forEach(
- x=>x.classList.add("hidden")
- );
+ document.querySelectorAll(".page")
+ .forEach(x=>x.classList.add("hidden"));
 
- document.getElementById(id).classList.remove("hidden");
+ const page=document.getElementById(id);
+
+ if(page){
+  page.classList.remove("hidden");
+ }
 
  if(id==="store"){
- renderAll();
+  renderAll();
+  renderForm();
+ }
+
+ if(id==="account"){
+  updateAccount();
  }
 
  window.scrollTo(0,0);
-
 }
 
+
+/* =====================================================
+   FUTURE FEATURES
+===================================================== */
 
 function futureFeature(name){
-
- alert(
- name+
- " is reserved for the future DigiRise upgrade. "+
- "Your General Store data and system remain safe."
- );
-
+ alert(name+" is prepared for a future DigiRise update.");
 }
 
+
+/* =====================================================
+   STORE MODE
+===================================================== */
 
 function setMode(m){
 
  mode=m;
 
- document.querySelectorAll(".tabs button")
- .forEach(x=>x.classList.remove("active"));
+ ["Purchase","Sale","Expense","Cash"]
+ .forEach(x=>{
+  const el=document.getElementById("tab"+x);
+  if(el)el.classList.remove("active");
+ });
 
- let ids={
- purchase:"tabPurchase",
- sale:"tabSale",
- expense:"tabExpense",
- cashin:"tabCash",
- due:"tabDue"
+ const map={
+  purchase:"Purchase",
+  sale:"Sale",
+  expense:"Expense",
+  cashin:"Cash"
  };
 
- document.getElementById(ids[m]).classList.add("active");
+ const active=document.getElementById(
+  "tab"+map[m]
+ );
+
+ if(active)active.classList.add("active");
 
  renderForm();
-
 }
 
 
-function setupSuggestions(){
+/* =====================================================
+   DETAIL SUGGESTIONS
+===================================================== */
 
- let input=document.getElementById("detail");
+function detailSuggestions(){
 
- let box=document.getElementById("sugg");
+ const input=document.getElementById("detail");
+ const box=document.getElementById("sugg");
 
- if(!input || !box)return;
+ if(!input||!box)return;
 
  input.addEventListener("input",function(){
 
- let q=input.value.trim().toLowerCase();
+  const q=input.value.trim().toLowerCase();
 
- if(!q){
- box.innerHTML="";
- return;
- }
+  if(!q){
+   box.innerHTML="";
+   return;
+  }
 
- let vals=[...new Set(
- data.entries
- .map(e=>e.detail)
- .filter(Boolean)
- )];
+  const values=[
+   ...new Set(
+    data.entries
+    .map(e=>e.detail)
+    .filter(Boolean)
+   )
+  ];
 
- vals=vals.filter(
- x=>x.toLowerCase().includes(q)
- ).slice(0,7);
+  const found=values
+  .filter(x=>x.toLowerCase().includes(q))
+  .slice(0,7);
 
- box.innerHTML=vals.map(
- v=>"<div>"+esc(v)+"</div>"
- ).join("");
+  box.innerHTML=found.map(x=>
+   "<div>"+esc(x)+"</div>"
+  ).join("");
 
- box.querySelectorAll("div").forEach(
- d=>{
- d.onclick=function(){
- input.value=d.textContent;
- box.innerHTML="";
- };
- }
- );
+  box.querySelectorAll("div")
+  .forEach(d=>{
+   d.onclick=()=>{
+    input.value=d.textContent;
+    box.innerHTML="";
+   };
+  });
 
  });
 
- input.addEventListener("blur",function(){
- setTimeout(()=>box.innerHTML="",200);
+ input.addEventListener("blur",()=>{
+  setTimeout(()=>{
+   box.innerHTML="";
+  },200);
  });
-
 }
 
+
+/* =====================================================
+   STORE FORM
+===================================================== */
 
 function renderForm(){
 
- const a=document.getElementById("formArea");
+ const area=document.getElementById("formArea");
+
+ if(!area)return;
 
 
-/* PURCHASE */
+ /* PURCHASE */
 
-if(mode==="purchase"){
+ if(mode==="purchase"){
 
-a.innerHTML=`
+  area.innerHTML=`
 
-<div class="formgrid">
+  <div class="formgrid">
 
-<div class="field">
-<label>Date</label>
-<input id="date" type="date" value="${today()}">
-</div>
+   <div class="field">
+    <label>Date</label>
+    <input id="date" type="date"
+     value="${today()}">
+   </div>
 
-<div class="field">
-<label>Dealer Name</label>
-<input id="dealer" autocomplete="off">
-</div>
+   <div class="field">
+    <label>Dealer Name</label>
+    <input id="dealer">
+   </div>
 
-<div class="field full suggestionbox">
-<label>Description / Detail</label>
-<input id="detail" autocomplete="off">
-<div id="sugg" class="suggestions"></div>
-</div>
+   <div class="field full suggestionbox">
+    <label>Detail</label>
+    <input id="detail"
+     autocomplete="off"
+     placeholder="Item name / detail">
+    <div id="sugg"
+     class="suggestions"></div>
+   </div>
 
-<div class="field">
-<label>Unit</label>
-<select id="unit">
-<option>Kg</option>
-<option>PCS</option>
-<option>Liter</option>
-<option>Meter</option>
-<option>Box</option>
-<option>Dozen</option>
-</select>
-</div>
+   <div class="field">
+    <label>Unit</label>
+    <select id="unit">
+     <option>PCS</option>
+     <option>Kg</option>
+     <option>Liter</option>
+     <option>Meter</option>
+     <option>Box</option>
+     <option>Pack</option>
+    </select>
+   </div>
 
-<div class="field">
-<label>Quantity</label>
-<input id="qty" type="number" step="any" min="0" oninput="calcPurchase()">
-</div>
+   <div class="field">
+    <label>Quantity</label>
+    <input id="qty"
+     type="number"
+     step="any"
+     oninput="calcPurchase()">
+   </div>
 
-<div class="field">
-<label>Total Purchase Amount</label>
-<input id="amount" type="number" step="any" min="0" oninput="calcPurchase()">
-</div>
+   <div class="field">
+    <label>Total Purchase Amount</label>
+    <input id="amount"
+     type="number"
+     step="any"
+     oninput="calcPurchase()">
+   </div>
 
-<div class="field">
-<label>Extra Expense</label>
-<input id="expense" type="number" step="any" min="0" value="0" oninput="calcPurchase()">
-</div>
+   <div class="field">
+    <label>Extra Expense</label>
+    <input id="expense"
+     type="number"
+     step="any"
+     value="0"
+     oninput="calcPurchase()">
+   </div>
 
-<div class="field full">
-<div class="result">
-Unit Purchase Price:
-<span id="unitPrice">0.00</span>
-</div>
-</div>
+   <div class="field full">
+    <div class="result">
+     Unit Purchase Price:
+     <span id="unitPrice">0.00</span>
+    </div>
+   </div>
 
-<div class="field full">
-<button class="primary" onclick="savePurchase()">
-Save Purchase
-</button>
-</div>
+   <div class="field full">
+    <button class="primary"
+     onclick="savePurchase()">
+     💾 Save Purchase
+    </button>
+   </div>
 
-</div>`;
+  </div>`;
+
+ }
+
+
+ /* SALE */
+
+ else if(mode==="sale"){
+
+  area.innerHTML=`
+
+  <div class="formgrid">
+
+   <div class="field">
+    <label>Date</label>
+    <input id="date" type="date"
+     value="${today()}">
+   </div>
+
+   <div class="field">
+    <label>Customer Name</label>
+    <input id="customer">
+   </div>
+
+   <div class="field full suggestionbox">
+    <label>Detail</label>
+    <input id="detail"
+     autocomplete="off"
+     placeholder="Item name / detail"
+     oninput="calcSale()">
+    <div id="sugg"
+     class="suggestions"></div>
+   </div>
+
+   <div class="field">
+    <label>Unit</label>
+    <select id="unit">
+     <option>PCS</option>
+     <option>Kg</option>
+     <option>Liter</option>
+     <option>Meter</option>
+     <option>Box</option>
+     <option>Pack</option>
+    </select>
+   </div>
+
+   <div class="field">
+    <label>Quantity</label>
+    <input id="qty"
+     type="number"
+     step="any"
+     oninput="calcSale()">
+   </div>
+
+   <div class="field">
+    <label>Total Sale Amount</label>
+    <input id="saleTotalInput"
+     type="number"
+     step="any"
+     oninput="calcSale()">
+   </div>
+
+   <div class="field">
+    <label>Amount Received</label>
+    <input id="received"
+     type="number"
+     step="any"
+     oninput="calcSale()">
+   </div>
+
+   <div class="field">
+    <div class="result">
+     Unit Sale Price:
+     <span id="saleUnit">0.00</span>
+    </div>
+   </div>
+
+   <div class="field">
+    <div class="result">
+     Net Profit:
+     <span id="saleProfit">0.00</span>
+    </div>
+   </div>
+
+   <div class="field">
+    <div class="result">
+     Due:
+     <span id="saleDue">0.00</span>
+    </div>
+   </div>
+
+   <div class="field full">
+    <button class="primary"
+     onclick="saveSale()">
+     💾 Save Sale
+    </button>
+   </div>
+
+  </div>`;
+
+ }
+
+
+ /* EXPENSE */
+
+ else if(mode==="expense"){
+
+  area.innerHTML=`
+
+  <div class="formgrid">
+
+   <div class="field">
+    <label>Date</label>
+    <input id="date" type="date"
+     value="${today()}">
+   </div>
+
+   <div class="field full suggestionbox">
+    <label>Detail</label>
+    <input id="detail"
+     autocomplete="off"
+     placeholder="Expense detail">
+    <div id="sugg"
+     class="suggestions"></div>
+   </div>
+
+   <div class="field">
+    <label>Amount</label>
+    <input id="amount"
+     type="number"
+     step="any">
+   </div>
+
+   <div class="field full">
+    <button class="primary"
+     onclick="saveExpense()">
+     💾 Save Expense
+    </button>
+   </div>
+
+  </div>`;
+
+ }
+
+
+ /* CASH IN */
+
+ else{
+
+  area.innerHTML=`
+
+  <div class="formgrid">
+
+   <div class="field">
+    <label>Date</label>
+    <input id="date" type="date"
+     value="${today()}">
+   </div>
+
+   <div class="field full suggestionbox">
+    <label>Detail</label>
+    <input id="detail"
+     autocomplete="off"
+     placeholder="Cash detail">
+    <div id="sugg"
+     class="suggestions"></div>
+   </div>
+
+   <div class="field">
+    <label>Amount</label>
+    <input id="amount"
+     type="number"
+     step="any">
+   </div>
+
+   <div class="field full">
+    <button class="primary"
+     onclick="saveCash()">
+     💾 Save Cash In
+    </button>
+   </div>
+
+  </div>`;
+
+ }
+
+ detailSuggestions();
 
 }
 
 
-/* SALE */
+/* =====================================================
+   CALCULATIONS
+===================================================== */
 
-else if(mode==="sale"){
+function calcPurchase(){
 
-a.innerHTML=`
+ const q=Number(val("qty"))||0;
+ const amount=Number(val("amount"))||0;
+ const expense=Number(val("expense"))||0;
 
-<div class="formgrid">
+ const price=q?(amount+expense)/q:0;
 
-<div class="field">
-<label>Date</label>
-<input id="date" type="date" value="${today()}">
-</div>
+ const el=document.getElementById("unitPrice");
 
-<div class="field">
-<label>Customer Name</label>
-<input id="customer" autocomplete="off">
-</div>
+ if(el)el.textContent=money(price);
+}
 
-<div class="field full suggestionbox">
-<label>Description / Detail</label>
-<input id="detail" autocomplete="off">
-<div id="sugg" class="suggestions"></div>
-</div>
 
-<div class="field">
-<label>Unit</label>
-<select id="unit">
-<option>Kg</option>
-<option>PCS</option>
-<option>Liter</option>
-<option>Meter</option>
-<option>Box</option>
-<option>Dozen</option>
-</select>
-</div>
+function calcSale(){
 
-<div class="field">
-<label>Quantity</label>
-<input id="qty" type="number" step="any" min="0" oninput="calcSale()">
-</div>
+ const q=Number(val("qty"))||0;
+ const total=Number(val("saleTotalInput"))||0;
+ const received=Number(val("received"))||0;
 
-<div class="field">
-<label>Total Sale Amount</label>
-<input id="saleTotalInput" type="number" step="any" min="0" oninput="calcSale()">
-</div>
+ const unit=q?total/q:0;
 
-<div class="field">
-<label>Amount Received</label>
-<input id="received" type="number" step="any" min="0" oninput="calcSale()">
-</div>
+ const detail=val("detail");
 
-<div class="field">
-<div class="result">
-Unit Sale Price:
-<span id="saleUnit">0.00</span>
-</div>
-</div>
+ const stock=data.stock[detail];
 
-<div class="field">
-<div class="result">
-Net Profit:
-<span id="saleProfit">0.00</span>
-</div>
-</div>
+ const cost=stock?Number(stock.cost)||0:0;
 
-<div class="field">
-<div class="result">
-Customer Due:
-<span id="saleDue">0.00</span>
-</div>
-</div>
+ const profit=total-(cost*q);
 
-<div class="field full">
-<button class="primary" onclick="saveSale()">
-Save Sale
-</button>
-</div>
+ const due=Math.max(0,total-received);
 
-</div>`;
+ if(document.getElementById("saleUnit"))
+  document.getElementById("saleUnit").textContent=money(unit);
+
+ if(document.getElementById("saleProfit"))
+  document.getElementById("saleProfit").textContent=money(profit);
+
+ if(document.getElementById("saleDue"))
+  document.getElementById("saleDue").textContent=money(due);
+}
+
+
+/* =====================================================
+   SAVE PURCHASE
+===================================================== */
+
+function savePurchase(){
+
+ const date=val("date")||today();
+ const dealer=val("dealer");
+ const detail=val("detail");
+ const unit=val("unit");
+ const qty=Number(val("qty"))||0;
+ const amount=Number(val("amount"))||0;
+ const expense=Number(val("expense"))||0;
+
+ if(!detail||qty<=0){
+  alert("Please enter Detail and Quantity.");
+  return;
+ }
+
+ if(amount<0){
+  alert("Amount is not valid.");
+  return;
+ }
+
+ const unitPrice=(amount+expense)/qty;
+
+ let stock=data.stock[detail];
+
+ if(!stock){
+  stock={
+   qty:0,
+   unit:unit,
+   cost:unitPrice
+  };
+ }
+
+ const oldQty=Number(stock.qty)||0;
+
+ stock.cost=oldQty?
+  ((stock.cost*oldQty)+(unitPrice*qty))/(oldQty+qty):
+  unitPrice;
+
+ stock.qty=oldQty+qty;
+ stock.unit=unit;
+
+ data.stock[detail]=stock;
+
+ data.entries.unshift({
+  type:"Purchase",
+  date:date,
+  dealer:dealer,
+  detail:detail,
+  unit:unit,
+  qty:qty,
+  amount:amount,
+  expenses:expense,
+  unitPrice:unitPrice
+ });
+
+ saveData();
+
+ renderForm();
+
+ alert("Purchase saved successfully.");
+}
+
+
+/* =====================================================
+   SAVE SALE
+===================================================== */
+
+function saveSale(){
+
+ const date=val("date")||today();
+ const customer=val("customer");
+ const detail=val("detail");
+ const unit=val("unit");
+ const qty=Number(val("qty"))||0;
+ const total=Number(val("saleTotalInput"))||0;
+ const received=Number(val("received"))||0;
+
+ if(!detail||qty<=0){
+  alert("Please enter Detail and Quantity.");
+  return;
+ }
+
+ const stock=data.stock[detail];
+
+ if(!stock){
+  alert("This item is not available in stock.");
+  return;
+ }
+
+ if(Number(stock.qty)<qty){
+  alert("Stock is not enough for this sale.");
+  return;
+ }
+
+ const unitSale=total/qty;
+ const profit=total-(stock.cost*qty);
+ const due=Math.max(0,total-received);
+
+ stock.qty-=qty;
+
+ data.stock[detail]=stock;
+
+ data.entries.unshift({
+  type:"Sale",
+  date:date,
+  customer:customer,
+  detail:detail,
+  unit:unit,
+  qty:qty,
+  total:total,
+  received:received,
+  unitSale:unitSale,
+  profit:profit,
+  due:due
+ });
+
+ saveData();
+
+ renderForm();
+
+ alert("Sale saved successfully.");
+}
+
+
+/* =====================================================
+   EXPENSE
+===================================================== */
+
+function saveExpense(){
+
+ const date=val("date")||today();
+ const detail=val("detail");
+ const amount=Number(val("amount"))||0;
+
+ if(!detail||amount<=0){
+  alert("Please enter Detail and Amount.");
+  return;
+ }
+
+ data.entries.unshift({
+  type:"Expense",
+  date:date,
+  detail:detail,
+  amount:amount
+ });
+
+ saveData();
+
+ renderForm();
+
+ alert("Expense saved successfully.");
+}
+
+
+/* =====================================================
+   CASH IN
+===================================================== */
+
+function saveCash(){
+
+ const date=val("date")||today();
+ const detail=val("detail");
+ const amount=Number(val("amount"))||0;
+
+ if(!detail||amount<=0){
+  alert("Please enter Detail and Amount.");
+  return;
+ }
+
+ data.entries.unshift({
+  type:"Cash In",
+  date:date,
+  detail:detail,
+  amount:amount
+ });
+
+ saveData();
+
+ renderForm();
+
+ alert("Cash In saved successfully.");
+}
+
+
+/* =====================================================
+   RENDER STORE
+===================================================== */
+
+function renderAll(){
+
+ const sales=data.entries
+  .filter(e=>e.type==="Sale");
+
+ const purchases=data.entries
+  .filter(e=>e.type==="Purchase");
+
+ const expenses=data.entries
+  .filter(e=>e.type==="Expense");
+
+ const cash=data.entries
+  .filter(e=>e.type==="Cash In");
+
+ const t=today();
+
+ const dailySales=sales
+  .filter(e=>e.date===t);
+
+ const dailyPurchases=purchases
+  .filter(e=>e.date===t);
+
+ const dailyExpenses=expenses
+  .filter(e=>e.date===t);
+
+ const dailyCash=cash
+  .filter(e=>e.date===t);
+
+ const saleTotal=dailySales
+  .reduce((a,e)=>a+Number(e.total||0),0);
+
+ const purchaseTotal=dailyPurchases
+  .reduce((a,e)=>a+Number(e.amount||0),0);
+
+ const expenseTotal=dailyExpenses
+  .reduce((a,e)=>a+Number(e.amount||0),0);
+
+ const cashTotal=dailyCash
+  .reduce((a,e)=>a+Number(e.amount||0),0);
+
+ const dues=sales
+  .reduce((a,e)=>a+Number(e.due||0),0);
+
+ const profit=sales
+  .reduce((a,e)=>a+Number(e.profit||0),0);
+
+ const received=sales
+  .reduce((a,e)=>a+Number(e.received||0),0);
+
+ const balance=
+  received+
+  cashTotal-
+  purchaseTotal-
+  expenseTotal;
+
+ document.getElementById("saleTotal").textContent=
+  money(saleTotal);
+
+ document.getElementById("purchaseTotal").textContent=
+  money(purchaseTotal);
+
+ document.getElementById("expenseTotal").textContent=
+  money(expenseTotal);
+
+ document.getElementById("cashTotal").textContent=
+  money(cashTotal);
+
+ document.getElementById("dueTotal").textContent=
+  money(dues);
+
+ document.getElementById("profitTotal").textContent=
+  money(profit);
+
+ document.getElementById("cashBalance").textContent=
+  money(balance);
+
+
+ /* STOCK */
+
+ const items=
+  Object.entries(data.stock)
+  .filter(([k,v])=>Number(v.qty)>0);
+
+ document.getElementById("stockCount")
+ .textContent=items.length;
+
+ if(items.length){
+
+  document.getElementById("stockTable").innerHTML=`
+
+  <table>
+   <tr>
+    <th>Item</th>
+    <th>Qty</th>
+    <th>Unit</th>
+    <th>Cost</th>
+   </tr>
+
+   ${items.map(([k,v])=>`
+    <tr>
+     <td>${esc(k)}</td>
+     <td>${money(v.qty)}</td>
+     <td>${esc(v.unit)}</td>
+     <td>${money(v.cost)}</td>
+    </tr>
+   `).join("")}
+
+  </table>`;
+
+ }else{
+
+  document.getElementById("stockTable")
+  .innerHTML="No stock yet.";
+
+ }
+
+
+ /* ENTRIES */
+
+ if(data.entries.length){
+
+  document.getElementById("entriesTable").innerHTML=`
+
+  <table>
+   <tr>
+    <th>Date</th>
+    <th>Type</th>
+    <th>Detail</th>
+    <th>Amount</th>
+   </tr>
+
+   ${data.entries.slice(0,50).map(e=>`
+
+    <tr>
+     <td>${esc(e.date)}</td>
+     <td>${esc(e.type)}</td>
+     <td>${esc(e.detail)}</td>
+     <td>${money(
+      e.amount??e.total??e.received??0
+     )}</td>
+    </tr>
+
+   `).join("")}
+
+  </table>`;
+
+ }else{
+
+  document.getElementById("entriesTable")
+  .innerHTML="No entries yet.";
+
+ }
 
 }
 
 
-/* EXPENSE */
+/* =====================================================
+   LOGIN / REGISTER
+===================================================== */
 
-else if(mode==="expense"){
+function registerUser(){
 
-a.innerHTML=`
+ const user=val("loginUser");
+ const pass=val("loginPass");
 
-<div class="formgrid">
+ if(!user||!pass){
+  alert("Please enter username/email and password.");
+  return;
+ }
 
-<div class="field">
-<label>Date</label>
-<input id="date" type="date" value="${today()}">
-</div>
+ localStorage.setItem(USER_KEY,JSON.stringify({
+  user:user,
+  pass:pass
+ }));
 
-<div class="field full suggestionbox">
-<label>Detail</label>
-<input id="detail" autocomplete="off">
-<div id="sugg" class="suggestions"></div>
-</div>
+ alert("Registration completed.");
 
-<div class="field">
-<label>Category</label>
-<select id="category">
-<option>General</option>
-<option>Food</option>
-<option>Sabzee</option>
-<option>Tuition Fee</option>
-<option>Pocket Money</option>
-<option>Guest Money</option>
-<option>Transport</option>
-<option>Other</option>
-</select>
-</div>
+ updateAccount();
+ showPage("account");
+}
 
-<div class="field">
-<label>Total Amount</label>
-<input id="amount" type="number" step="any" min="0">
-</div>
 
-<div class="field full">
-<button class="primary" onclick="saveExpense()">
-Save Expense
-</button>
-</div>
+function loginUser(){
 
-</div>`;
+ const user=val("loginUser");
+ const pass=val("loginPass");
+
+ const saved=
+  JSON.parse(localStorage.getItem(USER_KEY)||"null");
+
+ if(!saved){
+  alert("No registered account found. Please register first.");
+  return;
+ }
+
+ if(saved.user!==user||saved.pass!==pass){
+  alert("Login information is incorrect.");
+  return;
+ }
+
+ localStorage.setItem(
+  USER_KEY+"_login",
+  "yes"
+ );
+
+ alert("Login successful.");
+
+ updateAccount();
+ showPage("account");
+}
+
+
+function logout(){
+
+ localStorage.removeItem(USER_KEY+"_login");
+
+ updateAccount();
+
+ alert("Logged out.");
+}
+
+
+function updateAccount(){
+
+ const saved=
+  JSON.parse(localStorage.getItem(USER_KEY)||"null");
+
+ const logged=
+  localStorage.getItem(USER_KEY+"_login")==="yes";
+
+ const accountStatus=
+  document.getElementById("accountStatus");
+
+ const loggedStatus=
+  document.getElementById("loggedStatus");
+
+ if(logged&&saved){
+
+  accountStatus.classList.add("hidden");
+  loggedStatus.classList.remove("hidden");
+
+  document.getElementById("userName")
+  .textContent=saved.user;
+
+ }else{
+
+  accountStatus.classList.remove("hidden");
+  loggedStatus.classList.add("hidden");
+
+ }
 
 }
 
 
-/* CASH IN */
+/* =====================================================
+   HIDDEN ADMIN
+   Admin section is NOT shown to normal users.
+   Future admin login can be connected here.
+===================================================== */
 
-else if(mode==="cashin"){
+function openSettings(){
 
-a.innerHTML=`
+ const box=document.getElementById("settingsBox");
 
-<div class="formgrid">
+ if(box.style.display==="block")
+  box.style.display="none";
+ else
+  box.style.display="block";
+}
 
-<div class="field">
-<label>Date</label>
-<input id="date" type="date" value="${today()}">
-</div>
 
-<div class="field full suggestionbox">
+function setTheme(theme){
+
+ if(theme==="blue"){
+  document.documentElement.style
+   .setProperty("--primary","#315eea");
+
+  document.documentElement.style
+   .setProperty("--secondary","#713ce8");
+ }
+
+ if(theme==="green"){
+  document.documentElement.style
+   .setProperty("--primary","#008f68");
+
+  document.documentElement.style
+   .setProperty("--secondary","#00b894");
+ }
+
+ if(theme==="purple"){
+  document.documentElement.style
+   .setProperty("--primary","#6c35d9");
+
+  document.documentElement.style
+   .setProperty("--secondary","#b13be4");
+ }
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+renderForm();
+renderAll();
+updateAccount();
+
+</script>
+
+</body>
+</html>
