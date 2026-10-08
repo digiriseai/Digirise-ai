@@ -4,254 +4,237 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DigiRise</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#172033}
-header{background:linear-gradient(135deg,#315eea,#713ce8);color:#fff;text-align:center;padding:28px 15px 22px}
-header h1{margin:0;font-size:32px} header p{margin:8px 0 0;font-size:18px}
-nav{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;background:#fff;padding:14px;position:sticky;top:0;z-index:5;box-shadow:0 2px 8px #0001}
-button,.navbtn{border:0;border-radius:12px;padding:12px 17px;font-size:16px;font-weight:bold;background:#eaf0ff;color:#172033;cursor:pointer}
+body{
+ margin:0;font-family:Arial,sans-serif;
+ background:#f5f7fb;color:#172033
+}
+header{
+ background:linear-gradient(135deg,#315eea,#713ce8);
+ color:#fff;text-align:center;padding:28px 15px 22px
+}
+header h1{margin:0;font-size:32px}
+header p{margin:8px 0 0;font-size:18px}
+
+nav{
+ display:flex;gap:10px;justify-content:center;flex-wrap:wrap;
+ background:#fff;padding:14px;position:sticky;top:0;z-index:5;
+ box-shadow:0 2px 8px #0001
+}
+button,.navbtn{
+ border:0;border-radius:12px;padding:12px 17px;font-size:16px;
+ font-weight:bold;background:#eaf0ff;color:#172033;cursor:pointer
+}
 button.primary{background:#2864df;color:white}
 button.danger{background:#ffe8e8;color:#b40000}
+button.edit{background:#fff1c7;color:#805500;padding:7px 10px;font-size:13px}
+button.del{background:#ffe8e8;color:#b40000;padding:7px 10px;font-size:13px}
+
 main{max-width:950px;margin:auto;padding:20px}
-.card{background:#fff;border-radius:18px;padding:20px;margin-bottom:16px;box-shadow:0 3px 14px #00000012}
-h2{margin-top:0}.hidden{display:none!important}
-.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
-.feature{background:#f8faff;border-radius:15px;padding:18px;cursor:pointer;border:1px solid #e5eafa}
+.card{
+ background:#fff;border-radius:18px;padding:20px;margin-bottom:16px;
+ box-shadow:0 3px 14px #00000012
+}
+h2{margin-top:0}
+.hidden{display:none!important}
+
+.features{
+ display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+ gap:14px
+}
+.feature{
+ background:#f8faff;border-radius:15px;padding:18px;cursor:pointer;
+ border:1px solid #e5eafa
+}
 .feature b{display:block;font-size:18px;margin-top:6px}
+
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
 .tabs button.active{background:#2864df;color:white}
-.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+
+.formgrid{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px
+}
 .field{display:flex;flex-direction:column;gap:6px}
 .field.full{grid-column:1/-1}
 label{font-weight:bold}
-input,select{width:100%;padding:13px;border:1px solid #cfd6e4;border-radius:10px;font-size:16px;background:white}
-.suggestionbox{position:relative}.suggestions{position:absolute;left:0;right:0;top:100%;background:#fff;border:1px solid #ccd4e3;border-radius:0 0 10px 10px;z-index:20;box-shadow:0 5px 12px #0002}
-.suggestions div{padding:10px;cursor:pointer}.suggestions div:hover{background:#eef3ff}
-.result{background:#eef5ff;padding:12px;border-radius:10px;font-weight:bold}
-.summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.stat{background:#f8faff;border:1px solid #e2e7f0;border-radius:12px;padding:13px}.stat b{display:block;font-size:20px;margin-top:4px}
-table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:9px;border-bottom:1px solid #e6e9ef;text-align:left}
+
+input,select{
+ width:100%;padding:13px;border:1px solid #cfd6e4;
+ border-radius:10px;font-size:16px;background:white
+}
+
+.suggestionbox{position:relative}
+.suggestions{
+ position:absolute;left:0;right:0;top:100%;background:#fff;
+ border:1px solid #ccd4e3;border-radius:0 0 10px 10px;
+ z-index:20;box-shadow:0 5px 12px #0002
+}
+.suggestions div{padding:10px;cursor:pointer}
+.suggestions div:hover{background:#eef3ff}
+
+.result{
+ background:#eef5ff;padding:13px;border-radius:10px;
+ font-weight:bold;font-size:17px
+}
+.profit{
+ background:#e9f9ed;padding:13px;border-radius:10px;
+ font-weight:bold;font-size:18px
+}
+.summary{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px
+}
+.stat{
+ background:#f8faff;border:1px solid #e2e7f0;
+ border-radius:12px;padding:13px
+}
+.stat b{display:block;font-size:20px;margin-top:4px}
+
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{
+ padding:9px;border-bottom:1px solid #e6e9ef;text-align:left
+}
 .small{font-size:13px;color:#596579}
-@media(max-width:600px){.formgrid{grid-template-columns:1fr}.summary{grid-template-columns:1fr}header h1{font-size:28px}}
+
+.actions{
+ display:flex;gap:5px;flex-wrap:wrap
+}
+
+@media(max-width:600px){
+ .formgrid{grid-template-columns:1fr}
+ .summary{grid-template-columns:1fr}
+ header h1{font-size:28px}
+ table{font-size:12px}
+ th,td{padding:7px}
+}
 </style>
 </head>
+
 <body>
+
 <header>
-  <h1>DigiRise</h1>
-  <p>General Store • Learn • Create • Grow</p>
+<h1>DigiRise</h1>
+<p>General Store • Learn • Create • Grow</p>
 </header>
 
 <nav>
-  <button class="navbtn" onclick="showPage('home')">Home</button>
-  <button class="navbtn" onclick="showPage('store')">🏪 General Store</button>
-  <button class="navbtn" onclick="showPage('account')">Account</button>
+<button class="navbtn" onclick="showPage('home')">Home</button>
+<button class="navbtn" onclick="showPage('store')">🏪 General Store</button>
+<button class="navbtn" onclick="showPage('account')">Account</button>
 </nav>
 
 <main>
+
+<!-- HOME -->
 <section id="home" class="page">
-  <div class="card">
-    <h2>Welcome to DigiRise</h2>
-    <p>Manage your General Store from one place. Purchase, Sale, Expenses, Cash In, Stock and reports are saved on this device.</p>
-    <button class="primary" onclick="showPage('store')">Open General Store</button>
-  </div>
-  <div class="card">
-    <h2>DigiRise Features</h2>
-    <div class="features">
-      <div class="feature" onclick="showPage('store')">🛒<b>General Store</b><span class="small">Purchase, Sale & stock</span></div>
-      <div class="feature" onclick="alert('AI Image needs an image-generation API connection.')">🤖<b>AI Image</b><span class="small">Connection required</span></div>
-      <div class="feature" onclick="alert('AI Video needs a video-generation API connection.')">🎬<b>AI Video</b><span class="small">Connection required</span></div>
-      <div class="feature" onclick="alert('AI Chat needs a chat API connection.')">💬<b>AI Chat</b><span class="small">Connection required</span></div>
-      <div class="feature" onclick="alert('Learn section can be connected to your lessons.')">📚<b>Learn</b><span class="small">Education</span></div>
-      <div class="feature" onclick="alert('Quran section can be connected to Quran content.')">📖<b>Quran</b><span class="small">Quran Learning</span></div>
-    </div>
-  </div>
+
+<div class="card">
+<h2>Welcome to DigiRise</h2>
+<p>
+Manage your General Store from one place.
+Purchase, Sale, Expenses, Cash In, Stock and reports
+are saved on this device.
+</p>
+<button class="primary" onclick="showPage('store')">
+Open General Store
+</button>
+</div>
+
+<div class="card">
+<h2>DigiRise Features</h2>
+
+<div class="features">
+
+<div class="feature" onclick="showPage('store')">
+🛒
+<b>General Store</b>
+<span class="small">Purchase, Sale & Stock</span>
+</div>
+
+<div class="feature" onclick="alert('AI Image needs an image-generation API connection.')">
+🤖
+<b>AI Image</b>
+<span class="small">Connection required</span>
+</div>
+
+<div class="feature" onclick="alert('AI Video needs a video-generation API connection.')">
+🎬
+<b>AI Video</b>
+<span class="small">Connection required</span>
+</div>
+
+<div class="feature" onclick="alert('AI Chat needs a chat API connection.')">
+💬
+<b>AI Chat</b>
+<span class="small">Connection required</span>
+</div>
+
+<div class="feature" onclick="alert('Learn section can be connected to your lessons.')">
+📚
+<b>Learn</b>
+<span class="small">Education</span>
+</div>
+
+<div class="feature" onclick="alert('Quran section can be connected to Quran content.')">
+📖
+<b>Quran</b>
+<span class="small">Quran Learning</span>
+</div>
+
+</div>
+</div>
 </section>
 
+
+<!-- STORE -->
 <section id="store" class="page hidden">
-  <div class="card">
-    <h2>🏪 General Store</h2>
-    <div class="tabs">
-      <button class="active" id="tabPurchase" onclick="setMode('purchase')">Purchase</button>
-      <button id="tabSale" onclick="setMode('sale')">Sale</button>
-      <button id="tabExpense" onclick="setMode('expense')">Expenses</button>
-      <button id="tabCash" onclick="setMode('cashin')">Cash In</button>
-    </div>
-    <div id="formArea"></div>
-    <p class="small">Press <b>Enter</b> in the last field to save the entry.</p>
-  </div>
 
-  <div class="card">
-    <h2>📊 Daily Summary</h2>
-    <div class="summary">
-      <div class="stat">Daily Sale Total<b id="saleTotal">0</b></div>
-      <div class="stat">Purchase Total<b id="purchaseTotal">0</b></div>
-      <div class="stat">Expenses<b id="expenseTotal">0</b></div>
-      <div class="stat">Cash In<b id="cashTotal">0</b></div>
-      <div class="stat">Total Dues<b id="dueTotal">0</b></div>
-      <div class="stat">Net Profit<b id="profitTotal">0</b></div>
-      <div class="stat">Cash Balance<b id="cashBalance">0</b></div>
-      <div class="stat">Stock Items<b id="stockCount">0</b></div>
-    </div>
-  </div>
+<div class="card">
 
-  <div class="card">
-    <h2>📦 Current Stock</h2>
-    <div id="stockTable"></div>
-  </div>
+<h2>🏪 General Store</h2>
 
-  <div class="card">
-    <h2>🧾 Recent Entries</h2>
-    <div id="entriesTable"></div>
-  </div>
-</section>
+<div class="tabs">
 
-<section id="account" class="page hidden">
-  <div class="card">
-    <h2>Account</h2>
-    <p>This version stores your General Store data in this phone/browser using local storage.</p>
-    <button class="danger" onclick="clearAll()">Delete all local store data</button>
-  </div>
-</section>
-</main>
+<button class="active" id="tabPurchase"
+onclick="setMode('purchase')">
+Purchase
+</button>
 
-<script>
-const KEY='digirise_store_v1';
-let data=JSON.parse(localStorage.getItem(KEY)||'{"entries":[],"stock":{}}');
-let mode='purchase';
+<button id="tabSale"
+onclick="setMode('sale')">
+Sale
+</button>
 
-function saveData(){localStorage.setItem(KEY,JSON.stringify(data));renderAll();}
-function money(n){return Number(n||0).toFixed(2)}
-function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-function today(){return new Date().toISOString().slice(0,10)}
+<button id="tabExpense"
+onclick="setMode('expense')">
+Expenses
+</button>
 
-function showPage(id){
- document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));
- document.getElementById(id).classList.remove('hidden');
- if(id==='store') renderAll();
- window.scrollTo(0,0);
-}
+<button id="tabCash"
+onclick="setMode('cashin')">
+Cash In
+</button>
 
-function setMode(m){
- mode=m;
- ['Purchase','Sale','Expense','Cash'].forEach(x=>document.getElementById('tab'+x).classList.remove('active'));
- document.getElementById('tab'+({purchase:'Purchase',sale:'Sale',expense:'Expense',cashin:'Cash'}[m])).classList.add('active');
- renderForm();
-}
+</div>
 
-function detailSuggestions(inputId, boxId){
- const input=document.getElementById(inputId), box=document.getElementById(boxId);
- input.addEventListener('input',()=>{
-   const q=input.value.trim().toLowerCase();
-   if(!q){box.innerHTML='';return}
-   const vals=[...new Set(data.entries.map(e=>e.detail).filter(Boolean))]
-     .filter(x=>x.toLowerCase().includes(q)).slice(0,6);
-   box.innerHTML=vals.map(v=>'<div>'+esc(v)+'</div>').join('');
-   box.querySelectorAll('div').forEach(d=>d.onclick=()=>{input.value=d.textContent;box.innerHTML='';});
- });
- document.addEventListener('click',e=>{if(!e.target.closest('.suggestionbox')) box.innerHTML=''});
-}
+<div id="formArea"></div>
 
-function renderForm(){
- const a=document.getElementById('formArea');
- if(mode==='purchase') a.innerHTML=`
- <div class="formgrid">
-  <div class="field full"><label>Dealer Name</label><input id="dealer" autocomplete="off"></div>
-  <div class="field full suggestionbox"><label>Description / Detail</label><input id="detail" autocomplete="off"><div id="sugg" class="suggestions"></div></div>
-  <div class="field"><label>Unit</label><select id="unit"><option>Kg</option><option>PCS</option><option>Liter</option><option>Meter</option></select></div>
-  <div class="field"><label>Quantity</label><input id="qty" type="number" step="any" min="0" oninput="calcPurchase()"></div>
-  <div class="field"><label>Total Paid Amount</label><input id="amount" type="number" step="any" min="0" oninput="calcPurchase()"></div>
-  <div class="field"><label>Expenses</label><input id="expense" type="number" step="any" min="0" value="0" oninput="calcPurchase()"></div>
-  <div class="field full"><div class="result">Unit Purchase Price: <span id="unitPrice">0.00</span></div></div>
-  <div class="field full"><button class="primary" onclick="savePurchase()">Save Purchase</button></div>
- </div>`;
- else if(mode==='sale') a.innerHTML=`
- <div class="formgrid">
-  <div class="field full"><label>Customer Name</label><input id="customer" autocomplete="off"></div>
-  <div class="field full suggestionbox"><label>Description / Detail</label><input id="detail" autocomplete="off"><div id="sugg" class="suggestions"></div></div>
-  <div class="field"><label>Unit</label><select id="unit"><option>Kg</option><option>PCS</option><option>Liter</option><option>Meter</option></select></div>
-  <div class="field"><label>Quantity</label><input id="qty" type="number" step="any" min="0" oninput="calcSale()"></div>
-  <div class="field"><label>Amount Received</label><input id="received" type="number" step="any" min="0" oninput="calcSale()"></div>
-  <div class="field"><label>Total Sale Amount</label><input id="saleTotalInput" type="number" step="any" min="0" oninput="calcSale()"></div>
-  <div class="field"><div class="result">Unit Sale Price: <span id="saleUnit">0.00</span></div></div>
-  <div class="field"><div class="result">Net Profit: <span id="saleProfit">0.00</span></div></div>
-  <div class="field full"><button class="primary" onclick="saveSale()">Save Sale</button></div>
- </div>`;
- else if(mode==='expense') a.innerHTML=`
- <div class="formgrid">
-  <div class="field"><label>Date</label><input id="date" type="date" value="${today()}"></div>
-  <div class="field full suggestionbox"><label>Detail</label><input id="detail" autocomplete="off"><div id="sugg" class="suggestions"></div></div>
-  <div class="field"><label>Total Amount</label><input id="amount" type="number" step="any" min="0"></div>
-  <div class="field full"><button class="primary" onclick="saveExpense()">Save Expense</button></div>
- </div>`;
- else a.innerHTML=`
- <div class="formgrid">
-  <div class="field"><label>Date</label><input id="date" type="date" value="${today()}"></div>
-  <div class="field full suggestionbox"><label>Detail</label><input id="detail" autocomplete="off"><div id="sugg" class="suggestions"></div></div>
-  <div class="field"><label>Amount</label><input id="amount" type="number" step="any" min="0"></div>
-  <div class="field full"><button class="primary" onclick="saveCash()">Save Cash In</button></div>
- </div>`;
- if(document.getElementById('detail')) detailSuggestions('detail','sugg');
- a.querySelectorAll('input,select').forEach((el,i)=>el.addEventListener('keydown',e=>{
-   if(e.key==='Enter'){e.preventDefault(); if(mode==='purchase')savePurchase(); else if(mode==='sale')saveSale(); else if(mode==='expense')saveExpense(); else saveCash();}
- }));
-}
+<p class="small">
+Press <b>Enter</b> to save the entry.
+</p>
 
-function calcPurchase(){
- const q=+document.getElementById('qty')?.value||0, a=+document.getElementById('amount')?.value||0, ex=+document.getElementById('expense')?.value||0;
- if(document.getElementById('unitPrice')) document.getElementById('unitPrice').textContent=q?( (a+ex)/q ).toFixed(2):'0.00';
-}
-function calcSale(){
- const q=+document.getElementById('qty')?.value||0, total=+document.getElementById('saleTotalInput')?.value||0;
- const unit=q?total/q:0;
- document.getElementById('saleUnit').textContent=unit.toFixed(2);
- const detail=document.getElementById('detail')?.value.trim();
- const s=data.stock[detail];
- const cost=s&&q?((s.cost||0)):0;
- document.getElementById('saleProfit').textContent=(total-(cost*q)).toFixed(2);
-}
-function addEntry(e){data.entries.unshift(e);saveData()}
-function savePurchase(){
- const dealer=dealerVal(), detail=val('detail'), unit=val('unit'), qty=+val('qty'), amount=+val('amount'), ex=+val('expense')||0;
- if(!detail||qty<=0||amount<0)return alert('Description, Quantity and Total Paid Amount are required.');
- const up=(amount+ex)/qty;
- const s=data.stock[detail]||{qty:0,unit,cost:up};
- const oldQty=s.qty||0; s.cost=oldQty?(s.cost*oldQty+up*qty)/(oldQty+qty):up; s.qty=oldQty+qty; s.unit=unit; data.stock[detail]=s;
- addEntry({type:'Purchase',date:today(),dealer,detail,unit,qty,amount,expenses:ex,unitPrice:up});
- renderForm();alert('Purchase saved.');
-}
-function saveSale(){
- const customer=val('customer'), detail=val('detail'), unit=val('unit'), qty=+val('qty'), received=+val('received')||0, total=+val('saleTotalInput')||0;
- if(!detail||qty<=0||total<0)return alert('Description, Quantity and Total Sale Amount are required.');
- const s=data.stock[detail];
- if(!s||s.qty<qty)return alert('Stock is not enough for this sale.');
- const unitSale=total/qty, profit=total-(s.cost*qty), due=Math.max(0,total-received);
- s.qty-=qty; data.stock[detail]=s;
- addEntry({type:'Sale',date:today(),customer,detail,unit,qty,total,received,unitSale,profit,due});
- renderForm();alert('Sale saved.');
-}
-function saveExpense(){const detail=val('detail'),amount=+val('amount')||0;if(!detail||amount<=0)return alert('Detail and Amount are required.');addEntry({type:'Expense',date:val('date'),detail,amount});renderForm();alert('Expense saved.')}
-function saveCash(){const detail=val('detail'),amount=+val('amount')||0;if(!detail||amount<=0)return alert('Detail and Amount are required.');addEntry({type:'Cash In',date:val('date'),detail,amount});renderForm();alert('Cash In saved.')}
-function val(id){return document.getElementById(id)?.value.trim()||''}
-function dealerVal(){return val('dealer')}
+</div>
 
-function renderAll(){
- let sales=data.entries.filter(e=>e.type==='Sale'), purchases=data.entries.filter(e=>e.type==='Purchase'), expenses=data.entries.filter(e=>e.type==='Expense'), cash=data.entries.filter(e=>e.type==='Cash In');
- const t=today(), ds=sales.filter(e=>e.date===t), dp=purchases.filter(e=>e.date===t), de=expenses.filter(e=>e.date===t), dc=cash.filter(e=>e.date===t);
- const st=ds.reduce((a,e)=>a+e.total,0), pt=dp.reduce((a,e)=>a+e.amount,0), et=de.reduce((a,e)=>a+e.amount,0), ct=dc.reduce((a,e)=>a+e.amount,0);
- const dues=sales.reduce((a,e)=>a+(e.due||0),0), profit=sales.reduce((a,e)=>a+(e.profit||0),0);
- const received=sales.reduce((a,e)=>a+(e.received||0),0);
- document.getElementById('saleTotal').textContent=money(st);document.getElementById('purchaseTotal').textContent=money(pt);
- document.getElementById('expenseTotal').textContent=money(et);document.getElementById('cashTotal').textContent=money(ct);
- document.getElementById('dueTotal').textContent=money(dues);document.getElementById('profitTotal').textContent=money(profit);
- document.getElementById('cashBalance').textContent=money(received+ct-pt-et);
- const items=Object.entries(data.stock).filter(([k,v])=>v.qty>0);
- document.getElementById('stockCount').textContent=items.length;
- document.getElementById('stockTable').innerHTML=items.length?'<table><tr><th>Item</th><th>Qty</th><th>Unit</th><th>Cost</th></tr>'+items.map(([k,v])=>`<tr><td>${esc(k)}</td><td>${money(v.qty)}</td><td>${esc(v.unit)}</td><td>${money(v.cost)}</td></tr>`).join('')+'</table>':'No stock yet.';
- document.getElementById('entriesTable').innerHTML=data.entries.length?'<table><tr><th>Date</th><th>Type</th><th>Detail</th><th>Amount</th></tr>'+data.entries.slice(0,30).map(e=>`<tr><td>${esc(e.date)}</td><td>${esc(e.type)}</td><td>${esc(e.detail)}</td><td>${money(e.amount??e.total??e.received??0)}</td></tr>`).join('')+'</table>':'No entries yet.';
-}
-function clearAll(){if(confirm('Delete all DigiRise store data from this device?')){localStorage.removeItem(KEY);location.reload()}}
-renderForm();renderAll();
-</script>
-</body>
-</html>
+
+<!-- DAILY SUMMARY -->
+
+<div class="card">
+
+<h2>📊 Daily Summary</h2>
+
+<div class="summary">
+
+<div class="stat">
+Daily Sale Total
+<b id="saleTotal
