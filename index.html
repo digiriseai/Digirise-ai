@@ -3,523 +3,392 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DigiRise — Learn • Create • Grow</title>
+    <title>DigiRise Smart Memo SYNC</title>
     <style>
         :root {
-            --primary: #1e3a8a;
-            --secondary: #0d9488;
-            --dark: #1f2937;
-            --light: #f3f4f6;
+            --primary: #2563eb;
             --success: #16a34a;
             --danger: #dc2626;
+            --warning: #ca8a04;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --border: #e2e8f0;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background: var(--light); color: var(--dark); padding-bottom: 60px; }
+        body { background: #f1f5f9; color: var(--dark); padding-bottom: 60px; }
+        header { background: white; border-bottom: 1px solid var(--border); padding: 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 20px; font-weight: bold; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+        .nav-toggle { font-size: 24px; background: none; border: none; cursor: pointer; color: var(--dark); }
         
-        /* Navigation */
-        nav { background: var(--primary); color: white; padding: 15px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
-        .logo { font-size: 1.5rem; font-weight: bold; letter-spacing: 1px; cursor: pointer; }
-        .menu-toggle { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; display: block; }
-        .nav-links { display: none; flex-direction: column; width: 100%; position: absolute; top: 55px; left: 0; background: var(--primary); padding: 10px 0; }
-        .nav-links.active { display: flex; }
-        .nav-links a { color: white; padding: 12px 20px; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.95rem; }
+        .container { max-width: 600px; margin: 15px auto; padding: 0 12px; }
+        .card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); border: 1px solid var(--border); }
+        .card-title { font-size: 16px; font-weight: bold; margin-bottom: 15px; color: var(--dark); display: flex; align-items: center; gap: 6px; }
         
-        /* Layout Containers */
-        .container { max-width: 1200px; margin: 20px auto; padding: 0 15px; }
-        .page-section { display: none; }
-        .page-section.active { display: block; }
+        /* Stats Dashboard */
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px; }
+        .stat-box { background: white; padding: 12px; border-radius: 10px; border: 1px solid var(--border); text-align: center; }
+        .stat-box.dues { border-left: 4px solid var(--danger); }
+        .stat-box.received { border-left: 4px solid var(--success); }
+        .stat-label { font-size: 11px; color: #64748b; text-transform: uppercase; margin-bottom: 4px; }
+        .stat-val { font-size: 16px; font-weight: bold; }
+        .text-danger { color: var(--danger); }
+        .text-success { color: var(--success); }
+        .text-primary { color: var(--primary); }
         
-        /* Home Page Styling */
-        .hero { text-align: center; padding: 40px 20px; background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .hero h1 { color: var(--primary); font-size: 2rem; margin-bottom: 10px; }
-        .hero p { color: #6b7280; font-size: 1.1rem; }
-        .grid-menu { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px; }
-        .grid-card { background: white; padding: 20px; border-radius: 10px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); font-weight: bold; color: var(--primary); text-decoration: none; border-top: 4px solid var(--secondary); }
-
-        /* General Store / Dashboards */
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
-        @media(min-width: 768px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } .grid-menu { grid-template-columns: repeat(4, 1fr); } .nav-links { display: flex !important; flex-direction: row; position: static; width: auto; background: none; padding: 0; } .nav-links a { border: none; padding: 0 15px; } .menu-toggle { display: none; } }
-        .stat-card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); text-align: center; }
-        .stat-card p { font-size: 0.85rem; color: #6b7280; margin-bottom: 5px; }
-        .stat-card h3 { font-size: 1.2rem; color: var(--primary); }
-
-        /* Forms */
-        .form-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: 500; font-size: 0.9rem; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 1rem; background: #f9fafb; -webkit-appearance: none; }
-        .calc-preview { font-size: 0.85rem; color: var(--secondary); font-weight: 600; margin-top: 5px; display: block; }
-        button { width: 100%; background: var(--primary); color: white; padding: 14px; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: background 0.2s; }
-        button:active { background: #1d4ed8; }
-
-        /* Tables & Records for Mobile */
-        .record-card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 10px; border-left: 4px solid var(--primary); position: relative; }
-        .record-card.sale { border-left-color: var(--success); }
-        .record-card.expense { border-left-color: var(--danger); }
-        .record-header { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 5px; font-size: 0.95rem; }
-        .record-body { font-size: 0.85rem; color: #4b5563; line-height: 1.4; }
-        .record-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px; }
-        .btn-sm { width: auto; padding: 6px 12px; font-size: 0.8rem; border-radius: 4px; }
-        .btn-danger { background: var(--danger); }
+        /* Form Styling */
+        .form-group { margin-bottom: 12px; }
+        label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 4px; color: #475569; }
+        .form-control { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; background: #fff; color: var(--dark); outline: none; -webkit-appearance: none; }
+        .form-control:focus { border-color: var(--primary); }
+        select.form-control { background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; background-size: 16px; padding-right: 32px; }
         
-        /* Stock List Spec */
-        .stock-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: white; border-radius: 8px; margin-bottom: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .low-stock { border-right: 4px solid var(--danger); background: #fef2f2; }
+        .radio-group { display: flex; gap: 8px; margin-bottom: 12px; }
+        .radio-btn { flex: 1; text-align: center; }
+        .radio-btn input { display: none; }
+        .radio-btn span { display: block; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; background: white; transition: all 0.2s; }
+        .radio-btn input:checked + span { background: var(--primary); color: white; border-color: var(--primary); }
+        
+        .btn-row { display: flex; gap: 10px; margin-top: 15px; }
+        .btn { flex: 1; padding: 12px; border: none; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; text-align: center; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-cancel { background: #e2e8f0; color: #475569; }
+        
+        /* Filter Section */
+        .filter-row { display: flex; gap: 8px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
+        .filter-chip { padding: 6px 14px; background: white; border: 1px solid var(--border); border-radius: 20px; font-size: 12px; white-space: nowrap; cursor: pointer; font-weight: 500; }
+        .filter-chip.active { background: var(--dark); color: white; border-color: var(--dark); }
+        
+        /* Ledger logs */
+        .log-item { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; position: relative; }
+        .log-left { display: flex; flex-direction: column; gap: 3px; }
+        .log-title { font-weight: 600; font-size: 14px; }
+        .log-sub { font-size: 12px; color: #64748b; display: flex; gap: 8px; }
+        .log-right { text-align: right; display: flex; flex-direction: column; gap: 3px; }
+        .log-amount { font-weight: bold; font-size: 15px; }
+        .badge { display: inline-block; padding: 2px 6px; font-size: 10px; font-weight: bold; border-radius: 4px; text-transform: uppercase; width: max-content; margin-left: auto; }
+        .badge-dues { background: #fee2e2; color: var(--danger); }
+        .badge-received { background: #dcfce7; color: var(--success); }
+        .btn-delete { background: none; border: none; color: #94a3b8; font-size: 16px; cursor: pointer; padding-left: 8px; }
+        
+        /* Bottom Navbar for Mobile */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 8px 0; z-index: 100; }
+        .nav-item { background: none; border: none; font-size: 11px; color: #64748b; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; width: 20%; }
+        .nav-item.active { color: var(--primary); font-weight: bold; }
+        .nav-icon { font-size: 20px; }
+        
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <!-- Main Navigation Bar -->
-    <nav>
-        <div class="nav-container">
-            <div class="logo" onclick="showPage('home')">DigiRise</div>
-            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-            <div class="nav-links" id="navLinks">
-                <a href="#" onclick="showPage('home')">Home</a>
-                <a href="#" onclick="showPage('general-store')">General Store</a>
-                <a href="#" onclick="showPage('ai-image')">AI Image</a>
-                <a href="#" onclick="alert('AI Video Feature Coming Soon!')">AI Video</a>
-                <a href="#" onclick="alert('AI Chat Feature Coming Soon!')">AI Chat</a>
-                <a href="#" onclick="alert('Learn Section Coming Soon!')">Learn</a>
-                <a href="#" onclick="alert('Quran Section Coming Soon!')">Quran</a>
-                <a href="#" onclick="alert('Products Section Coming Soon!')">Products</a>
-                <a href="#" onclick="alert('Teachers Portal Coming Soon!')">Teachers</a>
-                <a href="#" onclick="alert('Students Portal Coming Soon!')">Students</a>
-                <a href="#" onclick="alert('Login System Coming Soon!')">Login</a>
-            </div>
-        </div>
-    </nav>
+    <header>
+        <div class="logo">🏪 DigiRise Smart Memo</div>
+        <button class="nav-toggle" onclick="alert('Menu clicked')">☰</button>
+    </header>
 
     <div class="container">
         
-        <!-- SECTION 1: HOME PAGE -->
-        <div id="page-home" class="page-section active">
-            <div class="hero">
-                <h1>DigiRise</h1>
-                <p>Learn • Create • Grow</p>
+        <!-- Live Dashboard Stats -->
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-label">Total Cash In</div>
+                <div class="stat-val text-primary" id="dash-total">Rs. 0</div>
             </div>
-            <div class="grid-menu">
-                <a href="#" class="grid-card" onclick="showPage('general-store')">🏪 General Store</a>
-                <a href="#" class="grid-card" onclick="showPage('ai-image')">🖼️ AI Image</a>
-                <a href="#" class="grid-card" onclick="alert('Coming Soon')">📚 Learn Skills</a>
-                <a href="#" class="grid-card" onclick="alert('Coming Soon')">📖 Quran</a>
+            <div class="stat-box received">
+                <div class="stat-label">Total Received</div>
+                <div class="stat-val text-success" id="dash-received">Rs. 0</div>
+            </div>
+            <div class="stat-box dues">
+                <div class="stat-label">Total Dues</div>
+                <div class="stat-val text-danger" id="dash-dues">Rs. 0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Net Balance</div>
+                <div class="stat-val" id="dash-net" style="color: var(--dark);">Rs. 0</div>
             </div>
         </div>
 
-        <!-- SECTION 2: GENERAL STORE (INTEGRATED) -->
-        <div id="page-general-store" class="page-section">
-            
-            <!-- Global Store Balances -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <p>Cash Balance</p>
-                    <h3 id="bal-cash">Rs. 0</h3>
-                </div>
-                <div class="stat-card">
-                    <p>Total Profit</p>
-                    <h3 id="bal-profit" style="color: var(--success);">Rs. 0</h3>
-                </div>
-                <div class="stat-card">
-                    <p>Customer Due</p>
-                    <h3 id="bal-customer-due" style="color: var(--danger);">Rs. 0</h3>
-                </div>
-                <div class="stat-card">
-                    <p>Supplier Due</p>
-                    <h3 id="bal-supplier-due" style="color: var(--danger);">Rs. 0</h3>
-                </div>
-            </div>
-
-            <!-- ONE MEMO INTEGRATED SYSTEM -->
-            <div class="form-card">
-                <h2 style="margin-bottom: 15px; color: var(--primary); font-size: 1.2rem;">One Memo Entry System</h2>
-                <form id="memoForm" onsubmit="handleMemoSubmit(event)">
-                    <input type="hidden" id="editId">
-                    
+        <!-- Memo Entry App Section -->
+        <div id="section-memo" class="app-section">
+            <div class="card">
+                <div class="card-title">📝 One Memo Entry System</div>
+                
+                <form id="memoForm" onsubmit="saveTransaction(event)">
                     <div class="form-group">
-                        <label for="memoType">Memo Option Type</label>
-                        <select id="memoType" onchange="adjustFormFields()" required>
-                            <option value="Sale">Sale</option>
-                            <option value="Purchase">Purchase</option>
-                            <option value="Expenses">Expenses</option>
-                            <option value="Cash In">Cash In</option>
-                            <option value="Cash Out">Cash Out</option>
+                        <label>Memo Option Type</label>
+                        <div class="radio-group">
+                            <label class="radio-btn">
+                                <input type="radio" name="memoType" value="Sale" checked onchange="handleTypeChange()">
+                                <span>Sale</span>
+                            </label>
+                            <label class="radio-btn">
+                                <input type="radio" name="memoType" value="Purchase" onchange="handleTypeChange()">
+                                <span>Purchase</span>
+                            </label>
+                            <label class="radio-btn">
+                                <input type="radio" name="memoType" value="Expenses" onchange="handleTypeChange()">
+                                <span>Expenses</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" id="txDate" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Invoice Number</label>
+                        <input type="text" id="txInvoice" class="form-control" placeholder="e.g. INV-1001" required>
+                    </div>
+
+                    <div class="form-group" id="productGroup">
+                        <label>Product Name</label>
+                        <input type="text" id="txProduct" class="form-control" placeholder="Product details">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Total Amount (Rs.)</label>
+                        <input type="number" id="txAmount" class="form-control" placeholder="0" required oninput="calculateAutomaticStatus()">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cash Paid / Received (Rs.)</label>
+                        <input type="number" id="txPaid" class="form-control" placeholder="0" required oninput="calculateAutomaticStatus()">
+                    </div>
+
+                    <!-- Automatic Dropdown Field -->
+                    <div class="form-group">
+                        <label>Payment Status (Automatic)</label>
+                        <select id="txStatus" class="form-control" style="font-weight: bold; background-color: #f8fafc;">
+                            <option value="Received" class="text-success">Received (Fully Paid)</option>
+                            <option value="Cash Dues" class="text-danger">Cash Dues (Pending Balance)</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="memoDate">Date</label>
-                        <input type="date" id="memoDate" required>
-                    </div>
-
-                    <!-- Dynamic Fields based on rule configurations -->
-                    <div class="form-group" id="group-product">
-                        <label for="memoProduct">Product Name</label>
-                        <input type="text" id="memoProduct" placeholder="e.g. Sugar, Rice">
-                    </div>
-
-                    <div class="form-group" id="group-qty">
-                        <label for="memoQty">Quantity (kg / units)</label>
-                        <input type="number" id="memoQty" step="any" placeholder="0" oninput="calculateDynamicPreviews()">
-                    </div>
-
-                    <div class="form-group" id="group-amount">
-                        <label id="label-amount" for="memoAmount">Total Amount (Rs.)</label>
-                        <input type="number" id="memoAmount" placeholder="0" oninput="calculateDynamicPreviews()" required>
-                        <span class="calc-preview" id="preview-unit-math"></span>
-                    </div>
-
-                    <div class="form-group" id="group-expenses">
-                        <label for="memoExpenses">Purchase Expenses (Rs.)</label>
-                        <input type="number" id="memoExpenses" placeholder="0" oninput="calculateDynamicPreviews()">
-                        <span class="calc-preview" id="preview-total-cost"></span>
-                    </div>
-
-                    <div class="form-group" id="group-account">
-                        <label id="label-account" for="memoAccount">Customer / Supplier Name</label>
-                        <input type="text" id="memoAccount" placeholder="Account name/detail">
+                        <label>Customer / Supplier Name</label>
+                        <input type="text" id="txName" class="form-control" placeholder="Name">
                     </div>
 
                     <div class="form-group">
-                        <label for="memoNote">Note</label>
-                        <textarea id="memoNote" rows="2" placeholder="Optional details..."></textarea>
+                        <label>Note</label>
+                        <input type="text" id="txNote" class="form-control" placeholder="Optional notes">
                     </div>
 
-                    <button type="submit" id="submitBtn">Save Transaction</button>
-                    <button type="button" id="cancelEditBtn" style="background:#6b7280; margin-top:10px; display:none;" onclick="resetMemoForm()">Cancel Edit</button>
+                    <div class="btn-row">
+                        <button type="button" class="btn btn-cancel" onclick="resetForm()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Transaction</button>
+                    </div>
                 </form>
             </div>
 
-            <div class="form-card" style="margin-bottom:15px; padding:15px;">
-                <label style="font-weight:bold; margin-bottom:8px;">Search & Filter Records</label>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                    <input type="text" id="filterSearch" placeholder="Search product/account..." oninput="renderStoreDashboard()">
-                    <select id="filterType" onchange="renderStoreDashboard()">
-                        <option value="All">All Types</option>
-                        <option value="Sale">Sales</option>
-                        <option value="Purchase">Purchases</option>
-                        <option value="Expenses">Expenses</option>
-                        <option value="Cash In">Cash In</option>
-                        <option value="Cash Out">Cash Out</option>
-                    </select>
+            <!-- Ledger Logs Section -->
+            <div class="card">
+                <div class="card-title">📋 Live Ledger Logs</div>
+                
+                <div class="filter-row">
+                    <button class="filter-chip active" onclick="filterLogs('All', this)">All Types</button>
+                    <button class="filter-chip" onclick="filterLogs('Sale', this)">Sales</button>
+                    <button class="filter-chip" onclick="filterLogs('Purchase', this)">Purchases</button>
+                    <button class="filter-chip" onclick="filterLogs('Expenses', this)">Expenses</button>
                 </div>
-            </div>
 
-            <div style="display:flex; gap:10px; margin-bottom:15px;">
-                <button class="btn-sm" style="flex:1;" onclick="switchStoreTab('records')">📋 Live Ledger</button>
-                <button class="btn-sm" style="flex:1; background: var(--secondary);" onclick="switchStoreTab('stock')">📦 Auto Stock</button>
-            </div>
-
-            <div id="store-tab-records">
-                <h3 style="margin-bottom:10px; font-size:1.1rem; color:var(--primary);">Transaction Ledger Logs</h3>
-                <div id="ledgerLogs"></div>
-            </div>
-
-            <div id="store-tab-stock" style="display:none;">
-                <h3 style="margin-bottom:10px; font-size:1.1rem; color:var(--primary);">Calculated Stock Inventory</h3>
-                <div id="stockLogs"></div>
+                <div id="ledgerLogsList">
+                    <!-- Logs injection -->
+                </div>
             </div>
         </div>
 
-        <!-- SECTION 3: AI IMAGE -->
-        <div id="page-ai-image" class="page-section">
-            <div class="hero">
-                <h2>AI Image Generation</h2>
-                <p>Create stunning high-quality artwork instantly.</p>
-            </div>
-            <div class="form-card">
-                <div class="form-group">
-                    <label>Enter Prompt Description</label>
-                    <input type="text" placeholder="A futuristic market in Pakistan, high details...">
-                </div>
-                <button onclick="alert('This feature will securely communicate with AI servers in Phase 5!')">Generate Image (Free Limit Active)</button>
-            </div>
-        </div>
+        <!-- Placeholder Sections for other tabs -->
+        <div id="section-store" class="app-section hidden"><div class="card"><h3>🏪 General Store Dashboard</h3><p>Stock and Inventory tracking details module.</p></div></div>
+        <div id="section-ai-image" class="app-section hidden"><div class="card"><h3>🖼 AI Image Generator</h3><p>Create stunning high-quality artwork instantly.</p></div></div>
+        <div id="section-quran" class="app-section hidden"><div class="card"><h3>📚 Learn Quran & Skills</h3><p>Educational portal and course management modules.</p></div></div>
+        <div id="section-admin" class="app-section hidden"><div class="card"><h3>⚙ Admin Dashboard</h3><p>Configure layouts, update content settings and multi-language controls.</p></div></div>
+
     </div>
 
+    <!-- Mobile Navigation Bar -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" onclick="switchTab('memo', this)">
+            <span class="nav-icon">📝</span><span>Memo</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('store', this)">
+            <span class="nav-icon">🏪</span><span>Store</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('ai-image', this)">
+            <span class="nav-icon">🖼</span><span>AI Tool</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('quran', this)">
+            <span class="nav-icon">📚</span><span>Learn</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('admin', this)">
+            <span class="nav-icon">⚙</span><span>Admin</span>
+        </button>
+    </nav>
+
     <script>
-        // Core Application State
-        let transactions = JSON.parse(localStorage.getItem('digirise_tx')) || [];
+        // Sample Storage & Initialization
+        let transactions = JSON.parse(localStorage.getItem('digirise_memos')) || [
+            { id: 1, type: 'Sale', date: '2026-10-08', invoice: 'INV-001', product: 'Wheat', amount: 5000, paid: 5000, status: 'Received', name: 'Zahid Shah', note: 'Paid fully' },
+            { id: 2, type: 'Sale', date: '2026-10-09', invoice: 'INV-002', product: 'Sugar Bag', amount: 12000, paid: 8000, status: 'Cash Dues', name: 'Ali Khan', note: 'Rs. 4000 remaining' }
+        ];
 
-        // App Navigation Controls
-        function showPage(pageId) {
-            document.querySelectorAll('.page-section').forEach(section => section.classList.remove('active'));
-            document.getElementById(`page-${pageId}`).classList.add('active');
-            document.getElementById('navLinks').classList.remove('active');
-            
-            if(pageId === 'general-store') {
-                renderStoreDashboard();
-                adjustFormFields();
-            }
-        }
-        function toggleMenu() {
-            document.getElementById('navLinks').classList.toggle('active');
-        }
-        function switchStoreTab(tab) {
-            if(tab === 'records') {
-                document.getElementById('store-tab-records').style.display = 'block';
-                document.getElementById('store-tab-stock').style.display = 'none';
+        document.getElementById('txDate').valueAsDate = new Date();
+        let currentFilter = 'All';
+
+        // Automatic Status Dropdown Logic based on Amounts
+        function calculateAutomaticStatus() {
+            const amount = parseFloat(document.getElementById('txAmount').value) || 0;
+            const paid = parseFloat(document.getElementById('txPaid').value) || 0;
+            const statusSelect = document.getElementById('txStatus');
+
+            if (amount > 0 && paid >= amount) {
+                statusSelect.value = 'Received';
+                statusSelect.style.color = '#16a34a'; // Green
+                statusSelect.style.backgroundColor = '#dcfce7';
             } else {
-                document.getElementById('store-tab-stock').style.display = 'block';
-                document.getElementById('store-tab-records').style.display = 'none';
+                statusSelect.value = 'Cash Dues';
+                statusSelect.style.color = '#dc2626'; // Red
+                statusSelect.style.backgroundColor = '#fee2e2';
             }
         }
 
-        // Setup dynamic forms fields based on Master Rules
-        function adjustFormFields() {
-            const type = document.getElementById('memoType').value;
-            const editMode = document.getElementById('editId').value !== "";
-            
-            if(!editMode) {
-                document.getElementById('memoDate').value = new Date().toISOString().substring(0, 10);
-            }
-
-            // Field mappings setup
-            document.getElementById('group-product').style.display = (type === 'Sale' || type === 'Purchase') ? 'block' : 'none';
-            document.getElementById('group-qty').style.display = (type === 'Sale' || type === 'Purchase') ? 'block' : 'none';
-            document.getElementById('group-expenses').style.display = (type === 'Purchase') ? 'block' : 'none';
-            document.getElementById('group-account').style.display = (type !== 'Expenses') ? 'block' : 'none';
-            
-            // Labels adaptation
-            if(type === 'Sale') {
-                document.getElementById('label-amount').innerText = "Total Sale Amount (Rs.)";
-                document.getElementById('label-account').innerText = "Customer Name / Account";
-            } else if(type === 'Purchase') {
-                document.getElementById('label-amount').innerText = "Total Purchase Amount (Rs.)";
-                document.getElementById('label-account').innerText = "Supplier Name / Account";
-            } else if(type === 'Cash In') {
-                document.getElementById('label-amount').innerText = "Amount Received (Rs.)";
-                document.getElementById('label-account').innerText = "Received From (Customer/Detail)";
-            } else if(type === 'Cash Out') {
-                document.getElementById('label-amount').innerText = "Amount Paid (Rs.)";
-                document.getElementById('label-account').innerText = "Paid To (Supplier/Detail)";
+        function handleTypeChange() {
+            const selectedType = document.querySelector('input[name="memoType"]:checked').value;
+            const productGroup = document.getElementById('productGroup');
+            if (selectedType === 'Expenses') {
+                productGroup.style.display = 'none';
             } else {
-                document.getElementById('label-amount').innerText = "Expense Amount (Rs.)";
-            }
-            calculateDynamicPreviews();
-        }
-
-        // Live math engine for user verification before hitting save
-        function calculateDynamicPreviews() {
-            const type = document.getElementById('memoType').value;
-            const amt = parseFloat(document.getElementById('memoAmount').value) || 0;
-            const qty = parseFloat(document.getElementById('memoQty').value) || 0;
-            const exp = parseFloat(document.getElementById('memoExpenses').value) || 0;
-
-            const unitMathSpan = document.getElementById('preview-unit-math');
-            const totalCostSpan = document.getElementById('preview-total-cost');
-            
-            unitMathSpan.innerText = "";
-            totalCostSpan.innerText = "";
-
-            if(type === 'Purchase') {
-                const totalCost = amt + exp;
-                totalCostSpan.innerText = `Total Cost (Price + Exp): Rs. ${totalCost}`;
-                if(qty > 0) {
-                    unitMathSpan.innerText = `Calculated Cost Per Unit: Rs. ${(totalCost / qty).toFixed(2)}`;
-                }
-            } else if(type === 'Sale' && qty > 0) {
-                unitMathSpan.innerText = `Calculated Sale Per Unit: Rs. ${(amt / qty).toFixed(2)}`;
+                productGroup.style.display = 'block';
             }
         }
 
-        // CRUD Operations Engine
-        function handleMemoSubmit(e) {
+        // Save Transaction
+        function saveTransaction(e) {
             e.preventDefault();
             
-            const editId = document.getElementById('editId').value;
-            const type = document.getElementById('memoType').value;
-            const date = document.getElementById('memoDate').value;
-            const product = document.getElementById('memoProduct').value.trim();
-            const qty = parseFloat(document.getElementById('memoQty').value) || 0;
-            const amount = parseFloat(document.getElementById('memoAmount').value) || 0;
-            const expenses = parseFloat(document.getElementById('memoExpenses').value) || 0;
-            const account = document.getElementById('memoAccount').value.trim();
-            const note = document.getElementById('memoNote').value.trim();
+            const type = document.querySelector('input[name="memoType"]:checked').value;
+            const date = document.getElementById('txDate').value;
+            const invoice = document.getElementById('txInvoice').value;
+            const product = document.getElementById('txProduct').value || 'General';
+            const amount = parseFloat(document.getElementById('txAmount').value) || 0;
+            const paid = parseFloat(document.getElementById('txPaid').value) || 0;
+            const status = document.getElementById('txStatus').value;
+            const name = document.getElementById('txName').value || 'Walk-in';
+            const note = document.getElementById('txNote').value || '';
 
-            const dataPayload = {
-                id: editId ? parseInt(editId) : Date.now(),
-                type, date, product, qty, amount, expenses, account, note
+            const tx = {
+                id: Date.now(),
+                type, date, invoice, product, amount, paid, status, name, note
             };
 
-            if(editId) {
-                const idx = transactions.findIndex(t => t.id === parseInt(editId));
-                if(idx !== -1) transactions[idx] = dataPayload;
-            } else {
-                transactions.push(dataPayload);
-            }
-
-            localStorage.setItem('digirise_tx', JSON.stringify(transactions));
-            resetMemoForm();
-            renderStoreDashboard();
-        }
-
-        function editTransaction(id) {
-            const tx = transactions.find(t => t.id === id);
-            if(!tx) return;
-
-            document.getElementById('editId').value = tx.id;
-            document.getElementById('memoType').value = tx.type;
-            adjustFormFields();
-
-            document.getElementById('memoDate').value = tx.date;
-            document.getElementById('memoProduct').value = tx.product || '';
-            document.getElementById('memoQty').value = tx.qty || '';
-            document.getElementById('memoAmount').value = tx.amount;
-            document.getElementById('memoExpenses').value = tx.expenses || '';
-            document.getElementById('memoAccount').value = tx.account || '';
-            document.getElementById('memoNote').value = tx.note || '';
-
-            document.getElementById('submitBtn').innerText = "Update Transaction";
-            document.getElementById('cancelEditBtn').style.display = "block";
-            calculateDynamicPreviews();
-            window.scrollTo({top: 0, behavior: 'smooth'});
+            transactions.unshift(tx);
+            localStorage.setItem('digirise_memos', JSON.stringify(transactions));
+            
+            resetForm();
+            renderAll();
         }
 
         function deleteTransaction(id) {
-            if(confirm("Are you sure you want to permanently delete this transaction record? This reverses all financial ledger and stock positions immediately.")) {
+            if(confirm('Are you sure to delete this record?')) {
                 transactions = transactions.filter(t => t.id !== id);
-                localStorage.setItem('digirise_tx', JSON.stringify(transactions));
-                renderStoreDashboard();
+                localStorage.setItem('digirise_memos', JSON.stringify(transactions));
+                renderAll();
             }
         }
 
-        function resetMemoForm() {
-            document.getElementById('editId').value = "";
+        function resetForm() {
             document.getElementById('memoForm').reset();
-            document.getElementById('submitBtn').innerText = "Save Transaction";
-            document.getElementById('cancelEditBtn').style.display = "none";
-            adjustFormFields();
+            document.getElementById('txDate').valueAsDate = new Date();
+            calculateAutomaticStatus();
+            handleTypeChange();
         }
 
-        // Advanced Integrated Calculations & Dashboard Render Loop
-        function renderStoreDashboard() {
-            let cash = 0, profit = 0, customerDue = 0, supplierDue = 0;
-            let stockMap = {};
-
-            transactions.sort((a,b) => new Date(b.date) - new Date(a.date));
-
-            const calculationOrder = [...transactions].reverse();
+        // Navigation Tab Switcher
+        function switchTab(tabId, el) {
+            document.querySelectorAll('.app-section').forEach(sec => sec.classList.add('hidden'));
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             
-            calculationOrder.forEach(tx => {
-                if(tx.type === 'Purchase' && tx.product) {
-                    const normalizedProd = tx.product.toLowerCase();
-                    if(!stockMap[normalizedProd]) {
-                        stockMap[normalizedProd] = { qty: 0, totalCost: 0, totalUnitsPurchased: 0 };
-                    }
-                    stockMap[normalizedProd].qty += tx.qty;
-                    stockMap[normalizedProd].totalCost += (tx.amount + (tx.expenses || 0));
-                    stockMap[normalizedProd].totalUnitsPurchased += tx.qty;
-                }
-                if(tx.type === 'Sale' && tx.product) {
-                    const normalizedProd = tx.product.toLowerCase();
-                    if(stockMap[normalizedProd]) {
-                        stockMap[normalizedProd].qty -= tx.qty;
-                    }
-                }
-            });
-
-            transactions.forEach(tx => {
-                const totalCostPrice = tx.amount + (tx.expenses || 0);
-
-                if(tx.type === 'Purchase') {
-                    cash -= totalCostPrice;
-                    if(tx.account) supplierDue += totalCostPrice;
-                } else if(tx.type === 'Sale') {
-                    cash += tx.amount;
-                    if(tx.account) customerDue += tx.amount;
-                    
-                    const normalizedProd = tx.product ? tx.product.toLowerCase() : '';
-                    const matchStock = stockMap[normalizedProd];
-                    if(matchStock && matchStock.totalUnitsPurchased > 0) {
-                        const calculatedUnitCost = matchStock.totalCost / matchStock.totalUnitsPurchased;
-                        const transactionCalculatedCost = calculatedUnitCost * tx.qty;
-                        profit += (tx.amount - transactionCalculatedCost);
-                    } else {
-                        profit += tx.amount;
-                    }
-                } else if(tx.type === 'Expenses') {
-                    cash -= tx.amount;
-                    profit -= tx.amount;
-                } else if(tx.type === 'Cash In') {
-                    cash += tx.amount;
-                    if(tx.account) customerDue -= tx.amount;
-                } else if(tx.type === 'Cash Out') {
-                    cash -= tx.amount;
-                    if(tx.account) supplierDue -= tx.amount;
-                }
-            });
-
-            document.getElementById('bal-cash').innerText = `Rs. ${cash.toLocaleString()}`;
-            document.getElementById('bal-profit').innerText = `Rs. ${Math.round(profit).toLocaleString()}`;
-            document.getElementById('bal-customer-due').innerText = `Rs. ${Math.max(0, customerDue).toLocaleString()}`;
-            document.getElementById('bal-supplier-due').innerText = `Rs. ${Math.max(0, supplierDue).toLocaleString()}`;
-
-            const searchVal = document.getElementById('filterSearch').value.toLowerCase();
-            const typeFilter = document.getElementById('filterType').value;
-
-            let ledgerHtml = '';
-            transactions.forEach(tx => {
-                const matchSearch = !searchVal || 
-                    (tx.product && tx.product.toLowerCase().includes(searchVal)) || 
-                    (tx.account && tx.account.toLowerCase().includes(searchVal)) ||
-                    (tx.note && tx.note.toLowerCase().includes(searchVal));
-                const matchType = typeFilter === 'All' || tx.type === typeFilter;
-
-                if(matchSearch && matchType) {
-                    let logClass = tx.type.toLowerCase().replace(' ', '-');
-                    if(tx.type === 'Cash In') logClass = 'sale';
-                    if(tx.type === 'Cash Out') logClass = 'expense';
-
-                    ledgerHtml += `
-                        <div class="record-card ${logClass}">
-                            <div class="record-header">
-                                <span>${tx.type} — ${tx.product || 'Financial Transfer'}</span>
-                                <span>Rs. ${tx.amount}</span>
-                            </div>
-                            <div class="record-body">
-                                <strong>Date:</strong> ${tx.date}<br>
-                                ${tx.qty ? `<strong>Qty:</strong> ${tx.qty} units<br>` : ''}
-                                ${tx.expenses ? `<strong>Direct Expenses:</strong> Rs. ${tx.expenses}<br>` : ''}
-                                ${tx.account ? `<strong>Party Account:</strong> ${tx.account}<br>` : ''}
-                                ${tx.note ? `<strong>Memo Notes:</strong> ${tx.note}<br>` : ''}
-                            </div>
-                            <div class="record-actions">
-                                <button class="btn-sm" style="background:var(--secondary);" onclick="editTransaction(${tx.id})">Edit</button>
-                                <button class="btn-sm btn-danger" onclick="deleteTransaction(${tx.id})">Delete</button>
-                            </div>
-                        </div>
-                    `;
-                }
-            });
-            document.getElementById('ledgerLogs').innerHTML = ledgerHtml || '<p style="text-align:center; padding:20px; color:#6b7280;">No ledger transactions found.</p>';
-
-            let stockHtml = '';
-            Object.keys(stockMap).forEach(key => {
-                const item = stockMap[key];
-                const matchingName = key.charAt(0).toUpperCase() + key.slice(1);
-                const isLow = item.qty <= 5;
-
-                if(!searchVal || matchingName.toLowerCase().includes(searchVal)) {
-                    stockHtml += `
-                        <div class="stock-item ${isLow ? 'low-stock' : ''}">
-                            <div>
-                                <strong style="font-size:1rem;">${matchingName}</strong><br>
-                                <span style="font-size:0.8rem; color:#6b7280;">Total Restocked: ${item.totalUnitsPurchased}</span>
-                            </div>
-                            <div style="text-align:right;">
-                                <span style="font-size:1.1rem; font-weight:bold; color:${isLow ? 'var(--danger)' : 'var(--success)'}">${item.qty} units</span><br>
-                                <span style="font-size:0.75rem; color:#6b7280;">${isLow ? '⚠️ Low Stock' : '✓ Healthy'}</span>
-                            </div>
-                        </div>
-                    `;
-                }
-            });
-            document.getElementById('stockLogs').innerHTML = stockHtml || '<p style="text-align:center; padding:20px; color:#6b7280;">No items available in stock.</p>';
+            document.getElementById('section-' + tabId).classList.remove('hidden');
+            el.classList.add('active');
         }
 
+        function filterLogs(type, el) {
+            currentFilter = type;
+            document.querySelectorAll('.filter-chip').forEach(chip => chip.classList.remove('active'));
+            el.classList.add('active');
+            renderLedger();
+        }
+
+        // Calculations & Render Dashboard
+        function renderDashboard() {
+            let totalCashIn = 0;
+            let totalReceived = 0;
+            let totalDues = 0;
+
+            transactions.forEach(t => {
+                if (t.type === 'Sale' || t.type === 'Cash In') {
+                    totalCashIn += t.amount;
+                }
+                totalReceived += t.paid;
+                if (t.amount > t.paid) {
+                    totalDues += (t.amount - t.paid);
+                }
+            });
+
+            document.getElementById('dash-total').innerText = `Rs. ${totalCashIn.toLocaleString()}`;
+            document.getElementById('dash-received').innerText = `Rs. ${totalReceived.toLocaleString()}`;
+            document.getElementById('dash-dues').innerText = `Rs. ${totalDues.toLocaleString()}`;
+            document.getElementById('dash-net').innerText = `Rs. ${(totalReceived - totalDues).toLocaleString()}`;
+        }
+
+        // Render Logs
+        function renderLedger() {
+            const listEl = document.getElementById('ledgerLogsList');
+            listEl.innerHTML = '';
+
+            const filtered = transactions.filter(t => currentFilter === 'All' || t.type === currentFilter);
+
+            if(filtered.length === 0) {
+                listEl.innerHTML = '<div style="text-align:center; padding:20px; color:#64748b; font-size:13px;">No transaction logs found.</div>';
+                return;
+            }
+
+            filtered.forEach(t => {
+                const badgeClass = t.status === 'Received' ? 'badge-received' : 'badge-dues';
+                const remaining = t.amount - t.paid;
+                
+                listEl.innerHTML += `
+                    <div class="log-item">
+                        <div class="log-left">
+                            <div class="log-title">${t.type}: ${t.product}</div>
+                            <div class="log-sub">
+                                <span>📅 ${t.date}</span>
+                                <span>📄 No: <b>${t.invoice}</b></span>
+                                <span>👤 ${t.name}</span>
+                            </div>
+                        </div>
+                        <div class="log-right">
+                            <div class="log-amount">Rs. ${t.amount.toLocaleString()}</div>
+                            <span class="badge ${badgeClass}">${t.status}</span>
+                            ${remaining > 0 ? `<span style="font-size:10px; color:var(--danger)">Due: Rs. ${remaining}</span>` : ''}
+                        </div>
+                        <button class="btn-delete" onclick="deleteTransaction(${t.id})">🗑</button>
+                    </div>
+                `;
+            });
+        }
+
+        function renderAll() {
+            renderDashboard();
+            renderLedger();
+        }
+
+        // Run on start
         window.onload = function() {
-            adjustFormFields();
+            calculateAutomaticStatus();
+            renderAll();
         };
     </script>
 </body>
