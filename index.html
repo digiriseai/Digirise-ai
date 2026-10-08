@@ -231,7 +231,7 @@ input.invalid,select.invalid{
 }
 
 .table-scroll table{
- min-width:560px;
+ min-width:620px;
 }
 
 table{
@@ -253,6 +253,7 @@ th,td{
 }
 
 @media(max-width:600px){
+
  .formgrid{
   grid-template-columns:1fr;
  }
@@ -264,6 +265,7 @@ th,td{
  header h1{
   font-size:28px;
  }
+
 }
 </style>
 </head>
@@ -290,7 +292,7 @@ th,td{
 
 <p>
 Manage your General Store from one place.
-Purchase, Sale, Expenses, Cash In, Stock and reports
+Purchase, Sale, Expenses, Cash In, Stock and Reports
 are saved on this device.
 </p>
 
@@ -307,7 +309,7 @@ Open General Store
 <div class="feature" onclick="showPage('store')">
 🛒
 <b>General Store</b>
-<span class="small">Purchase, Sale & stock</span>
+<span class="small">Purchase, Sale & Stock</span>
 </div>
 
 <div class="feature" onclick="showMessage('AI Image needs an image-generation API connection.','error')">
@@ -399,37 +401,37 @@ Press <b>Enter</b> to save the entry.
 
 <div class="stat">
 Daily Sale Total
-<b id="saleTotal">0</b>
+<b id="saleTotal">0.00</b>
 </div>
 
 <div class="stat">
 Purchase Total
-<b id="purchaseTotal">0</b>
+<b id="purchaseTotal">0.00</b>
 </div>
 
 <div class="stat">
 Expenses
-<b id="expenseTotal">0</b>
+<b id="expenseTotal">0.00</b>
 </div>
 
 <div class="stat">
 Cash In
-<b id="cashTotal">0</b>
+<b id="cashTotal">0.00</b>
 </div>
 
 <div class="stat">
 Total Dues
-<b id="dueTotal">0</b>
+<b id="dueTotal">0.00</b>
 </div>
 
 <div class="stat">
 Net Profit
-<b id="profitTotal">0</b>
+<b id="profitTotal">0.00</b>
 </div>
 
 <div class="stat">
 Cash Balance
-<b id="cashBalance">0</b>
+<b id="cashBalance">0.00</b>
 </div>
 
 <div class="stat">
@@ -472,12 +474,11 @@ No entries yet.
 <h2>Account</h2>
 
 <p>
-This version stores your General Store data
-in this phone/browser using local storage.
+Your General Store data is saved on this phone/browser.
 </p>
 
 <button class="danger" onclick="clearAll()">
-Delete all local store data
+Delete All Local Store Data
 </button>
 
 </div>
@@ -491,17 +492,34 @@ Delete all local store data
 
 const KEY='digirise_store_v2';
 
-let data;
+let data={
+ entries:[],
+ stock:{}
+};
 
 try{
 
- data=JSON.parse(
-  localStorage.getItem(KEY) ||
-  '{"entries":[],"stock":{}}'
- );
+ const saved=localStorage.getItem(KEY);
 
- if(!data.entries || !Array.isArray(data.entries))data.entries=[];
- if(!data.stock || typeof data.stock!=='object')data.stock={};
+ if(saved){
+
+  const parsed=JSON.parse(saved);
+
+  if(parsed && typeof parsed==='object'){
+
+   data=parsed;
+
+   if(!Array.isArray(data.entries)){
+    data.entries=[];
+   }
+
+   if(!data.stock || typeof data.stock!=='object'){
+    data.stock={};
+   }
+
+  }
+
+ }
 
 }catch(e){
 
@@ -515,14 +533,31 @@ try{
 let mode='purchase';
 
 
+/* =========================
+   BASIC FUNCTIONS
+========================= */
+
 function saveData(){
 
- localStorage.setItem(
-  KEY,
-  JSON.stringify(data)
- );
+ try{
 
- renderAll();
+  localStorage.setItem(KEY,JSON.stringify(data));
+
+  renderAll();
+
+  return true;
+
+ }catch(e){
+
+  showMessage(
+   'Data could not be saved on this device.',
+   'error'
+  );
+
+  return false;
+
+ }
+
 }
 
 
@@ -530,7 +565,9 @@ function money(n){
 
  const value=Number(n);
 
- return Number.isFinite(value) ? value.toFixed(2) : '0.00';
+ return Number.isFinite(value)
+  ? value.toFixed(2)
+  : '0.00';
 
 }
 
@@ -558,34 +595,6 @@ function normalizeDetail(detail){
 }
 
 
-function findStock(detail){
-
- const key=normalizeDetail(detail);
-
- return Object.entries(data.stock)
-  .find(([storedDetail])=>normalizeDetail(storedDetail)===key);
-
-}
-
-
-function getStock(detail){
-
- const match=findStock(detail);
-
- return match ? match[1] : null;
-
-}
-
-
-function getStockKey(detail){
-
- const match=findStock(detail);
-
- return match ? match[0] : null;
-
-}
-
-
 function today(){
 
  const d=new Date();
@@ -594,32 +603,69 @@ function today(){
  const m=String(d.getMonth()+1).padStart(2,'0');
  const day=String(d.getDate()).padStart(2,'0');
 
- return y+'-'+m+'-'+day;
+ return `${y}-${m}-${day}`;
 
 }
 
 
 function isValidDate(value){
 
- if(!/^\d{4}-\d{2}-\d{2}$/.test(value))return false;
+ if(!value){
+  return false;
+ }
 
- const d=new Date(value+'T00:00:00');
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(value)){
+  return false;
+ }
 
- return !Number.isNaN(d.getTime()) &&
-  d.toISOString().slice(0,10)===value;
+ const parts=value.split('-');
+
+ const y=Number(parts[0]);
+ const m=Number(parts[1]);
+ const d=Number(parts[2]);
+
+ const test=new Date(y,m-1,d);
+
+ return test.getFullYear()===y &&
+        test.getMonth()===m-1 &&
+        test.getDate()===d;
 
 }
 
 
 function validNumber(value,options={}){
 
+ if(
+  value===null ||
+  value===undefined ||
+  String(value).trim()===''
+ ){
+  return false;
+ }
+
  const n=Number(value);
 
- if(value==='' || value===null || value===undefined)return false;
- if(!Number.isFinite(n))return false;
- if(options.integer && !Number.isInteger(n))return false;
- if(options.min!==undefined && n<options.min)return false;
- if(options.max!==undefined && n>options.max)return false;
+ if(!Number.isFinite(n)){
+  return false;
+ }
+
+ if(options.integer && !Number.isInteger(n)){
+  return false;
+ }
+
+ if(
+  options.min!==undefined &&
+  n<options.min
+ ){
+  return false;
+ }
+
+ if(
+  options.max!==undefined &&
+  n>options.max
+ ){
+  return false;
+ }
 
  return true;
 
@@ -628,9 +674,15 @@ function validNumber(value,options={}){
 
 function getNumber(id){
 
- const value=document.getElementById(id)?.value;
+ const el=document.getElementById(id);
 
- return validNumber(value) ? Number(value) : null;
+ if(!el){
+  return null;
+ }
+
+ return validNumber(el.value)
+  ? Number(el.value)
+  : null;
 
 }
 
@@ -639,14 +691,17 @@ function markInvalid(id,invalid=true){
 
  const el=document.getElementById(id);
 
- if(el)el.classList.toggle('invalid',invalid);
+ if(el){
+  el.classList.toggle('invalid',invalid);
+ }
 
 }
 
 
 function clearInvalid(){
 
- document.querySelectorAll('.invalid')
+ document
+ .querySelectorAll('.invalid')
  .forEach(el=>el.classList.remove('invalid'));
 
 }
@@ -656,7 +711,9 @@ function showMessage(message,type='success'){
 
  const box=document.getElementById('formMessage');
 
- if(!box)return;
+ if(!box){
+  return;
+ }
 
  box.className='message '+type;
  box.textContent=message;
@@ -678,13 +735,21 @@ function clearMessage(){
 }
 
 
+/* =========================
+   PAGE
+========================= */
+
 function showPage(id){
 
- document.querySelectorAll('.page')
+ document
+ .querySelectorAll('.page')
  .forEach(x=>x.classList.add('hidden'));
 
- document.getElementById(id)
- .classList.remove('hidden');
+ const page=document.getElementById(id);
+
+ if(page){
+  page.classList.remove('hidden');
+ }
 
  if(id==='store'){
   renderAll();
@@ -695,41 +760,50 @@ function showPage(id){
 }
 
 
+/* =========================
+   MODE
+========================= */
+
 function setMode(m){
 
  mode=m;
+
  clearMessage();
 
- const map={
-  purchase:'Purchase',
-  sale:'Sale',
-  expense:'Expense',
-  cashin:'Cash'
+ const buttons={
+  purchase:'tabPurchase',
+  sale:'tabSale',
+  expense:'tabExpense',
+  cashin:'tabCash'
  };
 
- ['Purchase','Sale','Expense','Cash']
- .forEach(x=>{
-  const b=document.getElementById('tab'+x);
-  if(b)b.classList.remove('active');
- });
+ document
+ .querySelectorAll('.tabs button')
+ .forEach(b=>b.classList.remove('active'));
 
- const active=document.getElementById(
-  'tab'+map[m]
- );
+ const active=document.getElementById(buttons[m]);
 
- if(active)active.classList.add('active');
+ if(active){
+  active.classList.add('active');
+ }
 
  renderForm();
 
 }
 
 
+/* =========================
+   SUGGESTIONS
+========================= */
+
 function detailSuggestions(inputId,boxId){
 
  const input=document.getElementById(inputId);
  const box=document.getElementById(boxId);
 
- if(!input || !box)return;
+ if(!input || !box){
+  return;
+ }
 
  input.addEventListener('input',()=>{
 
@@ -750,13 +824,13 @@ function detailSuggestions(inputId,boxId){
    )
   ]
   .filter(x=>
-   x.toLowerCase().includes(q)
+   String(x).toLowerCase().includes(q)
   )
   .slice(0,6);
 
-  box.innerHTML=vals
-  .map(v=>'<div>'+esc(v)+'</div>')
-  .join('');
+  box.innerHTML=vals.map(v=>
+   '<div>'+esc(v)+'</div>'
+  ).join('');
 
   box.querySelectorAll('div')
   .forEach(d=>{
@@ -773,17 +847,27 @@ function detailSuggestions(inputId,boxId){
  });
 
  input.addEventListener('blur',()=>{
+
   setTimeout(()=>{
    box.innerHTML='';
   },200);
+
  });
 
 }
 
 
+/* =========================
+   FORM
+========================= */
+
 function renderForm(){
 
  const a=document.getElementById('formArea');
+
+ if(!a){
+  return;
+ }
 
 
 /* PURCHASE */
@@ -794,9 +878,26 @@ if(mode==='purchase'){
 
  <div class="formgrid">
 
- <div class="field full">
+ <div class="field">
+
+ <label>Date</label>
+
+ <input
+ id="date"
+ type="date"
+ value="${today()}">
+
+ </div>
+
+
+ <div class="field">
+
  <label>Dealer Name</label>
- <input id="dealer" autocomplete="off">
+
+ <input
+ id="dealer"
+ autocomplete="off">
+
  </div>
 
 
@@ -808,10 +909,7 @@ if(mode==='purchase'){
  id="detail"
  autocomplete="off">
 
- <div
- id="sugg"
- class="suggestions">
- </div>
+ <div id="sugg" class="suggestions"></div>
 
  </div>
 
@@ -822,10 +920,10 @@ if(mode==='purchase'){
 
  <select id="unit">
 
- <option>Kg</option>
- <option>PCS</option>
- <option>Liter</option>
- <option>Meter</option>
+ <option value="Kg">Kg</option>
+ <option value="PCS">PCS</option>
+ <option value="Liter">Liter</option>
+ <option value="Meter">Meter</option>
 
  </select>
 
@@ -840,8 +938,7 @@ if(mode==='purchase'){
  id="qty"
  type="number"
  step="any"
- min="0"
- oninput="calcPurchase()">
+ min="0">
 
  </div>
 
@@ -855,18 +952,6 @@ if(mode==='purchase'){
  type="number"
  step="any"
  min="0">
-
- </div>
-
-
- <div class="field full">
-
- <div class="result">
-
- Unit Purchase Price:
- <span id="unitPrice">0.00</span>
-
- </div>
 
  </div>
 
@@ -898,8 +983,19 @@ else if(mode==='sale'){
 
  <div class="formgrid">
 
+ <div class="field">
 
- <div class="field full">
+ <label>Date</label>
+
+ <input
+ id="date"
+ type="date"
+ value="${today()}">
+
+ </div>
+
+
+ <div class="field">
 
  <label>Customer Name</label>
 
@@ -918,10 +1014,7 @@ else if(mode==='sale'){
  id="detail"
  autocomplete="off">
 
- <div
- id="sugg"
- class="suggestions">
- </div>
+ <div id="sugg" class="suggestions"></div>
 
  </div>
 
@@ -932,10 +1025,10 @@ else if(mode==='sale'){
 
  <select id="unit">
 
- <option>Kg</option>
- <option>PCS</option>
- <option>Liter</option>
- <option>Meter</option>
+ <option value="Kg">Kg</option>
+ <option value="PCS">PCS</option>
+ <option value="Liter">Liter</option>
+ <option value="Meter">Meter</option>
 
  </select>
 
@@ -984,19 +1077,7 @@ else if(mode==='sale'){
  </div>
 
 
- <div class="field">
-
- <div class="result">
-
- Unit Sale Price:
- <span id="saleUnit">0.00</span>
-
- </div>
-
- </div>
-
-
- <div class="field">
+ <div class="field full">
 
  <div class="result">
 
@@ -1031,7 +1112,6 @@ else if(mode==='sale'){
  </button>
 
  </div>
-
 
  </div>
 
@@ -1068,10 +1148,7 @@ else if(mode==='expense'){
  id="detail"
  autocomplete="off">
 
- <div
- id="sugg"
- class="suggestions">
- </div>
+ <div id="sugg" class="suggestions"></div>
 
  </div>
 
@@ -1136,10 +1213,7 @@ else{
  id="detail"
  autocomplete="off">
 
- <div
- id="sugg"
- class="suggestions">
- </div>
+ <div id="sugg" class="suggestions"></div>
 
  </div>
 
@@ -1176,10 +1250,10 @@ else{
  }
 
 
- if(document.getElementById('detail')){
+ const detail=document.getElementById('detail');
 
+ if(detail){
   detailSuggestions('detail','sugg');
-
  }
 
 
@@ -1192,17 +1266,18 @@ else{
 
     e.preventDefault();
 
-    if(mode==='purchase')
+    if(mode==='purchase'){
      savePurchase();
-
-    else if(mode==='sale')
+    }
+    else if(mode==='sale'){
      saveSale();
-
-    else if(mode==='expense')
+    }
+    else if(mode==='expense'){
      saveExpense();
-
-    else
+    }
+    else{
      saveCash();
+    }
 
    }
 
@@ -1213,761 +1288,184 @@ else{
 }
 
 
-/* PURCHASE CALCULATION */
+/* =========================
+   STOCK
+========================= */
 
-function calcPurchase(){
+function findStock(detail){
+
+ const key=normalizeDetail(detail);
+
+ return Object.entries(data.stock)
+ .find(([storedDetail])=>
+  normalizeDetail(storedDetail)===key
+ );
+
+}
+
+
+function getStock(detail){
+
+ const match=findStock(detail);
+
+ return match ? match[1] : null;
+
+}
+
+
+function getStockKey(detail){
+
+ const match=findStock(detail);
+
+ return match ? match[0] : null;
+
+}
+
+
+/* =========================
+   SALE CALCULATION
+========================= */
+
+function calcSale(){
 
  const q=getNumber('qty')||0;
- const amount=getNumber('amount')||0;
 
- const price=q ? amount/q : 0;
+ const total=
+  getNumber('saleTotalInput')||0;
 
- const box=
- document.getElementById('unitPrice');
+ const received=
+  getNumber('received')||0;
 
- if(box){
+ const detail=
+  document.getElementById('detail')?.value.trim()||'';
 
-  box.textContent=
-  price.toFixed(2);
+ const stock=getStock(detail);
 
+ const cost=
+  stock
+  ? Number(stock.cost||0)
+  : 0;
+
+ const profit=
+  total-(cost*q);
+
+ const due=
+  Math.max(0,total-received);
+
+ const profitBox=
+  document.getElementById('saleProfit');
+
+ const dueBox=
+  document.getElementById('saleDue');
+
+ if(profitBox){
+  profitBox.textContent=money(profit);
+ }
+
+ if(dueBox){
+  dueBox.textContent=money(due);
  }
 
 }
 
 
-/* SALE CALCULATION */
+/* =========================
+   DUPLICATE CHECK
+========================= */
 
-function calcSale(){
+function isDuplicate(e){
 
- const q=getNumber('qty')||0;
- const total=getNumber('saleTotalInput')||0;
- const received=getNumber('received')||0;
+ return data.entries.some(existing=>
 
- const detail=
- document.getElementById('detail')?.value.trim()||'';
+  existing.type===e.type &&
 
- const unitSale=
- q ? total/q : 0;
+  existing.date===e.date &&
 
- const stock=
- getStock(detail);
+  normalizeDetail(existing.detail)===
+  normalizeDetail(e.detail) &&
 
- const cost=
- stock ? Number(stock.cost||0) : 0;
+  Number(existing.qty||0)===
+  Number(e.qty||0) &&
 
- const profit=
- total-(cost*q);
+  Number(
+   existing.amount ??
+   existing.total ??
+   0
+  )===
 
- const due=
- Math.max(0,total-received);
+  Number(
+   e.amount ??
+   e.total ??
+   0
+  )
 
-
- const unitBox=
- document.getElementById('saleUnit');
-
- const profitBox=
- document.getElementById('saleProfit');
-
- const dueBox=
- document.getElementById('saleDue');
-
-
- if(unitBox)
-  unitBox.textContent=
-  unitSale.toFixed(2);
-
- if(profitBox)
-  profitBox.textContent=
-  profit.toFixed(2);
-
- if(dueBox)
-  dueBox.textContent=
-  due.toFixed(2);
+ );
 
 }
 
 
-/* ADD ENTRY */
-
 function addEntry(e){
 
- const duplicate=data.entries.some(existing=>
-  existing.type===e.type &&
-  existing.date===e.date &&
-  normalizeDetail(existing.detail)===normalizeDetail(e.detail) &&
-  Number(existing.qty||0)===Number(e.qty||0) &&
-  Number(existing.amount ?? existing.total ?? 0)===
-  Number(e.amount ?? e.total ?? 0)
- );
+ if(isDuplicate(e)){
 
- if(duplicate){
+  showMessage(
+   'A matching entry already exists. Duplicate was not saved.',
+   'error'
+  );
 
-  showMessage('A matching entry already exists. Duplicate entries were not saved.','error');
   return false;
 
  }
 
  data.entries.unshift(e);
 
- saveData();
-
- return true;
+ return saveData();
 
 }
 
 
-/* PURCHASE */
+/* =========================
+   PURCHASE
+========================= */
 
 function savePurchase(){
 
  clearInvalid();
 
+ const date=
+  document.getElementById('date')?.value||'';
+
  const dealer=
- document.getElementById('dealer')?.value.trim()||'';
+  document.getElementById('dealer')?.value.trim()||'';
 
  const detail=
- document.getElementById('detail')?.value.trim()||'';
+  document.getElementById('detail')?.value.trim()||'';
 
  const unit=
- document.getElementById('unit')?.value||'';
+  document.getElementById('unit')?.value||'';
 
  const qty=getNumber('qty');
- const amount=getNumber('amount');
-
-
- if(!detail){
-
-  markInvalid('detail');
-  showMessage('Enter a purchase description.','error');
-  return;
-
- }
-
- if(qty===null || qty<=0){
-
-  markInvalid('qty');
-  showMessage('Quantity must be a valid number greater than zero.','error');
-  return;
-
- }
-
- if(amount===null || amount<=0){
-
-  markInvalid('amount');
-  showMessage('Purchase amount must be a valid number greater than zero.','error');
-  return;
-
- }
-
-
- const unitPrice=
- amount/qty;
-
-
- const stockKey=
- getStockKey(detail);
-
- let s=
- stockKey
- ?
- data.stock[stockKey]
- :
- {
-  qty:0,
-  unit:unit,
-  cost:unitPrice
- };
-
-
- const oldQty=
- Math.max(0,Number(s.qty)||0);
-
- const oldCost=
- Number(s.cost)||0;
-
-
- s.cost=
- oldQty
- ?
- ((oldCost*oldQty)+(unitPrice*qty))
- /(oldQty+qty)
- :
- unitPrice;
-
-
- s.qty=
- oldQty+qty;
-
- s.unit=unit;
-
- data.stock[stockKey||detail]=s;
-
-
- const saved=addEntry({
-
-  type:'Purchase',
-
-  date:today(),
-
-  dealer:dealer,
-
-  detail:detail,
-
-  unit:unit,
-
-  qty:qty,
-
-  amount:amount,
-
-  unitPrice:unitPrice
-
- });
-
- if(!saved){
-
-  if(stockKey || !stockKey)renderAll();
-  return;
-
- }
-
- renderForm();
-
- showMessage('Purchase saved successfully.','success');
-
-}
-
-
-/* SALE */
-
-function saveSale(){
-
- clearInvalid();
-
- const customer=
- document.getElementById('customer')?.value.trim()||'';
-
- const detail=
- document.getElementById('detail')?.value.trim()||'';
-
- const unit=
- document.getElementById('unit')?.value||'';
-
- const qty=getNumber('qty');
- const total=getNumber('saleTotalInput');
- const received=getNumber('received');
-
-
- if(!detail){
-
-  markInvalid('detail');
-  showMessage('Enter a sale description.','error');
-  return;
-
- }
-
- if(qty===null || qty<=0){
-
-  markInvalid('qty');
-  showMessage('Quantity must be a valid number greater than zero.','error');
-  return;
-
- }
-
- if(total===null || total<=0){
-
-  markInvalid('saleTotalInput');
-  showMessage('Sale amount must be a valid number greater than zero.','error');
-  return;
-
- }
-
- if(received===null || received<0){
-
-  markInvalid('received');
-  showMessage('Amount received must be a valid number zero or greater.','error');
-  return;
-
- }
-
- if(received>total){
-
-  markInvalid('received');
-  showMessage('Amount received cannot be greater than the total sale amount.','error');
-  return;
-
- }
-
-
- const stockKey=
- getStockKey(detail);
-
- const s=
- stockKey ? data.stock[stockKey] : null;
-
-
- if(!s){
-
-  markInvalid('detail');
-  showMessage('This item is not available in stock.','error');
-  return;
-
- }
-
-
- const availableQty=
- Number(s.qty);
-
- if(!Number.isFinite(availableQty) || availableQty<0){
-
-  showMessage('This stock record is invalid. Correct the stock data before making a sale.','error');
-  return;
-
- }
-
- if(availableQty<qty){
-
-  markInvalid('qty');
-  showMessage('Stock is not enough for this sale.','error');
-  return;
-
- }
-
-
- const unitSale=
- total/qty;
-
- const cost=
- Number(s.cost)||0;
-
- const profit=
- total-(cost*qty);
-
- const due=
- total-received;
-
-
- s.qty=
- Math.max(0,availableQty-qty);
-
-
- data.stock[stockKey]=s;
-
-
- const saved=addEntry({
-
-  type:'Sale',
-
-  date:today(),
-
-  customer:customer,
-
-  detail:detail,
-
-  unit:unit,
-
-  qty:qty,
-
-  total:total,
-
-  received:received,
-
-  unitSale:unitSale,
-
-  profit:profit,
-
-  due:due
-
- });
-
- if(!saved){
-
-  data.stock[stockKey].qty=availableQty;
-  saveData();
-  return;
-
- }
-
- renderForm();
-
- showMessage('Sale saved successfully.','success');
-
-}
-
-
-/* EXPENSE */
-
-function saveExpense(){
-
- clearInvalid();
-
- const detail=
- document.getElementById('detail')?.value.trim()||'';
 
  const amount=getNumber('amount');
 
- const date=
- document.getElementById('date')?.value||'';
-
-
- if(!detail){
-
-  markInvalid('detail');
-  showMessage('Enter an expense detail.','error');
-  return;
-
- }
 
  if(!isValidDate(date)){
 
   markInvalid('date');
-  showMessage('Enter a valid expense date.','error');
+
+  showMessage(
+   'Please enter a valid purchase date.',
+   'error'
+  );
+
   return;
 
  }
-
- if(amount===null || amount<=0){
-
-  markInvalid('amount');
-  showMessage('Expense amount must be a valid number greater than zero.','error');
-  return;
-
- }
-
-
- const saved=addEntry({
-
-  type:'Expense',
-
-  date:date,
-
-  detail:detail,
-
-  amount:amount
-
- });
-
- if(!saved)return;
-
- renderForm();
-
- showMessage('Expense saved successfully.','success');
-
-}
-
-
-/* CASH IN */
-
-function saveCash(){
-
- clearInvalid();
-
- const detail=
- document.getElementById('detail')?.value.trim()||'';
-
- const amount=getNumber('amount');
-
- const date=
- document.getElementById('date')?.value||'';
 
 
  if(!detail){
 
   markInvalid('detail');
-  showMessage('Enter a cash-in detail.','error');
-  return;
 
- }
-
- if(!isValidDate(date)){
-
-  markInvalid('date');
-  showMessage('Enter a valid cash-in date.','error');
-  return;
-
- }
-
- if(amount===null || amount<=0){
-
-  markInvalid('amount');
-  showMessage('Cash-in amount must be a valid number greater than zero.','error');
-  return;
-
- }
-
-
- const saved=addEntry({
-
-  type:'Cash In',
-
-  date:date,
-
-  detail:detail,
-
-  amount:amount
-
- });
-
- if(!saved)return;
-
- renderForm();
-
- showMessage('Cash In saved successfully.','success');
-
-}
-
-
-/* GET VALUE */
-
-function val(id){
-
- return document
- ?.getElementById(id)
- ?.value.trim()||'';
-
-}
-
-
-/* RENDER EVERYTHING */
-
-function renderAll(){
-
- const sales=
- data.entries.filter(
-  e=>e.type==='Sale'
- );
-
- const purchases=
- data.entries.filter(
-  e=>e.type==='Purchase'
- );
-
- const expenses=
- data.entries.filter(
-  e=>e.type==='Expense'
- );
-
- const cash=
- data.entries.filter(
-  e=>e.type==='Cash In'
- );
-
-
- const t=today();
-
-
- const dailySales=
- sales.filter(e=>e.date===t);
-
- const dailyPurchases=
- purchases.filter(e=>e.date===t);
-
- const dailyExpenses=
- dailyExpenses.filter(e=>e.date===t);
-
- const dailyCash=
- cash.filter(e=>e.date===t);
-
-
- const saleTotal=
- dailySales.reduce(
-  (a,e)=>a+Number(e.total||0),0
- );
-
- const purchaseTotal=
- dailyPurchases.reduce(
-  (a,e)=>a+Number(e.amount||0),0
- );
-
- const expenseTotal=
- dailyExpenses.reduce(
-  (a,e)=>a+Number(e.amount||0),0
- );
-
- const cashTotal=
- dailyCash.reduce(
-  (a,e)=>a+Number(e.amount||0),0
- );
-
-
- const dues=
- sales.reduce(
-  (a,e)=>a+Number(e.due||0),0
- );
-
- const profit=
- sales.reduce(
-  (a,e)=>a+Number(e.profit||0),0
- );
-
- const received=
- sales.reduce(
-  (a,e)=>a+Number(e.received||0),0
- );
-
-
- document.getElementById(
-  'saleTotal'
- ).textContent=money(saleTotal);
-
-
- document.getElementById(
-  'purchaseTotal'
- ).textContent=money(purchaseTotal);
-
-
- document.getElementById(
-  'expenseTotal'
- ).textContent=money(expenseTotal);
-
-
- document.getElementById(
-  'cashTotal'
- ).textContent=money(cashTotal);
-
-
- document.getElementById(
-  'dueTotal'
- ).textContent=money(dues);
-
-
- document.getElementById(
-  'profitTotal'
- ).textContent=money(profit);
-
-
- document.getElementById(
-  'cashBalance'
- ).textContent=
- money(
-  received+
-  cashTotal-
-  purchaseTotal-
-  expenseTotal
- );
-
-
- const items=
- Object.entries(data.stock)
- .filter(
-  ([k,v])=>Number(v.qty)>0
- );
-
-
- document.getElementById(
-  'stockCount'
- ).textContent=items.length;
-
-
- document.getElementById(
-  'stockTable'
- ).innerHTML=
-
- items.length
-
- ?
-
- '<div class="table-scroll"><table>'+
- '<tr>'+
- '<th>Item</th>'+
- '<th>Qty</th>'+
- '<th>Unit</th>'+
- '<th>Purchase Cost</th>'+
- '</tr>'+
-
- items.map(
-  ([k,v])=>
-
-  '<tr>'+
-  '<td>'+esc(k)+'</td>'+
-  '<td>'+money(Math.max(0,Number(v.qty)||0))+'</td>'+
-  '<td>'+esc(v.unit)+'</td>'+
-  '<td>'+money(v.cost)+'</td>'+
-  '</tr>'
-
- ).join('')+
-
- '</table></div>'
-
- :
-
- 'No stock yet.';
-
-
- document.getElementById(
-  'entriesTable'
- ).innerHTML=
-
- data.entries.length
-
- ?
-
- '<div class="table-scroll"><table>'+
- '<tr>'+
- '<th>Date</th>'+
- '<th>Type</th>'+
- '<th>Detail</th>'+
- '<th>Qty</th>'+
- '<th>Amount</th>'+
- '</tr>'+
-
- data.entries.slice(0,30).map(e=>
-
- '<tr>'+
- '<td>'+esc(e.date)+'</td>'+
- '<td>'+esc(e.type)+'</td>'+
- '<td>'+esc(e.detail)+'</td>'+
- '<td>'+money(e.qty||0)+'</td>'+
- '<td>'+
- money(
-  e.amount ??
-  e.total ??
-  e.received ??
-  0
- )+
- '</td>'+
- '</tr>'
-
- ).join('')+
-
- '</table></div>'
-
- :
-
- 'No entries yet.';
-
-}
-
-
-/* DELETE LOCAL DATA */
-
-function clearAll(){
-
- const box=document.getElementById('formMessage');
-
- if(!confirm(
-  'Delete all DigiRise store data from this device?'
- )){
-
-  if(box)showMessage('Data deletion was cancelled.','error');
-  return;
-
- }
-
- localStorage.removeItem(KEY);
-
- if(box)showMessage('All local store data was deleted.','success');
-
- setTimeout(()=>location.reload(),500);
-
-}
-
-
-/* START */
-
-renderForm();
-renderAll();
-
-</script>
-
-</body>
-</html>
+  showMessage(
+   'Enter
