@@ -6,390 +6,48 @@
     <title>DigiRise Smart Memo SYNC</title>
     <style>
         :root {
-            --primary: #2563eb;
-            --success: #16a34a;
-            --danger: #dc2626;
-            --warning: #ca8a04;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --border: #e2e8f0;
+            --primary: #1abc9c;
+            --primary-dark: #16a085;
+            --bg: #f4f6f6;
+            --surface: #ffffff;
+            --text: #2c3e50;
+            --text-light: #7f8c8d;
+            --border: #d5dbdb;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background: #f1f5f9; color: var(--dark); padding-bottom: 60px; }
-        header { background: white; border-bottom: 1px solid var(--border); padding: 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .logo { font-size: 20px; font-weight: bold; color: var(--primary); display: flex; align-items: center; gap: 8px; }
-        .nav-toggle { font-size: 24px; background: none; border: none; cursor: pointer; color: var(--dark); }
-        
-        .container { max-width: 600px; margin: 15px auto; padding: 0 12px; }
-        .card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); border: 1px solid var(--border); }
-        .card-title { font-size: 16px; font-weight: bold; margin-bottom: 15px; color: var(--dark); display: flex; align-items: center; gap: 6px; }
-        
-        /* Stats Dashboard */
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px; }
-        .stat-box { background: white; padding: 12px; border-radius: 10px; border: 1px solid var(--border); text-align: center; }
-        .stat-box.dues { border-left: 4px solid var(--danger); }
-        .stat-box.received { border-left: 4px solid var(--success); }
-        .stat-label { font-size: 11px; color: #64748b; text-transform: uppercase; margin-bottom: 4px; }
-        .stat-val { font-size: 16px; font-weight: bold; }
-        .text-danger { color: var(--danger); }
-        .text-success { color: var(--success); }
-        .text-primary { color: var(--primary); }
-        
-        /* Form Styling */
-        .form-group { margin-bottom: 12px; }
-        label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 4px; color: #475569; }
-        .form-control { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; background: #fff; color: var(--dark); outline: none; -webkit-appearance: none; }
-        .form-control:focus { border-color: var(--primary); }
-        select.form-control { background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; background-size: 16px; padding-right: 32px; }
-        
-        .radio-group { display: flex; gap: 8px; margin-bottom: 12px; }
-        .radio-btn { flex: 1; text-align: center; }
-        .radio-btn input { display: none; }
-        .radio-btn span { display: block; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; background: white; transition: all 0.2s; }
-        .radio-btn input:checked + span { background: var(--primary); color: white; border-color: var(--primary); }
-        
-        .btn-row { display: flex; gap: 10px; margin-top: 15px; }
-        .btn { flex: 1; padding: 12px; border: none; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; text-align: center; }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-cancel { background: #e2e8f0; color: #475569; }
-        
-        /* Filter Section */
-        .filter-row { display: flex; gap: 8px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
-        .filter-chip { padding: 6px 14px; background: white; border: 1px solid var(--border); border-radius: 20px; font-size: 12px; white-space: nowrap; cursor: pointer; font-weight: 500; }
-        .filter-chip.active { background: var(--dark); color: white; border-color: var(--dark); }
-        
-        /* Ledger logs */
-        .log-item { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; position: relative; }
-        .log-left { display: flex; flex-direction: column; gap: 3px; }
-        .log-title { font-weight: 600; font-size: 14px; }
-        .log-sub { font-size: 12px; color: #64748b; display: flex; gap: 8px; }
-        .log-right { text-align: right; display: flex; flex-direction: column; gap: 3px; }
-        .log-amount { font-weight: bold; font-size: 15px; }
-        .badge { display: inline-block; padding: 2px 6px; font-size: 10px; font-weight: bold; border-radius: 4px; text-transform: uppercase; width: max-content; margin-left: auto; }
-        .badge-dues { background: #fee2e2; color: var(--danger); }
-        .badge-received { background: #dcfce7; color: var(--success); }
-        .btn-delete { background: none; border: none; color: #94a3b8; font-size: 16px; cursor: pointer; padding-left: 8px; }
-        
-        /* Bottom Navbar for Mobile */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 8px 0; z-index: 100; }
-        .nav-item { background: none; border: none; font-size: 11px; color: #64748b; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; width: 20%; }
-        .nav-item.active { color: var(--primary); font-weight: bold; }
-        .nav-icon { font-size: 20px; }
-        
-        .hidden { display: none !important; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        header { background-color: var(--surface); border-bottom: 1px solid var(--border); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; z-index: 10; }
+        .logo-area { display: flex; align-items: center; gap: 8px; }
+        .logo { font-weight: bold; font-size: 1.2rem; color: var(--text); }
+        .logo span { color: var(--primary); }
+        .nav-tabs { display: flex; background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 8px; gap: 4px; overflow-x: auto; }
+        .tab-btn { background: none; border: none; padding: 12px 16px; font-size: 0.95rem; font-weight: 500; color: var(--text-light); cursor: pointer; position: relative; white-space: nowrap; transition: color 0.2s; }
+        .tab-btn.active { color: var(--primary); font-weight: 600; }
+        .tab-btn.active::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background-color: var(--primary); border-radius: 3px 3px 0 0; }
+        .main-frame { flex: 1; border: none; width: 100%; height: 100%; background: var(--bg); }
     </style>
 </head>
 <body>
-
     <header>
-        <div class="logo">🏪 DigiRise Smart Memo</div>
-        <button class="nav-toggle" onclick="alert('Menu clicked')">☰</button>
+        <div class="logo-area">
+            <div class="logo">Digi<span>Rise</span></div>
+        </div>
     </header>
-
-    <div class="container">
-        
-        <!-- Live Dashboard Stats -->
-        <div class="stats-grid">
-            <div class="stat-box">
-                <div class="stat-label">Total Cash In</div>
-                <div class="stat-val text-primary" id="dash-total">Rs. 0</div>
-            </div>
-            <div class="stat-box received">
-                <div class="stat-label">Total Received</div>
-                <div class="stat-val text-success" id="dash-received">Rs. 0</div>
-            </div>
-            <div class="stat-box dues">
-                <div class="stat-label">Total Dues</div>
-                <div class="stat-val text-danger" id="dash-dues">Rs. 0</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-label">Net Balance</div>
-                <div class="stat-val" id="dash-net" style="color: var(--dark);">Rs. 0</div>
-            </div>
-        </div>
-
-        <!-- Memo Entry App Section -->
-        <div id="section-memo" class="app-section">
-            <div class="card">
-                <div class="card-title">📝 One Memo Entry System</div>
-                
-                <form id="memoForm" onsubmit="saveTransaction(event)">
-                    <div class="form-group">
-                        <label>Memo Option Type</label>
-                        <div class="radio-group">
-                            <label class="radio-btn">
-                                <input type="radio" name="memoType" value="Sale" checked onchange="handleTypeChange()">
-                                <span>Sale</span>
-                            </label>
-                            <label class="radio-btn">
-                                <input type="radio" name="memoType" value="Purchase" onchange="handleTypeChange()">
-                                <span>Purchase</span>
-                            </label>
-                            <label class="radio-btn">
-                                <input type="radio" name="memoType" value="Expenses" onchange="handleTypeChange()">
-                                <span>Expenses</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Date</label>
-                        <input type="date" id="txDate" class="form-control" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Invoice Number</label>
-                        <input type="text" id="txInvoice" class="form-control" placeholder="e.g. INV-1001" required>
-                    </div>
-
-                    <div class="form-group" id="productGroup">
-                        <label>Product Name</label>
-                        <input type="text" id="txProduct" class="form-control" placeholder="Product details">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Total Amount (Rs.)</label>
-                        <input type="number" id="txAmount" class="form-control" placeholder="0" required oninput="calculateAutomaticStatus()">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Cash Paid / Received (Rs.)</label>
-                        <input type="number" id="txPaid" class="form-control" placeholder="0" required oninput="calculateAutomaticStatus()">
-                    </div>
-
-                    <!-- Automatic Dropdown Field -->
-                    <div class="form-group">
-                        <label>Payment Status (Automatic)</label>
-                        <select id="txStatus" class="form-control" style="font-weight: bold; background-color: #f8fafc;">
-                            <option value="Received" class="text-success">Received (Fully Paid)</option>
-                            <option value="Cash Dues" class="text-danger">Cash Dues (Pending Balance)</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Customer / Supplier Name</label>
-                        <input type="text" id="txName" class="form-control" placeholder="Name">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Note</label>
-                        <input type="text" id="txNote" class="form-control" placeholder="Optional notes">
-                    </div>
-
-                    <div class="btn-row">
-                        <button type="button" class="btn btn-cancel" onclick="resetForm()">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Save Transaction</button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Ledger Logs Section -->
-            <div class="card">
-                <div class="card-title">📋 Live Ledger Logs</div>
-                
-                <div class="filter-row">
-                    <button class="filter-chip active" onclick="filterLogs('All', this)">All Types</button>
-                    <button class="filter-chip" onclick="filterLogs('Sale', this)">Sales</button>
-                    <button class="filter-chip" onclick="filterLogs('Purchase', this)">Purchases</button>
-                    <button class="filter-chip" onclick="filterLogs('Expenses', this)">Expenses</button>
-                </div>
-
-                <div id="ledgerLogsList">
-                    <!-- Logs injection -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Placeholder Sections for other tabs -->
-        <div id="section-store" class="app-section hidden"><div class="card"><h3>🏪 General Store Dashboard</h3><p>Stock and Inventory tracking details module.</p></div></div>
-        <div id="section-ai-image" class="app-section hidden"><div class="card"><h3>🖼 AI Image Generator</h3><p>Create stunning high-quality artwork instantly.</p></div></div>
-        <div id="section-quran" class="app-section hidden"><div class="card"><h3>📚 Learn Quran & Skills</h3><p>Educational portal and course management modules.</p></div></div>
-        <div id="section-admin" class="app-section hidden"><div class="card"><h3>⚙ Admin Dashboard</h3><p>Configure layouts, update content settings and multi-language controls.</p></div></div>
-
-    </div>
-
-    <!-- Mobile Navigation Bar -->
-    <nav class="bottom-nav">
-        <button class="nav-item active" onclick="switchTab('memo', this)">
-            <span class="nav-icon">📝</span><span>Memo</span>
-        </button>
-        <button class="nav-item" onclick="switchTab('store', this)">
-            <span class="nav-icon">🏪</span><span>Store</span>
-        </button>
-        <button class="nav-item" onclick="switchTab('ai-image', this)">
-            <span class="nav-icon">🖼</span><span>AI Tool</span>
-        </button>
-        <button class="nav-item" onclick="switchTab('quran', this)">
-            <span class="nav-icon">📚</span><span>Learn</span>
-        </button>
-        <button class="nav-item" onclick="switchTab('admin', this)">
-            <span class="nav-icon">⚙</span><span>Admin</span>
-        </button>
+    
+    <nav class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab('memo.html', this)">Smart Memo</button>
+        <button class="tab-btn" onclick="switchTab('ledger.html', this)">Ledger</button>
+        <button class="tab-btn" onclick="switchTab('stock.html', this)">Stock</button>
     </nav>
 
+    <iframe id="contentFrame" class="main-frame" src="memo.html"></iframe>
+
     <script>
-        // Sample Storage & Initialization
-        let transactions = JSON.parse(localStorage.getItem('digirise_memos')) || [
-            { id: 1, type: 'Sale', date: '2026-10-08', invoice: 'INV-001', product: 'Wheat', amount: 5000, paid: 5000, status: 'Received', name: 'Zahid Shah', note: 'Paid fully' },
-            { id: 2, type: 'Sale', date: '2026-10-09', invoice: 'INV-002', product: 'Sugar Bag', amount: 12000, paid: 8000, status: 'Cash Dues', name: 'Ali Khan', note: 'Rs. 4000 remaining' }
-        ];
-
-        document.getElementById('txDate').valueAsDate = new Date();
-        let currentFilter = 'All';
-
-        // Automatic Status Dropdown Logic based on Amounts
-        function calculateAutomaticStatus() {
-            const amount = parseFloat(document.getElementById('txAmount').value) || 0;
-            const paid = parseFloat(document.getElementById('txPaid').value) || 0;
-            const statusSelect = document.getElementById('txStatus');
-
-            if (amount > 0 && paid >= amount) {
-                statusSelect.value = 'Received';
-                statusSelect.style.color = '#16a34a'; // Green
-                statusSelect.style.backgroundColor = '#dcfce7';
-            } else {
-                statusSelect.value = 'Cash Dues';
-                statusSelect.style.color = '#dc2626'; // Red
-                statusSelect.style.backgroundColor = '#fee2e2';
-            }
+        function switchTab(page, btn) {
+            document.getElementById('contentFrame').src = page;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
         }
-
-        function handleTypeChange() {
-            const selectedType = document.querySelector('input[name="memoType"]:checked').value;
-            const productGroup = document.getElementById('productGroup');
-            if (selectedType === 'Expenses') {
-                productGroup.style.display = 'none';
-            } else {
-                productGroup.style.display = 'block';
-            }
-        }
-
-        // Save Transaction
-        function saveTransaction(e) {
-            e.preventDefault();
-            
-            const type = document.querySelector('input[name="memoType"]:checked').value;
-            const date = document.getElementById('txDate').value;
-            const invoice = document.getElementById('txInvoice').value;
-            const product = document.getElementById('txProduct').value || 'General';
-            const amount = parseFloat(document.getElementById('txAmount').value) || 0;
-            const paid = parseFloat(document.getElementById('txPaid').value) || 0;
-            const status = document.getElementById('txStatus').value;
-            const name = document.getElementById('txName').value || 'Walk-in';
-            const note = document.getElementById('txNote').value || '';
-
-            const tx = {
-                id: Date.now(),
-                type, date, invoice, product, amount, paid, status, name, note
-            };
-
-            transactions.unshift(tx);
-            localStorage.setItem('digirise_memos', JSON.stringify(transactions));
-            
-            resetForm();
-            renderAll();
-        }
-
-        function deleteTransaction(id) {
-            if(confirm('Are you sure to delete this record?')) {
-                transactions = transactions.filter(t => t.id !== id);
-                localStorage.setItem('digirise_memos', JSON.stringify(transactions));
-                renderAll();
-            }
-        }
-
-        function resetForm() {
-            document.getElementById('memoForm').reset();
-            document.getElementById('txDate').valueAsDate = new Date();
-            calculateAutomaticStatus();
-            handleTypeChange();
-        }
-
-        // Navigation Tab Switcher
-        function switchTab(tabId, el) {
-            document.querySelectorAll('.app-section').forEach(sec => sec.classList.add('hidden'));
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            
-            document.getElementById('section-' + tabId).classList.remove('hidden');
-            el.classList.add('active');
-        }
-
-        function filterLogs(type, el) {
-            currentFilter = type;
-            document.querySelectorAll('.filter-chip').forEach(chip => chip.classList.remove('active'));
-            el.classList.add('active');
-            renderLedger();
-        }
-
-        // Calculations & Render Dashboard
-        function renderDashboard() {
-            let totalCashIn = 0;
-            let totalReceived = 0;
-            let totalDues = 0;
-
-            transactions.forEach(t => {
-                if (t.type === 'Sale' || t.type === 'Cash In') {
-                    totalCashIn += t.amount;
-                }
-                totalReceived += t.paid;
-                if (t.amount > t.paid) {
-                    totalDues += (t.amount - t.paid);
-                }
-            });
-
-            document.getElementById('dash-total').innerText = `Rs. ${totalCashIn.toLocaleString()}`;
-            document.getElementById('dash-received').innerText = `Rs. ${totalReceived.toLocaleString()}`;
-            document.getElementById('dash-dues').innerText = `Rs. ${totalDues.toLocaleString()}`;
-            document.getElementById('dash-net').innerText = `Rs. ${(totalReceived - totalDues).toLocaleString()}`;
-        }
-
-        // Render Logs
-        function renderLedger() {
-            const listEl = document.getElementById('ledgerLogsList');
-            listEl.innerHTML = '';
-
-            const filtered = transactions.filter(t => currentFilter === 'All' || t.type === currentFilter);
-
-            if(filtered.length === 0) {
-                listEl.innerHTML = '<div style="text-align:center; padding:20px; color:#64748b; font-size:13px;">No transaction logs found.</div>';
-                return;
-            }
-
-            filtered.forEach(t => {
-                const badgeClass = t.status === 'Received' ? 'badge-received' : 'badge-dues';
-                const remaining = t.amount - t.paid;
-                
-                listEl.innerHTML += `
-                    <div class="log-item">
-                        <div class="log-left">
-                            <div class="log-title">${t.type}: ${t.product}</div>
-                            <div class="log-sub">
-                                <span>📅 ${t.date}</span>
-                                <span>📄 No: <b>${t.invoice}</b></span>
-                                <span>👤 ${t.name}</span>
-                            </div>
-                        </div>
-                        <div class="log-right">
-                            <div class="log-amount">Rs. ${t.amount.toLocaleString()}</div>
-                            <span class="badge ${badgeClass}">${t.status}</span>
-                            ${remaining > 0 ? `<span style="font-size:10px; color:var(--danger)">Due: Rs. ${remaining}</span>` : ''}
-                        </div>
-                        <button class="btn-delete" onclick="deleteTransaction(${t.id})">🗑</button>
-                    </div>
-                `;
-            });
-        }
-
-        function renderAll() {
-            renderDashboard();
-            renderLedger();
-        }
-
-        // Run on start
-        window.onload = function() {
-            calculateAutomaticStatus();
-            renderAll();
-        };
     </script>
 </body>
 </html>
