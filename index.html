@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DigiRise Smart Hub</title>
     <style>
-        /* Eye-Friendly & Attractive Modern Dark Theme */
         :root {
             --bg-main: #0f172a;
             --bg-card: #1e293b;
             --accent: #1abc9c;
-            --accent-hover: #16a085;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --danger: #ef4444;
@@ -48,7 +46,6 @@
             font-weight: 700;
         }
 
-        /* Language Switcher */
         .lang-bar {
             background: #111827;
             padding: 5px;
@@ -70,7 +67,6 @@
             font-weight: bold;
         }
 
-        /* Navigation Tabs */
         .nav-tabs {
             display: flex;
             background: var(--bg-card);
@@ -110,7 +106,6 @@
             display: block;
         }
 
-        /* Visual Cards */
         .card {
             background: var(--bg-card);
             border-radius: 12px;
@@ -119,18 +114,6 @@
             border: 1px solid var(--border);
         }
 
-        .card h3 {
-            margin-bottom: 8px;
-            font-size: 18px;
-        }
-
-        .card p {
-            color: var(--text-muted);
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        /* Grid Form Layout */
         .grid-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -157,7 +140,7 @@
             text-transform: uppercase;
         }
 
-        input, select, textarea {
+        input, select {
             width: 100%;
             background: #0f172a;
             border: 1px solid var(--border);
@@ -172,7 +155,6 @@
             border-color: var(--accent);
         }
 
-        /* Sync Toast Indicator */
         .toast {
             position: fixed;
             bottom: 20px;
@@ -184,10 +166,8 @@
             font-size: 12px;
             display: none;
             z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
 
-        /* Recent Logs Table */
         .table-container {
             max-height: 260px;
             overflow-y: auto;
@@ -202,25 +182,22 @@
             font-size: 13px;
         }
 
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
         th {
             background: #111827;
             position: sticky;
             top: 0;
-            padding: 10px;
-            text-align: left;
             color: var(--text-muted);
-        }
-
-        td {
-            padding: 10px;
-            border-bottom: 1px solid var(--border);
         }
 
         tr:nth-child(even) {
             background: rgba(255,255,255,0.02);
         }
 
-        /* Three dot action menu styling */
         .action-cell {
             position: relative;
             text-align: center;
@@ -241,7 +218,6 @@
             border: 1px solid var(--border);
             border-radius: 6px;
             z-index: 50;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
         }
 
         .dropdown-menu button {
@@ -252,12 +228,7 @@
             border: none;
             color: white;
             text-align: left;
-            font-size: 12px;
             cursor: pointer;
-        }
-
-        .dropdown-menu button:hover {
-            background: rgba(26, 188, 156, 0.1);
         }
 
         .status-badge {
@@ -279,7 +250,6 @@
             margin-top: 10px;
         }
 
-        /* Hidden reports dashboard styling */
         .hidden-report-trigger {
             text-align: center;
             margin-top: 40px;
@@ -296,23 +266,6 @@
             font-size: 11px;
             cursor: pointer;
         }
-
-        .report-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .report-box {
-            background: #111827;
-            padding: 12px;
-            border-radius: 8px;
-            border-left: 4px solid var(--accent);
-        }
-
-        .report-box.expense { border-left-color: var(--danger); }
-        .report-box.profit { border-left-color: var(--success); }
     </style>
 </head>
 <body>
@@ -324,13 +277,10 @@
     <div class="lang-bar">
         <button class="lang-btn active" onclick="switchLang('en')">English</button>
         <button class="lang-btn" onclick="switchLang('ur')">اردو</button>
-        <button class="lang-btn" onclick="switchLang('ar')">العربية</button>
-        <button class="lang-btn" onclick="switchLang('zh')">中文</button>
     </div>
 
     <div class="nav-tabs">
         <button class="tab-btn active" onclick="switchTab('academy')" id="tab-acad">Academy</button>
-        <button class="tab-btn" onclick="switchTab('marketplace')" id="tab-market">Marketplace</button>
         <button class="tab-btn" onclick="switchTab('ledger-tab')" id="tab-ledg">Store Ledger</button>
     </div>
 
@@ -340,63 +290,15 @@
         <!-- ACADEMY SECTION -->
         <div id="academy" class="section active">
             <div class="card">
-                <h3 id="course-title">Premium E-Commerce Course</h3>
-                <p id="course-desc">Learn how to run your business like a pro. This exclusive video guide explains multi-vendor strategies and profit optimization.</p>
+                <h3 id="course-title">Premium General Store Strategy</h3>
+                <p id="course-desc">Learn bookkeeping and inventory management workflows step-by-step.</p>
                 <div style="margin-top: 12px; position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:8px;">
                     <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
                 </div>
             </div>
-            <div class="card">
-                <h3 id="news-title">Platform Updates & News</h3>
-                <p id="news-desc">New feature activated: Vendors can now easily list items, and admin dynamic commissions will be credited directly inside your wallet ledger tracking balance seamlessly.</p>
-            </div>
         </div>
 
-        <!-- MARKETPLACE SECTION -->
-        <div id="marketplace" class="section">
-            <div class="card">
-                <h3 id="add-prod-heading">List New Vendor Product</h3>
-                <div class="grid-row">
-                    <div>
-                        <label id="lbl-vname">Vendor Name</label>
-                        <input type="text" id="v-name" oninput="autoSaveVendor()">
-                    </div>
-                    <div>
-                        <label id="lbl-pname">Product Name</label>
-                        <input type="text" id="v-pname" oninput="autoSaveVendor()">
-                    </div>
-                </div>
-                <div class="grid-row-three">
-                    <div>
-                        <label id="lbl-cost">Cost Price</label>
-                        <input type="number" id="v-cost" oninput="calculateVendorProfit()">
-                    </div>
-                    <div>
-                        <label id="lbl-retail">Retail Price</label>
-                        <input type="number" id="v-retail" oninput="calculateVendorProfit()">
-                    </div>
-                    <div>
-                        <label id="lbl-comm">Our Comm %</label>
-                        <input type="number" id="v-comm" value="10" oninput="calculateVendorProfit()">
-                    </div>
-                </div>
-                <div class="grid-row" style="background: #111827; padding: 10px; border-radius: 6px;">
-                    <div>
-                        <span style="font-size:11px; color:var(--text-muted);" id="lbl-vprofit">Vendor Net Profit:</span>
-                        <div id="vendor-net" style="font-weight:bold; color:var(--success);">Rs. 0</div>
-                    </div>
-                    <div>
-                        <span style="font-size:11px; color:var(--text-muted);" id="lbl-adminprofit">Our Admin Profit:</span>
-                        <div id="admin-net" style="font-weight:bold; color:var(--accent);">Rs. 0</div>
-                    </div>
-                </div>
-                <button class="btn-primary" onclick="saveVendorProduct()" style="margin-top:10px;" id="btn-list-item">List Item Live</button>
-            </div>
-
-            <h3 style="margin: 15px 0 10px 0;" id="hdr-market-items">Active Marketplace Items</h3>
-            <div id="vendor-list-container"></div>
-        </div>
-
+        <!-- LEDGER SECTION -->
         <div id="ledger-tab" class="section">
             <div class="card">
                 <h3 id="ledger-entry-title">General Store Entry Box</h3>
@@ -404,7 +306,7 @@
                 <div class="grid-row">
                     <div>
                         <label id="lbl-tt">Type</label>
-                        <select id="t-type" onchange="triggerAutoSave()">
+                        <select id="t-type" onchange="adjustFormFields()">
                             <option value="Sale">Sale</option>
                             <option value="Purchase">Purchase</option>
                             <option value="Expense">Expense</option>
@@ -412,11 +314,12 @@
                             <option value="Cash Out">Cash Out</option>
                         </select>
                     </div>
-                    <div>
+                    <div class="conditional-field item-field">
                         <label id="lbl-pcode">Product Code</label>
                         <input type="text" id="t-code" placeholder="e.g. 101" oninput="checkProductCode()">
                     </div>
                 </div>
+
                 <div class="grid-row">
                     <div>
                         <label id="lbl-date">Date</label>
@@ -439,13 +342,14 @@
                     </div>
                 </div>
 
-                <div class="grid-row">
+                <div class="grid-row conditional-field item-field">
                     <div class="full-width">
                         <label id="lbl-pdetails">Product Details</label>
                         <input type="text" id="t-details" oninput="triggerAutoSave()">
                     </div>
                 </div>
-                <div class="grid-row">
+
+                <div class="grid-row conditional-field item-field">
                     <div>
                         <label id="lbl-qty">Quantity</label>
                         <input type="number" id="t-qty" value="1" oninput="calculateLedgerAmount()">
@@ -462,14 +366,14 @@
                     </div>
                 </div>
 
-                <div class="grid-row-three">
-                    <div>
+                <div class="grid-row">
+                    <div class="conditional-field item-field-price">
                         <label id="lbl-uprice">Unit Price</label>
                         <input type="number" id="t-price" oninput="calculateLedgerAmount()">
                     </div>
-                    <div>
-                        <label id="lbl-exp">Expenses</label>
-                        <input type="number" id="t-exp" value="0" oninput="calculateLedgerAmount()">
+                    <div class="conditional-field cash-field" style="display:none;">
+                        <label id="lbl-direct-amt">Total Amount (Rs.)</label>
+                        <input type="number" id="t-direct-val" oninput="syncDirectAmount()">
                     </div>
                     <div>
                         <label id="lbl-note">Notes</label>
@@ -477,13 +381,13 @@
                     </div>
                 </div>
 
-                <div class="grid-row">
+                <div class="grid-row monetary-calculation-fields">
                     <div>
-                        <label id="lbl-rec">Amount Received</label>
+                        <label id="lbl-rec">Total Amount Received Rs.</label>
                         <input type="number" id="t-received" oninput="calculateDues()">
                     </div>
                     <div>
-                        <label id="lbl-due">Amount Due / Balance</label>
+                        <label id="lbl-due">Dues / Balance</label>
                         <input type="number" id="t-due" readonly style="background:#1e293b; color:var(--danger); font-weight:bold;">
                     </div>
                 </div>
@@ -508,23 +412,8 @@
             <div class="hidden-report-trigger">
                 <button onclick="toggleSecretReports()" id="btn-toggle-rep">🔒 Open Admin Protected Reports</button>
                 <div id="secret-reports-view" style="display:none;">
-                    <div class="report-grid">
-                        <div class="report-box">
-                            <span style="font-size:11px; color:var(--text-muted);" id="lbl-rep-sales">Total Sales</span>
-                            <div id="rep-sales" style="font-size:18px; font-weight:bold; color:var(--success);">Rs. 0</div>
-                        </div>
-                        <div class="report-box">
-                            <span style="font-size:11px; color:var(--text-muted);" id="lbl-rep-pur">Total Purchases</span>
-                            <div id="rep-purchases" style="font-size:18px; font-weight:bold;">Rs. 0</div>
-                        </div>
-                        <div class="report-box expense">
-                            <span style="font-size:11px; color:var(--text-muted);" id="lbl-rep-exp">Total Expenses</span>
-                            <div id="rep-expenses" style="font-size:18px; font-weight:bold; color:var(--danger);">Rs. 0</div>
-                        </div>
-                        <div class="report-box profit">
-                            <span style="font-size:11px; color:var(--text-muted);" id="lbl-rep-pl">Net Profit / Loss</span>
-                            <div id="rep-profitloss" style="font-size:18px; font-weight:bold; color:var(--accent);">Rs. 0</div>
-                        </div>
+                    <div style="background:#111827; padding:15px; border-radius:8px; margin-top:10px; font-size:14px;" id="rep-summary">
+                        Live dynamic summary dashboard calculations hidden safely.
                     </div>
                 </div>
             </div>
@@ -534,52 +423,20 @@
     <script>
         const dict = {
             en: {
-                brand: "DigiRise", acad: "Academy", market: "Marketplace", ledg: "Store Ledger",
-                courseT: "Premium E-Commerce Course", courseD: "Learn how to run your business like a pro. This exclusive video guide explains multi-vendor strategies and profit optimization.",
-                newsT: "Platform Updates & News", newsD: "New feature activated: Vendors can now easily list items, and admin commissions will be credited directly inside your ledger tracking system.",
-                addProd: "List New Vendor Product", vname: "Vendor Name", pname: "Product Name", cost: "Cost Price", retail: "Retail Price", comm: "Our Comm %",
-                vprof: "Vendor Net Profit:", admprof: "Our Admin Profit:", btnList: "List Item Live", activeM: "Active Marketplace Items",
+                brand: "DigiRise", acad: "Academy", ledg: "Store Ledger",
                 entryT: "General Store Entry Box", tt: "Type", pcode: "Product Code", date: "Date", inv: "Invoice # (Opt)",
                 party: "Supplier / Customer / Dealer", phone: "Phone Number (Opt)", pdet: "Product Details", qty: "Quantity", sym: "Symbol / Unit",
-                uprice: "Unit Price", exp: "Expenses", note: "Notes", rec: "Amount Received", due: "Amount Due / Balance",
-                btnSave: "Save & Commit Entry", hdrRec: "Recent Logs & Entries", thDet: "Details", thTot: "Total", thStat: "Status",
-                btnRep: "🔒 Open Admin Protected Reports", btnRepClose: "🔒 Hide Admin Protected Reports", rsales: "Total Sales", rpur: "Total Purchases", rexp: "Total Expenses", rpl: "Net Profit / Loss"
+                uprice: "Unit Price", note: "Notes", btnSave: "Save & Commit Entry", hdrRec: "Recent Logs & Entries", thDet: "Details", thTot: "Total", thStat: "Status",
+                btnRep: "🔒 Open Admin Protected Reports", lblRecSale: "Total Amount Received Rs.", lblDueSale: "Dues / Balance",
+                lblRecPur: "Total Paid Amount Rs.", lblDuePur: "Remaining Dues", lblDirectAmt: "Total Amount (Rs.)"
             },
             ur: {
-                brand: "ڈیجی رائز", acad: "اکیڈمی", market: "مارکیٹ پلیس", ledg: "سٹور کھاتہ",
-                courseT: "پریمیم ای کامرس کورس", courseD: "اپنے کاروبار کو پیشہ ورانہ انداز میں چلانا سیکھیں۔ یہ خصوصی ویڈیو گائیڈ ملٹی وینcolumn حکمت عملی اور منافع بڑھانے کی وضاحت کرتی ہے۔",
-                newsT: "پلیٹ فارم اپڈیٹس اور خبریں", newsD: "نیا فیچر فعال ہو گیا: وینڈرز اب آسانی سے اشیاء شامل کر سکتے ہیں، اور آپ کا ایڈمن کمیشن براہ راست آپ کے لیجر بیلنس میں جمع ہو جائے گا۔",
-                addProd: "نیا وینڈر پروڈکٹ شامل کریں", vname: "وینڈر کا نام", pname: "پروڈکٹ کا نام", cost: "خریداری قیمت", retail: "فروخت قیمت", comm: "ہمارا کمیشن %",
-                vprof: "وینڈر کا خالص منافع:", admprof: "ہمارا ایڈمن منافع:", btnList: "پروڈکٹ لائیو لگائیں", activeM: "فعال مارکیٹ پلیس آئٹمز",
-                entryT: "جنرل اسٹور انٹری باکس", tt: "لین دین کی قسم", pcode: "پروڈکٹ کوڈ", date: "تاریخ", inv: "انوائس نمبر (آپشنل)",
-                party: "سپلائر / کسٹمر / ڈیلر", phone: "فون نمبر (آپشنل)", pdet: "پروڈکٹ کی تفصیل", qty: "مقدار", sym: "یونٹ کا نشان",
-                uprice: "یونٹ قیمت", exp: "اضافی اخراجات", note: "نوٹ / ریمارکس", rec: "وصول شدہ رقم", due: "باقی رقم / واجب الادا",
-                btnSave: "انٹری محفوظ کریں", hdrRec: "حالیہ لاگز اور انٹریز", thDet: "تفصیلات", thTot: "کل رقم", thStat: "اسٹیٹس",
-                btnRep: "🔒 خفیہ ایڈمن رپورٹس کھولیں", btnRepClose: "🔒 خفیہ ایڈمن رپورٹس چھپائیں", rsales: "کل فروخت", rpur: "کل خریداری", rexp: "کل اخراجات", rpl: "خالص منافع / نقصان"
-            },
-            ar: {
-                brand: "ديجي رايز", acad: "الأكاديمية", market: "السوق الرقمي", ledg: "دفتر المتجر",
-                courseT: "دورة التجارة الإلكترونية المميزة", courseD: "تعلم كيفية إدارة عملك كمحترف. يشرح هذا الفيديو الاستراتيجيات المتعددة وتحسين الأرباح.",
-                newsT: "تحديثات المنصة والأخبار", newsD: "تم تفعيل الميزة الجديدة: يمكن للبائعين الآن إدراج المنتجات بسهولة، وسيتم إضافة عمولة المسؤول في رصيدك.",
-                addProd: "إضافة منتج بائع جديد", vname: "اسم البائع", pname: "اسم المنتج", cost: "سعر التكلفة", retail: "سعر البيع", comm: "عمولتنا %",
-                vprof: "صافي ربح البائع:", admprof: "ربح المسؤول لدينا:", btnList: "إدراج المنتج ليكون مباشرًا", activeM: "المنتجات النشطة في السوق",
-                entryT: "صندوق إدخال المتجر العام", tt: "نوع المعاملة", pcode: "رمز المنتج", date: "التاريخ", inv: "رقم الفاتورة (اختياري)",
-                party: "المورد / العميل / التاجر", phone: "رقم الهاتف (اختياري)", pdet: "تفاصيل المنتج", qty: "الكمية", sym: "الرمز / الوحدة",
-                uprice: "سعر الوحدة", exp: "المصاريف", note: "ملاحظات", rec: "المبلغ المستلم", due: "المبلغ المتبقي / المستحق",
-                btnSave: "حفظ وتسجيل المعاملة", hdrRec: "السجلات والإدخالات الأخيرة", thDet: "التفاصيل", thTot: "الإجمالي", thStat: "الحالة",
-                btnRep: "🔒 فتح التقارير المحمية للمسؤول", btnRepClose: "🔒 إخفاء التقارير المحمية للمسؤول", rsales: "إجمالي المبيعات", rpur: "إجمالي المشتريات", rexp: "إجمالي المصاريف", rpl: "صافي الربح / الخسارة"
-            },
-            zh: {
-                brand: "DigiRise", acad: "学院", market: "市场", ledg: "店铺分类账",
-                courseT: "高级电子商务课程", courseD: "学习如何像专业人士 Light 一样运营您的业务。本专属视频指南讲解了多商户策略与利润优化。",
-                newsT: "平台更新与新闻", newsD: "新功能已激活：商家现在可以轻松列出商品，管理佣金将直接计入您的分类账跟踪余额中。",
-                addProd: "列出新商家产品", vname: "商家名称", pname: "产品名称", cost: "成本价", retail: "零售价", comm: "我们的佣金 %",
-                vprof: "商家净利润:", admprof: "我们的管理利润:", btnList: "上线商品", activeM: "活跃的市场商品",
-                entryT: "通用商店输入框", tt: "交易类型", pcode: "产品代码", date: "日期", inv: "发票号码 (选填)",
-                party: "供应商 / 客户 / 经销商", phone: "电话号码 (选填)", pdet: "产品详细信息", qty: "数量", sym: "单位符号",
-                uprice: "单价", exp: "各项费用", note: "备注", rec: "实收金额", due: "应收余款 / 余款",
-                btnSave: "保存并提交条目", hdrRec: "最近的日志与条目", thDet: "详细信息", thTot: "总计", thStat: "状态",
-                btnRep: "🔒 打开管理员保护报告", btnRepClose: "🔒 隐藏管理员保护报告", rsales: "总销售额", rpur: "总采购额", rexp: "总费用", rpl: "净利润 / 亏损"
+                brand: "ڈیجی رائز", acad: "اکیڈمی", ledg: "سٹور کھاتہ",
+                entryT: "جنرل اسٹور انٹری باکس", tt: "نوعیت", pcode: "پروڈکٹ کوڈ", date: "تاریخ", inv: "انوائس نمبر",
+                party: "پارٹی کا نام", phone: "فون نمبر", pdet: "پروڈکٹ تفصیل", qty: "مقدار", sym: "یونٹ",
+                uprice: "یونٹ قیمت", note: "نوٹ", btnSave: "محفوظ کریں", hdrRec: "حالیہ انٹریز", thDet: "تفصیل", thTot: "کل رقم", thStat: "اسٹیٹس",
+                btnRep: "🔒 خفیہ رپورٹس دیکھیں", lblRecSale: "ٹوٹل موصول رقم Rs.", lblDueSale: "بقایا رقم / واجبالادا",
+                lblRecPur: "ٹوٹل ادا شدہ رقم Rs.", lblDuePur: "باقی واجب الادا رقم", lblDirectAmt: "کل رقم (Rs.)"
             }
         };
 
@@ -591,42 +448,22 @@
 
         let currentLang = 'en';
         let ledgerEntries = JSON.parse(localStorage.getItem('dr_ledger')) || [];
-        let marketplaceItems = JSON.parse(localStorage.getItem('dr_market')) || [];
 
         window.onload = function() {
             document.getElementById('t-date').valueAsDate = new Date();
             renderLedger();
-            renderMarketplace();
-            switchLang('en');
+            adjustFormFields();
         };
 
         function switchLang(lang) {
             currentLang = lang;
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-            event?.target?.classList?.add('active');
-
+            if(event && event.target) event.target.classList.add('active');
             const l = dict[lang];
+            
             document.getElementById('brand-title').innerText = l.brand;
             document.getElementById('tab-acad').innerText = l.acad;
-            document.getElementById('tab-market').innerText = l.market;
             document.getElementById('tab-ledg').innerText = l.ledg;
-
-            document.getElementById('course-title').innerText = l.courseT;
-            document.getElementById('course-desc').innerText = l.courseD;
-            document.getElementById('news-title').innerText = l.courseT;
-            document.getElementById('news-desc').innerText = l.newsD;
-
-            document.getElementById('add-prod-heading').innerText = l.addProd;
-            document.getElementById('lbl-vname').innerText = l.vname;
-            document.getElementById('lbl-pname').innerText = l.pname;
-            document.getElementById('lbl-cost').innerText = l.cost;
-            document.getElementById('lbl-retail').innerText = l.retail;
-            document.getElementById('lbl-comm').innerText = l.comm;
-            document.getElementById('lbl-vprofit').innerText = l.vprof;
-            document.getElementById('lbl-adminprofit').innerText = l.admprof;
-            document.getElementById('btn-list-item').innerText = l.btnList;
-            document.getElementById('hdr-market-items').innerText = l.activeM;
-
             document.getElementById('ledger-entry-title').innerText = l.entryT;
             document.getElementById('lbl-tt').innerText = l.tt;
             document.getElementById('lbl-pcode').innerText = l.pcode;
@@ -638,33 +475,22 @@
             document.getElementById('lbl-qty').innerText = l.qty;
             document.getElementById('lbl-sym').innerText = l.sym;
             document.getElementById('lbl-uprice').innerText = l.uprice;
-            document.getElementById('lbl-exp').innerText = l.exp;
+            document.getElementById('lbl-direct-amt').innerText = l.lblDirectAmt;
             document.getElementById('lbl-note').innerText = l.note;
-            document.getElementById('lbl-rec').innerText = l.rec;
-            document.getElementById('lbl-due').innerText = l.due;
             document.getElementById('btn-save-record').innerText = l.btnSave;
             document.getElementById('hdr-recent-entries').innerText = l.hdrRec;
             document.getElementById('th-details').innerText = l.thDet;
             document.getElementById('th-total').innerText = l.thTot;
             document.getElementById('th-status').innerText = l.thStat;
-
-            const repBtn = document.getElementById('btn-toggle-rep');
-            if(document.getElementById('secret-reports-view').style.display === 'none') {
-                repBtn.innerText = l.btnRep;
-            } else {
-                repBtn.innerText = l.btnRepClose;
-            }
-            document.getElementById('lbl-rep-sales').innerText = l.rsales;
-            document.getElementById('lbl-rep-pur').innerText = l.rpur;
-            document.getElementById('lbl-rep-exp').innerText = l.rexp;
-            document.getElementById('lbl-rep-pl').innerText = l.rpl;
+            document.getElementById('btn-toggle-rep').innerText = l.btnRep;
+            adjustFormFields();
         }
 
         function switchTab(tabId) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
-            event.target.classList.add('active');
+            if(event && event.target) event.target.classList.add('active');
         }
 
         function showToast() {
@@ -675,6 +501,32 @@
 
         function triggerAutoSave() {
             showToast();
+        }
+
+        function adjustFormFields() {
+            const type = document.getElementById('t-type').value;
+            const l = dict[currentLang];
+            
+            if (type === 'Sale' || type === 'Purchase') {
+                document.querySelectorAll('.item-field').forEach(f => f.style.display = 'block');
+                document.querySelector('.item-field-price').style.display = 'block';
+                document.querySelector('.cash-field').style.display = 'none';
+                document.querySelector('.monetary-calculation-fields').style.display = 'grid';
+                
+                if (type === 'Sale') {
+                    document.getElementById('lbl-rec').innerText = l.lblRecSale;
+                    document.getElementById('lbl-due').innerText = l.lblDueSale;
+                } else {
+                    document.getElementById('lbl-rec').innerText = l.lblRecPur;
+                    document.getElementById('lbl-due').innerText = l.lblDuePur;
+                }
+            } else {
+                document.querySelectorAll('.item-field').forEach(f => f.style.display = 'none');
+                document.querySelector('.item-field-price').style.display = 'none';
+                document.querySelector('.cash-field').style.display = 'block';
+                document.querySelector('.monetary-calculation-fields').style.display = 'none';
+            }
+            calculateLedgerAmount();
         }
 
         function checkProductCode() {
@@ -689,66 +541,75 @@
         }
 
         function calculateLedgerAmount() {
-            const qty = parseFloat(document.getElementById('t-qty').value) || 0;
-            const price = parseFloat(document.getElementById('t-price').value) || 0;
-            const exp = parseFloat(document.getElementById('t-exp').value) || 0;
-            const total = (qty * price) + exp;
-            
-            document.getElementById('t-received').value = total;
-            document.getElementById('t-due').value = 0;
+            const type = document.getElementById('t-type').value;
+            if (type === 'Sale' || type === 'Purchase') {
+                const qty = parseFloat(document.getElementById('t-qty').value) || 0;
+                const price = parseFloat(document.getElementById('t-price').value) || 0;
+                const total = qty * price;
+                document.getElementById('t-received').value = total;
+                document.getElementById('t-due').value = 0;
+            }
+            triggerAutoSave();
+        }
+
+        function syncDirectAmount() {
             triggerAutoSave();
         }
 
         function calculateDues() {
-            const qty = parseFloat(document.getElementById('t-qty').value) || 0;
-            const price = parseFloat(document.getElementById('t-price').value) || 0;
-            const exp = parseFloat(document.getElementById('t-exp').value) || 0;
-            const total = (qty * price) + exp;
-            
-            const rec = parseFloat(document.getElementById('t-received').value) || 0;
-            document.getElementById('t-due').value = Math.max(0, total - rec);
+            const type = document.getElementById('t-type').value;
+            if (type === 'Sale' || type === 'Purchase') {
+                const qty = parseFloat(document.getElementById('t-qty').value) || 0;
+                const price = parseFloat(document.getElementById('t-price').value) || 0;
+                const total = qty * price;
+                const rec = parseFloat(document.getElementById('t-received').value) || 0;
+                document.getElementById('t-due').value = Math.max(0, total - rec);
+            }
             triggerAutoSave();
         }
 
         function commitLedgerEntry() {
             const type = document.getElementById('t-type').value;
-            const party = document.getElementById('t-party').value || "Walk-in";
-            const details = document.getElementById('t-details').value || "General Item";
-            const qty = parseFloat(document.getElementById('t-qty').value) || 1;
-            const price = parseFloat(document.getElementById('t-price').value) || 0;
-            const exp = parseFloat(document.getElementById('t-exp').value) || 0;
-            const rec = parseFloat(document.getElementById('t-received').value) || 0;
-            const due = parseFloat(document.getElementById('t-due').value) || 0;
-            const total = (qty * price) + exp;
-
+            const party = document.getElementById('t-party').value || "General Customer";
+            const note = document.getElementById('t-note').value || "";
+            let total = 0;
             let status = "Received";
-            if (due > 0) {
-                status = "Cash Dues";
+            let details = "";
+
+            if (type === 'Sale' || type === 'Purchase') {
+                const qty = parseFloat(document.getElementById('t-qty').value) || 1;
+                const price = parseFloat(document.getElementById('t-price').value) || 0;
+                const pDetails = document.getElementById('t-details').value || "Item";
+                total = qty * price;
+                const due = parseFloat(document.getElementById('t-due').value) || 0;
+                status = due > 0 ? "Cash Dues" : "Received";
+                details = `${qty} x ${pDetails}`;
+            } else {
+                total = parseFloat(document.getElementById('t-direct-val').value) || 0;
+                details = note || type;
             }
 
-            const entry = {
-                id: Date.now(),
-                type, party, details, total, status, expense: exp, due
-            };
-
+            const entry = { id: Date.now(), type, party, details, total, status };
             ledgerEntries.unshift(entry);
             localStorage.setItem('dr_ledger', JSON.stringify(ledgerEntries));
             renderLedger();
             showToast();
-            
+
             document.getElementById('t-party').value = '';
             document.getElementById('t-details').value = '';
             document.getElementById('t-price').value = '';
             document.getElementById('t-due').value = '';
             document.getElementById('t-received').value = '';
+            document.getElementById('t-direct-val').value = '';
+            document.getElementById('t-code').value = '';
         }
 
         function renderLedger() {
             const tbody = document.getElementById('ledger-rows');
             tbody.innerHTML = '';
             
-            ledgerEntries.forEach(item => {
-                const badgeColor = item.status === 'Received' ? varCSS('--success') : varCSS('--danger');
+            ledgerEntries.slice(0, 5).forEach(item => {
+                const badgeColor = item.status === 'Received' ? 'var(--success)' : 'var(--danger)';
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td>
@@ -767,18 +628,12 @@
                 `;
                 tbody.appendChild(tr);
             });
-            calculateHiddenReports();
-        }
-
-        function varCSS(name) {
-            return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
         }
 
         function toggleMenu(id) {
-            event.stopPropagation();
+            if(event) event.stopPropagation();
             document.querySelectorAll('.dropdown-menu').forEach(m => m.style.display = 'none');
-            const menu = document.getElementById(`menu-${id}`);
-            menu.style.display = 'block';
+            document.getElementById(`menu-${id}`).style.display = 'block';
         }
 
         document.addEventListener('click', () => {
@@ -796,94 +651,15 @@
             if(entry) {
                 document.getElementById('t-type').value = entry.type;
                 document.getElementById('t-party').value = entry.party;
-                document.getElementById('t-details').value = entry.details;
-                document.getElementById('t-price').value = entry.total - entry.expense;
-                document.getElementById('t-exp').value = entry.expense;
-                document.getElementById('t-due').value = entry.due;
-                document.getElementById('t-received').value = entry.total - entry.due;
+                adjustFormFields();
                 deleteEntry(id);
                 window.scrollTo({top: 0, behavior: 'smooth'});
             }
         }
 
-        function calculateVendorProfit() {
-            const cost = parseFloat(document.getElementById('v-cost').value) || 0;
-            const retail = parseFloat(document.getElementById('v-retail').value) || 0;
-            const commPercent = parseFloat(document.getElementById('v-comm').value) || 0;
-
-            const totalProfit = retail - cost;
-            const adminProfit = (retail * commPercent) / 100;
-            const vendorProfit = totalProfit - adminProfit;
-
-            document.getElementById('vendor-net').innerText = `Rs. ${vendorProfit.toFixed(0)}`;
-            document.getElementById('admin-net').innerText = `Rs. ${adminProfit.toFixed(0)}`;
-        }
-
-        function autoSaveVendor() {
-            showToast();
-        }
-
-        function saveVendorProduct() {
-            const vName = document.getElementById('v-name').value || "Anonymous Vendor";
-            const pName = document.getElementById('v-pname').value || "Generic Product";
-            const retail = document.getElementById('v-retail').value || "0";
-            
-            const item = { vName, pName, retail };
-            marketplaceItems.unshift(item);
-            localStorage.setItem('dr_market', JSON.stringify(marketplaceItems));
-            renderMarketplace();
-            showToast();
-
-            document.getElementById('v-name').value = '';
-            document.getElementById('v-pname').value = '';
-            document.getElementById('v-cost').value = '';
-            document.getElementById('v-retail').value = '';
-        }
-
-        function renderMarketplace() {
-            const container = document.getElementById('vendor-list-container');
-            container.innerHTML = '';
-            marketplaceItems.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'card';
-                div.innerHTML = `
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <div>
-                            <h4 style="color:var(--accent);">${item.pName}</h4>
-                            <small style="color:var(--text-muted);">Listed By: ${item.vName}</small>
-                        </div>
-                        <div style="font-weight:bold; color:var(--success);">Rs. ${item.retail}</div>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function calculateHiddenReports() {
-            let sales = 0, purchases = 0, expenses = 0;
-            ledgerEntries.forEach(e => {
-                if (e.type === 'Sale') sales += e.total;
-                if (e.type === 'Purchase') purchases += e.total;
-                if (e.type === 'Expense') expenses += e.total;
-            });
-            const netProfit = sales - purchases - expenses;
-
-            document.getElementById('rep-sales').innerText = `Rs. ${sales}`;
-            document.getElementById('rep-purchases').innerText = `Rs. ${purchases}`;
-            document.getElementById('rep-expenses').innerText = `Rs. ${expenses}`;
-            document.getElementById('rep-profitloss').innerText = `Rs. ${netProfit}`;
-        }
-
         function toggleSecretReports() {
             const view = document.getElementById('secret-reports-view');
-            const btn = document.getElementById('btn-toggle-rep');
-            if (view.style.display === 'none') {
-                view.style.display = 'block';
-                btn.innerText = dict[currentLang].btnRepClose;
-            } else {
-                view.style.display = 'none';
-                btn.innerText = dict[currentLang].btnRep;
-            }
+            view.style.display = view.style.display === 'none' ? 'block' : 'none';
         }
     </script>
 </body>
