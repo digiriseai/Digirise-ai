@@ -43,6 +43,8 @@ label{display:block;margin:11px 0 5px;font-size:13px;font-weight:700}.output{min
 /* Keep one integrated memo; hide the old duplicate purchase/sale/expense forms. */
 #stock-expenses{display:none!important}
 #karyana .memo-fields{grid-template-columns:repeat(2,minmax(0,1fr))}
+/* Keep inactive memo tabs hidden even with the memo grid layout. */
+#karyana .memo-fields.hide{display:none!important}
 #karyana .memo-fields>div{min-width:0}
 #karyana .memo-fields label{display:block;color:#27324a}
 #karyana .memo-calc{align-self:end;padding:12px;background:#f3f4ff;border-radius:10px;font-weight:700;color:#4c46a8}
