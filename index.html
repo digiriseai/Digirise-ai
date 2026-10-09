@@ -1,666 +1,155 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DigiRise Smart Hub</title>
-    <style>
-        :root {
-            --bg-main: #0f172a;
-            --bg-card: #1e293b;
-            --accent: #1abc9c;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --danger: #ef4444;
-            --success: #22c55e;
-            --border: #334155;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            padding-bottom: 60px;
-        }
-
-        header {
-            background-color: var(--bg-card);
-            padding: 15px;
-            text-align: center;
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        header h1 {
-            color: var(--accent);
-            font-size: 24px;
-            font-weight: 700;
-        }
-
-        .lang-bar {
-            background: #111827;
-            padding: 5px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .lang-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 12px;
-        }
-
-        .lang-btn.active {
-            color: var(--accent);
-            font-weight: bold;
-        }
-
-        .nav-tabs {
-            display: flex;
-            background: var(--bg-card);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 12px;
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            text-align: center;
-        }
-
-        .tab-btn.active {
-            color: var(--accent);
-            border-bottom: 3px solid var(--accent);
-            background: rgba(26, 188, 156, 0.05);
-        }
-
-        .container {
-            padding: 15px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .section {
-            display: none;
-        }
-
-        .section.active {
-            display: block;
-        }
-
-        .card {
-            background: var(--bg-card);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border: 1px solid var(--border);
-        }
-
-        .grid-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .grid-row-three {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 10px;
-        }
-
-        .full-width {
-            grid-column: span 2;
-        }
-
-        label {
-            display: block;
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-bottom: 3px;
-            text-transform: uppercase;
-        }
-
-        input, select {
-            width: 100%;
-            background: #0f172a;
-            border: 1px solid var(--border);
-            color: white;
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 14px;
-            outline: none;
-        }
-
-        input:focus, select:focus {
-            border-color: var(--accent);
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--success);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            display: none;
-            z-index: 1000;
-        }
-
-        .table-container {
-            max-height: 260px;
-            overflow-y: auto;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            margin-top: 15px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-
-        th {
-            background: #111827;
-            position: sticky;
-            top: 0;
-            color: var(--text-muted);
-        }
-
-        tr:nth-child(even) {
-            background: rgba(255,255,255,0.02);
-        }
-
-        .action-cell {
-            position: relative;
-            text-align: center;
-        }
-
-        .three-dots {
-            cursor: pointer;
-            padding: 5px;
-            font-weight: bold;
-            color: var(--text-muted);
-        }
-
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            right: 10px;
-            background: #1e293b;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            z-index: 50;
-        }
-
-        .dropdown-menu button {
-            display: block;
-            width: 100%;
-            padding: 8px 12px;
-            background: transparent;
-            border: none;
-            color: white;
-            text-align: left;
-            cursor: pointer;
-        }
-
-        .status-badge {
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: bold;
-        }
-
-        .btn-primary {
-            background: var(--accent);
-            color: var(--bg-main);
-            font-weight: bold;
-            border: none;
-            padding: 12px;
-            border-radius: 6px;
-            width: 100%;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        .hidden-report-trigger {
-            text-align: center;
-            margin-top: 40px;
-            padding: 15px;
-            border-top: 1px dashed var(--border);
-        }
-
-        .hidden-report-trigger button {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-muted);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            cursor: pointer;
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101a35">
+<title>DigiRise — Learn • Create • Grow</title>
+<style>
+:root{--bg:#0b1224;--panel:#121d37;--panel2:#172544;--text:#f5f7ff;--muted:#aab7d5;--line:#2b3b60;--brand:#6ee7d8;--brand2:#8b9cff;--good:#5ee0a0;--bad:#ff8794;--gold:#ffd479}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(135deg,#091126,#111c39 60%,#132b42);color:var(--text);min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:10px;padding:11px 15px;font-weight:700;background:linear-gradient(135deg,var(--brand),#9bf3d2);color:#092032}button.secondary{background:#253658;color:var(--text);border:1px solid var(--line)}button.danger{background:#572b40;color:#ffe6ea;border:1px solid #8e4258}button.small{padding:7px 10px;font-size:13px}.wrap{max-width:1240px;margin:auto;padding:18px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:10px 0 20px}.logo{font-size:27px;font-weight:900;letter-spacing:.5px;color:var(--brand)}.logo span{color:white}.tag{color:var(--muted);font-size:13px}.nav{display:flex;gap:8px;flex-wrap:wrap}.nav button{background:transparent;border:1px solid var(--line);color:var(--text);padding:9px 12px}.nav button.active,.nav button:hover{background:var(--panel2);border-color:var(--brand);color:var(--brand)}.hero{padding:26px 0 22px}.hero h1{font-size:clamp(30px,5vw,48px);margin:0 0 8px;line-height:1.12}.hero h1 em{font-style:normal;color:var(--brand)}.hero p{color:var(--muted);margin:0;max-width:700px}.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}.card{grid-column:span 12;background:rgba(18,29,55,.94);border:1px solid var(--line);border-radius:17px;padding:18px;box-shadow:0 12px 28px #02081735}.span3{grid-column:span 3}.span4{grid-column:span 4}.span6{grid-column:span 6}.span8{grid-column:span 8}.span9{grid-column:span 9}.section-title{font-size:22px;margin:0 0 5px}.muted{color:var(--muted)}.stat{font-size:27px;font-weight:850;margin-top:7px}.statlabel{font-size:13px;color:var(--muted)}.pill{display:inline-block;padding:5px 9px;border:1px solid var(--line);border-radius:99px;color:var(--brand);font-size:12px}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}label{font-size:13px;color:#c7d2eb}input,select,textarea{width:100%;min-width:0;background:#0b1530;border:1px solid #35466c;color:var(--text);border-radius:9px;padding:11px 12px;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--brand)}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.memo-options{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:15px 0}.memo-options button{padding:12px 5px;background:#202f50;color:#e9f0ff;border:1px solid #35476c}.memo-options button.active{background:linear-gradient(135deg,var(--brand),#9bf3d2);color:#092032;border-color:transparent}.hide{display:none!important}.tablewrap{overflow:auto;margin-top:12px}table{width:100%;border-collapse:collapse;min-width:620px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);font-size:13px}th{color:#b9c9e8;background:#101a32}td{color:#edf2ff}.positive{color:var(--good)}.negative{color:var(--bad)}.notice{border:1px solid #6b5a2c;background:#302a1c;color:#ffe7aa;padding:12px;border-radius:10px;font-size:13px;margin-top:12px}.foot{color:#8292b5;text-align:center;padding:28px 8px;font-size:12px}.feature{padding:17px;border-radius:13px;background:#172544;border:1px solid #2b3b60;min-height:120px}.feature h3{margin:0 0 8px}.feature p{color:var(--muted);font-size:13px;margin:0}.bar{height:1px;background:var(--line);margin:17px 0}.right{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.smalltext{font-size:12px;color:var(--muted)}@media(max-width:800px){.span3,.span4,.span6,.span8,.span9{grid-column:span 12}.fields{grid-template-columns:1fr}.memo-options{grid-template-columns:repeat(2,minmax(0,1fr))}.memo-options button:last-child{grid-column:1/-1}.wrap{padding:12px}.card{padding:14px}.top{align-items:flex-start}.nav{width:100%}.nav button{flex:1 1 auto}}
+</style>
 </head>
 <body>
-
-    <header>
-        <h1 id="brand-title">DigiRise</h1>
-    </header>
-
-    <div class="lang-bar">
-        <button class="lang-btn active" onclick="switchLang('en')">English</button>
-        <button class="lang-btn" onclick="switchLang('ur')">اردو</button>
-    </div>
-
-    <div class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('academy')" id="tab-acad">Academy</button>
-        <button class="tab-btn" onclick="switchTab('ledger-tab')" id="tab-ledg">Store Ledger</button>
-    </div>
-
-    <div class="container">
-        <div class="toast" id="toast-indicator">Saved ✔</div>
-
-        <!-- ACADEMY SECTION -->
-        <div id="academy" class="section active">
-            <div class="card">
-                <h3 id="course-title">Premium General Store Strategy</h3>
-                <p id="course-desc">Learn bookkeeping and inventory management workflows step-by-step.</p>
-                <div style="margin-top: 12px; position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:8px;">
-                    <iframe style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
-                </div>
-            </div>
+<div class="wrap">
+<header class="top">
+  <div><div class="logo">Digi<span>Rise</span></div><div class="tag">Learn • Create • Grow</div></div>
+  <nav class="nav" id="nav">
+    <button class="active" data-page="home">Home</button><button data-page="image">AI Image</button><button data-page="video">AI Video</button><button data-page="chat">AI Chat</button><button data-page="learn">Learn</button><button data-page="quran">Quran</button><button data-page="products">Products</button><button data-page="teachers">Teachers</button><button data-page="students">Students</button><button data-page="store">General Store</button>
+  </nav>
+</header>
+<main>
+<section id="page-home" class="page">
+  <div class="hero"><span class="pill">DIGITAL LEARNING & BUSINESS</span><h1>Build skills.<br><em>Create more. Grow faster.</em></h1><p>Welcome to DigiRise — a home for learning, creativity, and practical business tools.</p></div>
+  <div class="grid">
+    <div class="card span4"><div class="feature"><h3>AI Image</h3><p>Open the image workspace. Image generation requires a connected generation service.</p><div class="actions"><button data-goto="image">Open AI Image</button></div></div></div>
+    <div class="card span4"><div class="feature"><h3>AI Video</h3><p>Video workspace placeholder for a future verified provider integration.</p><div class="actions"><button data-goto="video">Open AI Video</button></div></div></div>
+    <div class="card span4"><div class="feature"><h3>AI Chat</h3><p>Chat interface placeholder. A secure AI service connection is required for live responses.</p><div class="actions"><button data-goto="chat">Open AI Chat</button></div></div></div>
+    <div class="card span12"><h2 class="section-title">General Store</h2><p class="muted">One integrated system for Memo, purchases, sales, expenses, cash, stock, accounts, balance, due, profit and reports.</p><button data-goto="store">Open General Store</button></div>
+  </div>
+</section>
+<section id="page-store" class="page hide">
+  <div class="hero"><span class="pill">GENERAL STORE · SINGLE MEMO SYSTEM</span><h1>Store <em>Management</em></h1><p>Record transactions once. Stock, cash, account dues and reports use the same saved data on this device.</p></div>
+  <div class="grid" id="stats">
+    <div class="card span3"><div class="statlabel">Cash Balance</div><div class="stat" id="cashStat">Rs. 0</div></div>
+    <div class="card span3"><div class="statlabel">Stock Items</div><div class="stat" id="stockStat">0</div></div>
+    <div class="card span3"><div class="statlabel">Total Due (customers)</div><div class="stat" id="customerDueStat">Rs. 0</div></div>
+    <div class="card span3"><div class="statlabel">Estimated Profit</div><div class="stat" id="profitStat">Rs. 0</div></div>
+  </div>
+  <div class="grid" style="margin-top:14px">
+    <div class="card span6">
+      <h2 class="section-title">Memo</h2><p class="muted smalltext">Choose one of the five memo types.</p>
+      <div class="memo-options" id="memoOptions">
+        <button class="active" data-type="Purchase">Purchase</button><button data-type="Sale">Sale</button><button data-type="Expenses">Expenses</button><button data-type="Cash In">Cash In</button><button data-type="Cash Out">Cash Out</button>
+      </div>
+      <form id="entryForm">
+        <div class="fields">
+          <div class="field"><label for="date">Date</label><input id="date" type="date" required></div>
+          <div class="field" id="productField"><label for="product">Product</label><input id="product" list="productsList" placeholder="e.g. Sugar"><datalist id="productsList"></datalist></div>
+          <div class="field" id="qtyField"><label for="qty">Quantity</label><input id="qty" type="number" min="0.001" step="any" placeholder="e.g. 5"></div>
+          <div class="field" id="amountField"><label for="amount" id="amountLabel">Total Purchase Amount (Rs.)</label><input id="amount" type="number" min="0" step="0.01" required placeholder="Enter total amount"></div>
+          <div class="field" id="expenseField"><label for="extraExpense">Purchase Expenses (Rs.)</label><input id="extraExpense" type="number" min="0" step="0.01" value="0"></div>
+          <div class="field" id="accountField"><label for="account" id="accountLabel">Supplier / Account</label><input id="account" list="accountsList" placeholder="Name"><datalist id="accountsList"></datalist></div>
+          <div class="field full" id="noteField"><label for="note">Note / Detail</label><input id="note" placeholder="Optional note"></div>
         </div>
-
-        <!-- LEDGER SECTION -->
-        <div id="ledger-tab" class="section">
-            <div class="card">
-                <h3 id="ledger-entry-title">General Store Entry Box</h3>
-                
-                <div class="grid-row">
-                    <div>
-                        <label id="lbl-tt">Type</label>
-                        <select id="t-type" onchange="adjustFormFields()">
-                            <option value="Sale">Sale</option>
-                            <option value="Purchase">Purchase</option>
-                            <option value="Expense">Expense</option>
-                            <option value="Cash In">Cash In</option>
-                            <option value="Cash Out">Cash Out</option>
-                        </select>
-                    </div>
-                    <div class="conditional-field item-field">
-                        <label id="lbl-pcode">Product Code</label>
-                        <input type="text" id="t-code" placeholder="e.g. 101" oninput="checkProductCode()">
-                    </div>
-                </div>
-
-                <div class="grid-row">
-                    <div>
-                        <label id="lbl-date">Date</label>
-                        <input type="date" id="t-date" onchange="triggerAutoSave()">
-                    </div>
-                    <div>
-                        <label id="lbl-inv">Invoice # (Opt)</label>
-                        <input type="text" id="t-inv" placeholder="INV-00" oninput="triggerAutoSave()">
-                    </div>
-                </div>
-
-                <div class="grid-row">
-                    <div>
-                        <label id="lbl-party">Supplier / Customer / Dealer</label>
-                        <input type="text" id="t-party" oninput="triggerAutoSave()">
-                    </div>
-                    <div>
-                        <label id="lbl-phone">Phone Number (Opt)</label>
-                        <input type="tel" id="t-phone" oninput="triggerAutoSave()">
-                    </div>
-                </div>
-
-                <div class="grid-row conditional-field item-field">
-                    <div class="full-width">
-                        <label id="lbl-pdetails">Product Details</label>
-                        <input type="text" id="t-details" oninput="triggerAutoSave()">
-                    </div>
-                </div>
-
-                <div class="grid-row conditional-field item-field">
-                    <div>
-                        <label id="lbl-qty">Quantity</label>
-                        <input type="number" id="t-qty" value="1" oninput="calculateLedgerAmount()">
-                    </div>
-                    <div>
-                        <label id="lbl-sym">Symbol / Unit</label>
-                        <select id="t-sym" onchange="triggerAutoSave()">
-                            <option value="Pcs">Pcs</option>
-                            <option value="Kg">Kg</option>
-                            <option value="Ltr">Ltr</option>
-                            <option value="Box">Box</option>
-                            <option value="Pack">Pack</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="grid-row">
-                    <div class="conditional-field item-field-price">
-                        <label id="lbl-uprice">Unit Price</label>
-                        <input type="number" id="t-price" oninput="calculateLedgerAmount()">
-                    </div>
-                    <div class="conditional-field cash-field" style="display:none;">
-                        <label id="lbl-direct-amt">Total Amount (Rs.)</label>
-                        <input type="number" id="t-direct-val" oninput="syncDirectAmount()">
-                    </div>
-                    <div>
-                        <label id="lbl-note">Notes</label>
-                        <input type="text" id="t-note" oninput="triggerAutoSave()">
-                    </div>
-                </div>
-
-                <div class="grid-row monetary-calculation-fields">
-                    <div>
-                        <label id="lbl-rec">Total Amount Received Rs.</label>
-                        <input type="number" id="t-received" oninput="calculateDues()">
-                    </div>
-                    <div>
-                        <label id="lbl-due">Dues / Balance</label>
-                        <input type="number" id="t-due" readonly style="background:#1e293b; color:var(--danger); font-weight:bold;">
-                    </div>
-                </div>
-
-                <button class="btn-primary" id="btn-save-record" onclick="commitLedgerEntry()">Save & Commit Entry</button>
-            </div>
-
-            <h3 id="hdr-recent-entries">Recent Logs & Entries</h3>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th id="th-details">Details</th>
-                            <th id="th-total">Total</th>
-                            <th id="th-status">Status</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="ledger-rows"></tbody>
-                </table>
-            </div>
-            <div class="hidden-report-trigger">
-                <button onclick="toggleSecretReports()" id="btn-toggle-rep">🔒 Open Admin Protected Reports</button>
-                <div id="secret-reports-view" style="display:none;">
-                    <div style="background:#111827; padding:15px; border-radius:8px; margin-top:10px; font-size:14px;" id="rep-summary">
-                        Live dynamic summary dashboard calculations hidden safely.
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="actions"><button type="submit" id="saveBtn">Save Entry</button><button type="button" class="secondary" id="newBtn">New Entry</button></div>
+        <div class="smalltext" id="calcHint" style="margin-top:10px">Purchase cost includes purchase expenses; unit cost is calculated automatically.</div>
+      </form>
     </div>
-
-    <script>
-        const dict = {
-            en: {
-                brand: "DigiRise", acad: "Academy", ledg: "Store Ledger",
-                entryT: "General Store Entry Box", tt: "Type", pcode: "Product Code", date: "Date", inv: "Invoice # (Opt)",
-                party: "Supplier / Customer / Dealer", phone: "Phone Number (Opt)", pdet: "Product Details", qty: "Quantity", sym: "Symbol / Unit",
-                uprice: "Unit Price", note: "Notes", btnSave: "Save & Commit Entry", hdrRec: "Recent Logs & Entries", thDet: "Details", thTot: "Total", thStat: "Status",
-                btnRep: "🔒 Open Admin Protected Reports", lblRecSale: "Total Amount Received Rs.", lblDueSale: "Dues / Balance",
-                lblRecPur: "Total Paid Amount Rs.", lblDuePur: "Remaining Dues", lblDirectAmt: "Total Amount (Rs.)"
-            },
-            ur: {
-                brand: "ڈیجی رائز", acad: "اکیڈمی", ledg: "سٹور کھاتہ",
-                entryT: "جنرل اسٹور انٹری باکس", tt: "نوعیت", pcode: "پروڈکٹ کوڈ", date: "تاریخ", inv: "انوائس نمبر",
-                party: "پارٹی کا نام", phone: "فون نمبر", pdet: "پروڈکٹ تفصیل", qty: "مقدار", sym: "یونٹ",
-                uprice: "یونٹ قیمت", note: "نوٹ", btnSave: "محفوظ کریں", hdrRec: "حالیہ انٹریز", thDet: "تفصیل", thTot: "کل رقم", thStat: "اسٹیٹس",
-                btnRep: "🔒 خفیہ رپورٹس دیکھیں", lblRecSale: "ٹوٹل موصول رقم Rs.", lblDueSale: "بقایا رقم / واجبالادا",
-                lblRecPur: "ٹوٹل ادا شدہ رقم Rs.", lblDuePur: "باقی واجب الادا رقم", lblDirectAmt: "کل رقم (Rs.)"
-            }
-        };
-
-        const productDatabase = {
-            "101": { name: "Dal Chana (دال چنا)", price: 250, unit: "Kg" },
-            "102": { name: "Cooking Oil 1 Ltr (کوکنگ آئل)", price: 480, unit: "Ltr" },
-            "103": { name: "Lux Soap (لکس صابن)", price: 130, unit: "Pcs" }
-        };
-
-        let currentLang = 'en';
-        let ledgerEntries = JSON.parse(localStorage.getItem('dr_ledger')) || [];
-
-        window.onload = function() {
-            document.getElementById('t-date').valueAsDate = new Date();
-            renderLedger();
-            adjustFormFields();
-        };
-
-        function switchLang(lang) {
-            currentLang = lang;
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-            if(event && event.target) event.target.classList.add('active');
-            const l = dict[lang];
-            
-            document.getElementById('brand-title').innerText = l.brand;
-            document.getElementById('tab-acad').innerText = l.acad;
-            document.getElementById('tab-ledg').innerText = l.ledg;
-            document.getElementById('ledger-entry-title').innerText = l.entryT;
-            document.getElementById('lbl-tt').innerText = l.tt;
-            document.getElementById('lbl-pcode').innerText = l.pcode;
-            document.getElementById('lbl-date').innerText = l.date;
-            document.getElementById('lbl-inv').innerText = l.inv;
-            document.getElementById('lbl-party').innerText = l.party;
-            document.getElementById('lbl-phone').innerText = l.phone;
-            document.getElementById('lbl-pdetails').innerText = l.pdet;
-            document.getElementById('lbl-qty').innerText = l.qty;
-            document.getElementById('lbl-sym').innerText = l.sym;
-            document.getElementById('lbl-uprice').innerText = l.uprice;
-            document.getElementById('lbl-direct-amt').innerText = l.lblDirectAmt;
-            document.getElementById('lbl-note').innerText = l.note;
-            document.getElementById('btn-save-record').innerText = l.btnSave;
-            document.getElementById('hdr-recent-entries').innerText = l.hdrRec;
-            document.getElementById('th-details').innerText = l.thDet;
-            document.getElementById('th-total').innerText = l.thTot;
-            document.getElementById('th-status').innerText = l.thStat;
-            document.getElementById('btn-toggle-rep').innerText = l.btnRep;
-            adjustFormFields();
-        }
-
-        function switchTab(tabId) {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            if(event && event.target) event.target.classList.add('active');
-        }
-
-        function showToast() {
-            const toast = document.getElementById('toast-indicator');
-            toast.style.display = 'block';
-            setTimeout(() => { toast.style.display = 'none'; }, 1000);
-        }
-
-        function triggerAutoSave() {
-            showToast();
-        }
-
-        function adjustFormFields() {
-            const type = document.getElementById('t-type').value;
-            const l = dict[currentLang];
-            
-            if (type === 'Sale' || type === 'Purchase') {
-                document.querySelectorAll('.item-field').forEach(f => f.style.display = 'block');
-                document.querySelector('.item-field-price').style.display = 'block';
-                document.querySelector('.cash-field').style.display = 'none';
-                document.querySelector('.monetary-calculation-fields').style.display = 'grid';
-                
-                if (type === 'Sale') {
-                    document.getElementById('lbl-rec').innerText = l.lblRecSale;
-                    document.getElementById('lbl-due').innerText = l.lblDueSale;
-                } else {
-                    document.getElementById('lbl-rec').innerText = l.lblRecPur;
-                    document.getElementById('lbl-due').innerText = l.lblDuePur;
-                }
-            } else {
-                document.querySelectorAll('.item-field').forEach(f => f.style.display = 'none');
-                document.querySelector('.item-field-price').style.display = 'none';
-                document.querySelector('.cash-field').style.display = 'block';
-                document.querySelector('.monetary-calculation-fields').style.display = 'none';
-            }
-            calculateLedgerAmount();
-        }
-
-        function checkProductCode() {
-            const code = document.getElementById('t-code').value.trim();
-            if (productDatabase[code]) {
-                const prod = productDatabase[code];
-                document.getElementById('t-details').value = prod.name;
-                document.getElementById('t-price').value = prod.price;
-                document.getElementById('t-sym').value = prod.unit;
-                calculateLedgerAmount();
-            }
-        }
-
-        function calculateLedgerAmount() {
-            const type = document.getElementById('t-type').value;
-            if (type === 'Sale' || type === 'Purchase') {
-                const qty = parseFloat(document.getElementById('t-qty').value) || 0;
-                const price = parseFloat(document.getElementById('t-price').value) || 0;
-                const total = qty * price;
-                document.getElementById('t-received').value = total;
-                document.getElementById('t-due').value = 0;
-            }
-            triggerAutoSave();
-        }
-
-        function syncDirectAmount() {
-            triggerAutoSave();
-        }
-
-        function calculateDues() {
-            const type = document.getElementById('t-type').value;
-            if (type === 'Sale' || type === 'Purchase') {
-                const qty = parseFloat(document.getElementById('t-qty').value) || 0;
-                const price = parseFloat(document.getElementById('t-price').value) || 0;
-                const total = qty * price;
-                const rec = parseFloat(document.getElementById('t-received').value) || 0;
-                document.getElementById('t-due').value = Math.max(0, total - rec);
-            }
-            triggerAutoSave();
-        }
-
-        function commitLedgerEntry() {
-            const type = document.getElementById('t-type').value;
-            const party = document.getElementById('t-party').value || "General Customer";
-            const note = document.getElementById('t-note').value || "";
-            let total = 0;
-            let status = "Received";
-            let details = "";
-
-            if (type === 'Sale' || type === 'Purchase') {
-                const qty = parseFloat(document.getElementById('t-qty').value) || 1;
-                const price = parseFloat(document.getElementById('t-price').value) || 0;
-                const pDetails = document.getElementById('t-details').value || "Item";
-                total = qty * price;
-                const due = parseFloat(document.getElementById('t-due').value) || 0;
-                status = due > 0 ? "Cash Dues" : "Received";
-                details = `${qty} x ${pDetails}`;
-            } else {
-                total = parseFloat(document.getElementById('t-direct-val').value) || 0;
-                details = note || type;
-            }
-
-            const entry = { id: Date.now(), type, party, details, total, status };
-            ledgerEntries.unshift(entry);
-            localStorage.setItem('dr_ledger', JSON.stringify(ledgerEntries));
-            renderLedger();
-            showToast();
-
-            document.getElementById('t-party').value = '';
-            document.getElementById('t-details').value = '';
-            document.getElementById('t-price').value = '';
-            document.getElementById('t-due').value = '';
-            document.getElementById('t-received').value = '';
-            document.getElementById('t-direct-val').value = '';
-            document.getElementById('t-code').value = '';
-        }
-
-        function renderLedger() {
-            const tbody = document.getElementById('ledger-rows');
-            tbody.innerHTML = '';
-            
-            ledgerEntries.slice(0, 5).forEach(item => {
-                const badgeColor = item.status === 'Received' ? 'var(--success)' : 'var(--danger)';
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>
-                        <strong style="color:var(--accent);">${item.type}</strong> - ${item.party}<br>
-                        <small style="color:var(--text-muted);">${item.details}</small>
-                    </td>
-                    <td>Rs. ${item.total}</td>
-                    <td><span class="status-badge" style="background:${badgeColor}; color:white;">${item.status}</span></td>
-                    <td class="action-cell">
-                        <span class="three-dots" onclick="toggleMenu(${item.id})">⋮</span>
-                        <div class="dropdown-menu" id="menu-${item.id}">
-                            <button onclick="editEntry(${item.id})">✏️ Edit</button>
-                            <button onclick="deleteEntry(${item.id})">🗑️ Delete</button>
-                        </div>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function toggleMenu(id) {
-            if(event) event.stopPropagation();
-            document.querySelectorAll('.dropdown-menu').forEach(m => m.style.display = 'none');
-            document.getElementById(`menu-${id}`).style.display = 'block';
-        }
-
-        document.addEventListener('click', () => {
-            document.querySelectorAll('.dropdown-menu').forEach(m => m.style.display = 'none');
-        });
-
-        function deleteEntry(id) {
-            ledgerEntries = ledgerEntries.filter(e => e.id !== id);
-            localStorage.setItem('dr_ledger', JSON.stringify(ledgerEntries));
-            renderLedger();
-        }
-
-        function editEntry(id) {
-            const entry = ledgerEntries.find(e => e.id === id);
-            if(entry) {
-                document.getElementById('t-type').value = entry.type;
-                document.getElementById('t-party').value = entry.party;
-                adjustFormFields();
-                deleteEntry(id);
-                window.scrollTo({top: 0, behavior: 'smooth'});
-            }
-        }
-
-        function toggleSecretReports() {
-            const view = document.getElementById('secret-reports-view');
-            view.style.display = view.style.display === 'none' ? 'block' : 'none';
-        }
-    </script>
+    <div class="card span6">
+      <h2 class="section-title">Reports & Tools</h2><p class="muted smalltext">These totals update from the same transaction list.</p>
+      <div class="fields">
+        <div class="field"><label for="filterType">Transaction Type</label><select id="filterType"><option value="">All types</option><option>Purchase</option><option>Sale</option><option>Expenses</option><option>Cash In</option><option>Cash Out</option></select></div>
+        <div class="field"><label for="filterMonth">Month</label><input id="filterMonth" type="month"></div>
+        <div class="field full"><label for="search">Search product / account / detail</label><input id="search" placeholder="Type to filter"></div>
+      </div>
+      <div class="bar"></div>
+      <div class="fields">
+        <div><div class="statlabel">Sales Income</div><div class="stat" id="salesTotal">Rs. 0</div></div>
+        <div><div class="statlabel">Purchase + Purchase Expenses</div><div class="stat" id="purchaseTotal">Rs. 0</div></div>
+        <div><div class="statlabel">Operating Expenses</div><div class="stat" id="expenseTotal">Rs. 0</div></div>
+        <div><div class="statlabel">Net Cash Movement</div><div class="stat" id="cashMovement">Rs. 0</div></div>
+      </div>
+      <div class="actions"><button class="secondary" id="exportBtn">Export Data</button><label class="secondary" style="display:inline-flex;align-items:center;border-radius:10px;padding:10px 13px;cursor:pointer">Import Data<input id="importFile" type="file" accept="application/json,.json" style="display:none"></label><button class="danger small" id="clearBtn">Clear All Data</button></div>
+      <div class="notice">Data is saved in this browser on this device. It does not automatically sync to Google Sheets or another phone. Export a backup regularly.</div>
+    </div>
+    <div class="card span12">
+      <div class="right" style="justify-content:space-between"><div><h2 class="section-title">Transaction History</h2><div class="smalltext">Edit or delete entries. After editing/deleting, totals recalculate from the saved records.</div></div><span class="pill" id="rowCount">0 records</span></div>
+      <div class="tablewrap"><table><thead><tr><th>Date</th><th>Type</th><th>Product / Detail</th><th>Qty</th><th>Amount</th><th>Cost incl. expense</th><th>Account</th><th>Actions</th></tr></thead><tbody id="transactionRows"></tbody></table></div>
+    </div>
+    <div class="card span6"><h2 class="section-title">Stock Report</h2><div class="tablewrap"><table><thead><tr><th>Product</th><th>Current Qty</th><th>Avg. Unit Cost</th><th>Stock Value</th></tr></thead><tbody id="stockRows"></tbody></table></div></div>
+    <div class="card span6"><h2 class="section-title">Account Summary</h2><div class="tablewrap"><table><thead><tr><th>Account</th><th>Role</th><th>Net Due</th></tr></thead><tbody id="accountRows"></tbody></table></div><div class="smalltext">Positive customer due means customer owes the store. Positive supplier due means the store owes the supplier.</div></div>
+  </div>
+</section>
+<section id="page-image" class="page hide"><div class="hero"><h1>AI <em>Image</em></h1><p>Image workspace. Live image generation is not connected in this standalone file.</p></div><div class="card"><label for="imagePrompt">Describe your image</label><textarea id="imagePrompt" rows="4" placeholder="Write your image prompt..."></textarea><div class="actions"><button id="imageDemo">Prepare Prompt</button></div><p class="muted" id="imageMsg">NOT VERIFIED: A real image-generation API is not connected. Do not enter private API keys into this HTML file.</p></div></section>
+<section id="page-video" class="page hide"><div class="hero"><h1>AI <em>Video</em></h1><p>Future workspace for Text → Video and Image → Video, Urdu voice-over, and social formats.</p></div><div class="card"><span class="pill">PLANNED · NOT CONNECTED</span><p class="muted">A secure video provider/backend is required before real video generation can work.</p></div></section>
+<section id="page-chat" class="page hide"><div class="hero"><h1>AI <em>Chat</em></h1><p>Chat workspace.</p></div><div class="card"><textarea id="chatText" rows="3" placeholder="Write your message..."></textarea><div class="actions"><button id="chatDemo">Submit</button></div><p class="muted" id="chatMsg">NOT VERIFIED: No live AI backend is connected in this standalone file.</p></div></section>
+<section id="page-learn" class="page hide"><div class="hero"><h1><em>Learn</em></h1><p>Learning resources and courses can be connected here.</p></div><div class="card"><p class="muted">Learning section placeholder — existing course content must be restored from the original website if it is not included in this file.</p></div></section>
+<section id="page-quran" class="page hide"><div class="hero"><h1><em>Quran</em></h1><p>Quran learning section.</p></div><div class="card"><p class="muted">Quran section placeholder — original content is not included in this standalone file.</p></div></section>
+<section id="page-products" class="page hide"><div class="hero"><h1><em>Products</em></h1><p>Products and resources.</p></div><div class="card"><p class="muted">Products section placeholder — original product listings are not included in this standalone file.</p></div></section>
+<section id="page-teachers" class="page hide"><div class="hero"><h1><em>Teachers</em></h1><p>Teacher resources.</p></div><div class="card"><p class="muted">Teachers section placeholder — original teacher content is not included in this standalone file.</p></div></section>
+<section id="page-students" class="page hide"><div class="hero"><h1><em>Students</em></h1><p>Student resources.</p></div><div class="card"><p class="muted">Student resources placeholder — original student content is not included in this file.</p></div></section>
+</main>
+<footer class="foot">DigiRise • Learn • Create • Grow<br>Standalone build — local store data is saved in this browser.</footer>
+</div>
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+const STORE_KEY='digirise_general_store_v1';
+let entries=[], currentType='Purchase', editId=null;
+const today=()=>new Date().toISOString().slice(0,10);
+const money=n=>'Rs. '+(Number(n)||0).toLocaleString('en-PK',{maximumFractionDigits:2});
+const num=v=>Number(v)||0;
+function load(){try{const x=JSON.parse(localStorage.getItem(STORE_KEY)||'[]');entries=Array.isArray(x)?x:[]}catch(e){entries=[]}}
+function save(){localStorage.setItem(STORE_KEY,JSON.stringify(entries));render()}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function setPage(page){document.querySelectorAll('.page').forEach(x=>x.classList.add('hide'));$('page-'+page)?.classList.remove('hide');document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('#nav button').forEach(b=>b.addEventListener('click',()=>setPage(b.dataset.page)));
+document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>setPage(b.dataset.goto)));
+function setType(t){currentType=t;document.querySelectorAll('#memoOptions button').forEach(b=>b.classList.toggle('active',b.dataset.type===t));
+const product=['Purchase','Sale'].includes(t), expense=t==='Purchase', account=['Purchase','Sale','Cash In','Cash Out'].includes(t);
+$('productField').classList.toggle('hide',!product);$('qtyField').classList.toggle('hide',!product);$('expenseField').classList.toggle('hide',!expense);$('accountField').classList.toggle('hide',!account);
+$('amountLabel').textContent=t==='Purchase'?'Total Purchase Amount (Rs.)':t==='Sale'?'Total Sale Amount (Rs.)':t==='Expenses'?'Expense Amount (Rs.)':t==='Cash In'?'Cash Received (Rs.)':'Cash Paid (Rs.)';
+$('accountLabel').textContent=t==='Purchase'?'Supplier / Account':t==='Sale'?'Customer / Account':'Account / Detail';
+$('calcHint').textContent=t==='Purchase'?'Total Cost = purchase amount + expenses. Unit cost is calculated automatically.':t==='Sale'?'Unit sale price is calculated automatically. Profit is estimated using the current average stock cost.':t==='Cash In'?'Cash increases. A matching customer due decreases.':t==='Cash Out'?'Cash decreases. A matching supplier due decreases.':'Operating expense decreases cash and appears in reports.';
+$('saveBtn').textContent=editId?'Update Entry':'Save Entry'}
+document.querySelectorAll('#memoOptions button').forEach(b=>b.addEventListener('click',()=>{resetForm(false);setType(b.dataset.type)}));
+function resetForm(changeType=true){editId=null;$('entryForm').reset();$('date').value=today();$('extraExpense').value='0';$('saveBtn').textContent='Save Entry';if(changeType)setType('Purchase')}
+$('newBtn').addEventListener('click',()=>resetForm(true));
+function normalizeName(s){return String(s||'').trim().toLowerCase()}
+function stockMap(excludeId=null){const m={};entries.filter(e=>e.id!==excludeId).sort((a,b)=>a.date.localeCompare(b.date)).forEach(e=>{const p=normalizeName(e.product);if(!p)return;if(!m[p])m[p]={name:e.product,qty:0,costValue:0,costQty:0};if(e.type==='Purchase'){m[p].qty+=num(e.qty);m[p].costValue+=num(e.amount)+num(e.expense);m[p].costQty+=num(e.qty)}else if(e.type==='Sale'){m[p].qty-=num(e.qty)}});return m}
+$('entryForm').addEventListener('submit',ev=>{ev.preventDefault();const product=$('product').value.trim(),qty=num($('qty').value),amount=num($('amount').value),extra=num($('extraExpense').value),account=$('account').value.trim(),date=$('date').value||today();
+if(['Purchase','Sale'].includes(currentType)&&(!product||qty<=0)){alert('Please enter a product and quantity greater than zero.');return}
+if(amount<0||extra<0){alert('Amounts cannot be negative.');return}
+if(['Purchase','Sale'].includes(currentType)&&amount<=0){alert('Please enter the total amount.');return}
+const id=editId||('tx_'+Date.now()+'_'+Math.random().toString(36).slice(2,7));
+const record={id,date,type:currentType,product:['Purchase','Sale'].includes(currentType)?product:'',qty:['Purchase','Sale'].includes(currentType)?qty:0,amount,expense:currentType==='Purchase'?extra:0,account,note:$('note').value.trim()};
+if(editId){entries=entries.filter(e=>e.id!==editId)}
+if(record.type==='Sale'){const sm=stockMap();const available=sm[normalizeName(product)]?.qty||0;if(qty>available){if(!confirm('Sale quantity ('+qty+') is greater than recorded stock ('+available+'). Save anyway?')){if(editId)entries.push(record);return}}}
+entries.push(record);entries.sort((a,b)=>a.date.localeCompare(b.date));save();resetForm(true);});
+function accountSummary(){const m={};entries.forEach(e=>{const k=normalizeName(e.account);if(!k)return;if(!m[k])m[k]={name:e.account,role:'Account',due:0};if(e.type==='Sale')m[k].due+=num(e.amount);if(e.type==='Cash In')m[k].due-=num(e.amount);if(e.type==='Purchase')m[k].due-=num(e.amount)+num(e.expense);if(e.type==='Cash Out')m[k].due+=num(e.amount)});return Object.values(m)}
+function filtered(){const type=$('filterType').value,month=$('filterMonth').value,search=normalizeName($('search').value);return entries.filter(e=>(!type||e.type===type)&&(!month||e.date.startsWith(month))&&(!search||[e.product,e.account,e.note,e.type].some(v=>normalizeName(v).includes(search))))}
+function render(){const sm=stockMap(),accounts=accountSummary();const sales=entries.filter(e=>e.type==='Sale').reduce((s,e)=>s+num(e.amount),0);const purchases=entries.filter(e=>e.type==='Purchase').reduce((s,e)=>s+num(e.amount)+num(e.expense),0);const expenses=entries.filter(e=>e.type==='Expenses').reduce((s,e)=>s+num(e.amount),0);const cashIn=entries.filter(e=>e.type==='Cash In').reduce((s,e)=>s+num(e.amount),0);const cashOut=entries.filter(e=>e.type==='Cash Out').reduce((s,e)=>s+num(e.amount),0);const opCash=entries.filter(e=>e.type==='Expenses').reduce((s,e)=>s+num(e.amount),0);const cash=cashIn+sales-cashOut-opCash-purchases; // simple cash-flow view: purchases are cash paid unless supplier credit is tracked separately
+let cogs=0;entries.filter(e=>e.type==='Sale').forEach(e=>{const prod=sm[normalizeName(e.product)];const avg=prod&&prod.costQty?prod.costValue/prod.costQty:0;cogs+=avg*num(e.qty)});const profit=sales-cogs-expenses;
+$('cashStat').textContent=money(cash);$('stockStat').textContent=Object.values(sm).filter(p=>p.qty>0).length;$('customerDueStat').textContent=money(accounts.filter(a=>a.due>0).reduce((s,a)=>s+a.due,0));$('profitStat').textContent=money(profit);
+$('salesTotal').textContent=money(sales);$('purchaseTotal').textContent=money(purchases);$('expenseTotal').textContent=money(expenses);$('cashMovement').textContent=money(cashIn+sales-cashOut-expenses-purchases);
+const products=[...new Set(entries.map(e=>e.product).filter(Boolean))];$('productsList').innerHTML=products.map(p=>'<option value="'+esc(p)+'">').join('');
+const accs=[...new Set(entries.map(e=>e.account).filter(Boolean))];$('accountsList').innerHTML=accs.map(a=>'<option value="'+esc(a)+'">').join('');
+const rows=filtered();$('rowCount').textContent=rows.length+' records';
+$('transactionRows').innerHTML=rows.slice().reverse().map(e=>'<tr><td>'+esc(e.date)+'</td><td>'+esc(e.type)+'</td><td>'+esc(e.product||e.note||'—')+'</td><td>'+((e.qty)?esc(e.qty):'—')+'</td><td>'+money(e.amount)+'</td><td>'+money(num(e.amount)+num(e.expense))+'</td><td>'+esc(e.account||'—')+'</td><td><button class="secondary small" data-edit="'+esc(e.id)+'">Edit</button> <button class="danger small" data-delete="'+esc(e.id)+'">Delete</button></td></tr>').join('')||'<tr><td colspan="8" class="muted">No transactions yet.</td></tr>';
+$('stockRows').innerHTML=Object.values(sm).map(p=>{const avg=p.costQty?p.costValue/p.costQty:0;return '<tr><td>'+esc(p.name)+'</td><td class="'+(p.qty<0?'negative':'')+'">'+p.qty.toLocaleString('en-PK',{maximumFractionDigits:3})+'</td><td>'+money(avg)+'</td><td>'+money(Math.max(0,p.qty)*avg)+'</td></tr>'}).join('')||'<tr><td colspan="4" class="muted">No stock records yet.</td></tr>';
+$('accountRows').innerHTML=accounts.map(a=>'<tr><td>'+esc(a.name)+'</td><td>'+esc(a.role)+'</td><td class="'+(a.due>0?'negative':'positive')+'">'+money(a.due)+'</td></tr>').join('')||'<tr><td colspan="3" class="muted">No account records yet.</td></tr>';
+}
+['filterType','filterMonth','search'].forEach(id=>$(id).addEventListener('input',render));
+$('transactionRows').addEventListener('click',ev=>{const ed=ev.target.closest('[data-edit]'),del=ev.target.closest('[data-delete]');if(ed){const e=entries.find(x=>x.id===ed.dataset.edit);if(!e)return;editId=e.id;setType(e.type);$('date').value=e.date;$('product').value=e.product||'';$('qty').value=e.qty||'';$('amount').value=e.amount;$('extraExpense').value=e.expense||0;$('account').value=e.account||'';$('note').value=e.note||'';$('saveBtn').textContent='Update Entry';document.getElementById('entryForm').scrollIntoView({behavior:'smooth',block:'start'})}if(del){const id=del.dataset.delete;if(confirm('Delete this transaction? Related totals and stock will be recalculated.')){entries=entries.filter(e=>e.id!==id);save();if(editId===id)resetForm(true)}}});
+$('exportBtn').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(entries,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='DigiRise-Store-Backup-'+today()+'.json';a.click();URL.revokeObjectURL(a.href)});
+$('importFile').addEventListener('change',async ev=>{const f=ev.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text());if(!Array.isArray(data))throw Error('Invalid format');if(!confirm('Import and replace current store records? Export a backup first if needed.'))return;entries=data.filter(x=>x&&x.id&&x.type&&x.date);save();alert('Import complete.')}catch(e){alert('Could not import this file. Please select a DigiRise JSON backup.')}ev.target.value=''});
+$('clearBtn').addEventListener('click',()=>{if(confirm('Permanently delete all store records from this browser? Export a backup first if needed.')&&confirm('Confirm again: delete ALL DigiRise store records?')){entries=[];save();resetForm(true)}});
+$('imageDemo').addEventListener('click',()=>{$('imageMsg').textContent='Prompt prepared: '+$('imagePrompt').value.trim()+' — NOT VERIFIED: this does not generate an image because no provider is connected.'});
+$('chatDemo').addEventListener('click',()=>{$('chatMsg').textContent='Your message is saved only in this page session. NOT VERIFIED: live AI responses require a secure backend.'});
+$('date').value=today();$('filterMonth').value=today().slice(0,7);load();setType('Purchase');render();
+})();
+</script>
 </body>
 </html>
