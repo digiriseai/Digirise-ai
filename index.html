@@ -40,6 +40,12 @@ label{display:block;margin:11px 0 5px;font-size:13px;font-weight:700}.output{min
 @media(max-width:600px){.module-grid{grid-template-columns:1fr}.memo-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}.memo-tab{padding:11px 5px;font-size:12px}}
 
 .memo-tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:15px 0}
+/* Keep one integrated memo; hide the old duplicate purchase/sale/expense forms. */
+#stock-expenses{display:none!important}
+#karyana .memo-fields{grid-template-columns:repeat(2,minmax(0,1fr))}
+#karyana .memo-fields>div{min-width:0}
+#karyana .memo-fields label{display:block;color:#27324a}
+#karyana .memo-calc{align-self:end;padding:12px;background:#f3f4ff;border-radius:10px;font-weight:700;color:#4c46a8}
 .memo-tab{border:1px solid #d8deea;border-radius:12px;padding:13px 8px;background:#fff;color:#27324a;font-weight:800;cursor:pointer}
 .memo-tab.active{background:linear-gradient(135deg,#6757e8,#1b9cff);color:#fff;border-color:transparent;box-shadow:0 8px 22px #6757e82b}
 .memo-panel,.memo-report{background:#fff;border:1px solid #e7eaf1;border-radius:18px;padding:20px;box-shadow:0 7px 25px #1822300b}
@@ -56,7 +62,7 @@ label{display:block;margin:11px 0 5px;font-size:13px;font-weight:700}.output{min
 .memo-summary-row>div,.memo-account-summary{background:#f8fafc;border-radius:12px;padding:14px}
 .memo-account-summary{margin-top:10px}.memo-account-summary h4,.memo-summary-row h4{margin-bottom:5px}
 .memo-account-item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #e5e7eb;font-size:13px}
-@media(max-width:700px){.memo-tabs{grid-template-columns:1fr 1fr}.memo-head,.memo-report-head{align-items:stretch;flex-direction:column}.memo-date{width:100%}.memo-actions{grid-template-columns:1fr}.memo-stats{grid-template-columns:1fr 1fr}.memo-summary-row{grid-template-columns:1fr}}
+@media(max-width:700px){#karyana .memo-fields{grid-template-columns:1fr}.memo-tabs{grid-template-columns:1fr 1fr}.memo-head,.memo-report-head{align-items:stretch;flex-direction:column}.memo-date{width:100%}.memo-actions{grid-template-columns:1fr}.memo-stats{grid-template-columns:1fr 1fr}.memo-summary-row{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -82,7 +88,8 @@ label{display:block;margin:11px 0 5px;font-size:13px;font-weight:700}.output{min
 <section class="hero">
 <h1>Welcome to <span class="gradient">DigiRise</span></h1>
 <p>AI tools, productivity, business and useful digital services — built mobile-first and ready for desktop/web.</p>
-<a class="btn" href="#karyana">Open
+<a class="btn" href="#karyana">Open</a>
+</section>
 <section class="section" id="karyana">
 <h2 class="section-title">DigiRise Smart Memo</h2>
 <p class="section-sub">One Memo — choose one transaction type. Unit prices and profit are calculated automatically.</p>
