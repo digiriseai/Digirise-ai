@@ -4,10 +4,15 @@
   "main": "worker.js",
   "compatibility_date": "2026-10-10",
   "rules": [
-    {
-      "type": "Text",
-      "globs": ["private/general-store.html"]
-    }
+    { "type": "Text", "globs": ["private/general-store.html"] }
+  ],
+  "durable_objects": {
+    "bindings": [
+      { "name": "CONTENT_STORE", "class_name": "ContentStore" }
+    ]
+  },
+  "migrations": [
+    { "tag": "v1", "new_sqlite_classes": ["ContentStore"] }
   ],
   "assets": {
     "directory": "./public",
